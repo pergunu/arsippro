@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Title - E-PEDIA</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="book-container">
+        <div class="book-header">
+            <h1>Book Title</h1>
+            <div class="book-meta">
+                <span>E-PEDIA Digital Library</span>
+                <span>Page <span id="current-page">1</span> of <span id="total-pages">10</span></span>
+            </div>
+        </div>
+        
+        <div class="book-content">
+            <!-- Book pages will be loaded here -->
+            <div class="book-page active" data-page="1">
+                <div class="page-image top">
+                    <img src="../assets/images/gambar-cover.png" alt="Top Image">
+                </div>
+                <h2 class="page-title">Introduction</h2>
+                <div class="page-text">
+                    <p>Welcome to this book. This is a sample introduction page.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
+                </div>
+                <div class="page-image middle">
+                    <img src="../assets/images/gambar-cover.png" alt="Middle Image">
+                </div>
+                <div class="page-text">
+                    <p>More content goes here...</p>
+                </div>
+                <div class="page-image bottom">
+                    <img src="../assets/images/gambar-cover.png" alt="Bottom Image">
+                </div>
+            </div>
+            
+            <!-- More pages would be added here -->
+        </div>
+        
+        <div class="book-controls">
+            <button id="prev-page"><i class="fas fa-arrow-left"></i> Previous</button>
+            <button id="toc-toggle">Table of Contents</button>
+            <button id="add-bookmark"><i class="fas fa-bookmark"></i> Bookmark</button>
+            <input type="number" id="go-to-page" min="1" placeholder="Go to page...">
+            <button id="go-btn">Go</button>
+            <button id="zoom-in"><i class="fas fa-search-plus"></i></button>
+            <button id="zoom-out"><i class="fas fa-search-minus"></i></button>
+            <button id="next-page">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+    
+    <!-- Table of Contents Sidebar -->
+    <div id="toc-sidebar">
+        <div class="toc-header">
+            <h3>Table of Contents</h3>
+            <span class="close-toc">&times;</span>
+        </div>
+        <ul id="toc-list">
+            <li class="active" data-page="1">Introduction</li>
+            <li data-page="2">Chapter 1: The Beginning</li>
+            <li data-page="3">Chapter 2: The Middle</li>
+            <li data-page="4">Chapter 3: The End</li>
+            <li data-page="5">Conclusion</li>
+        </ul>
+    </div>
+    
+    <script src="../js/script.js"></script>
+</body>
+</html>
