@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Gambar - E-PEDIA Admin</title>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header>
+            <h1>Upload Gambar</h1>
+            <a href="index.html" class="back-button">Kembali ke Dashboard</a>
+        </header>
+        
+        <main>
+            <div class="upload-section">
+                <h2>Upload Gambar Baru</h2>
+                <form id="upload-form">
+                    <div class="form-group">
+                        <label for="image-file">Pilih File Gambar:</label>
+                        <input type="file" id="image-file" accept="image/*" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="image-name">Nama Gambar:</label>
+                        <input type="text" id="image-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="image-position">Posisi Default:</label>
+                        <select id="image-position">
+                            <option value="top">Atas</option>
+                            <option value="center">Tengah</option>
+                            <option value="bottom">Bawah</option>
+                            <option value="any">Bebas</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="upload-button">Upload Gambar</button>
+                </form>
+            </div>
+            
+            <div class="gallery-section">
+                <h2>Galeri Gambar</h2>
+                <div class="gallery-grid" id="image-gallery">
+                    <!-- Gambar akan dimuat di sini -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGallery();
+            
+            document.getElementById('upload-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                uploadImage();
+            });
+        });
+        
+        function loadGallery() {
+            const gallery = document.getElementById('image-gallery');
+            gallery.innerHTML = '';
+            
+            const images = JSON.parse(localStorage.getItem('e-pedia-images')) || [];
+            
+            if (images.length === 0) {
+                gallery.innerHTML = '<p class="no-images">Belum ada gambar yang diupload.</p>';
+                return;
+            }
+            
+            images.forEach(image => {
+                const imgCard = document.createElement('div');
+                imgCard.className = 'gallery-card';
+                
+                imgCard.innerHTML = `
+                    <div class="image-container">
+                        <img src="../images/${image.url}" alt="${image.name}">
+                    </div>
+                    <div class="image-info">
+                        <h3>${image.name}</h3>
+                        <p>Posisi: ${image.position || 'Bebas'}</p>
+                        <button class="delete-image" data-id="${image.id}">Hapus</button>
+                    </div>
+                `;
+                
+                gallery.appendChild(imgCard);
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-image').forEach(button => {
+                button.addEventListener('click', function() {
+                    const imageId = this.getAttribute('data-id');
+                    deleteImage(imageId);
+                });
+            });
+        }
+        
+        function uploadImage() {
+            const fileInput = document.getElementById('image-file');
+            const nameInput = document.getElementById('image-name');
+            const positionSelect = document.getElementById('image-position');
+            
+            const file = fileInput.files[0];
+            if (!file) return;
+            
+            // In a real app, you would upload to a server
+            // Here we simulate by creating a local URL
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const imageUrl = `img-${Date.now()}-${file.name}`;
+                const imageData = {
+                    id: Date.now().toString(),
+                    name: nameInput.value,
+                    url: imageUrl,
+                    position: positionSelect.value,
+                    uploadDate: new Date().toISOString()
+                };
+                
+                // Save to localStorage
+                let images = JSON.parse(localStorage.getItem('e-pedia-images')) || [];
+                images.push(imageData);
+                localStorage.setItem('e-pedia-images', JSON.stringify(images));
+                
+                // In a real app, save the file to server
+                // Here we just store the reference
+                
+                alert('Gambar berhasil diupload!');
+                loadGallery();
+                
+                // Reset form
+                fileInput.value = '';
+                nameInput.value = '';
+            };
+            
+            reader.readAsDataURL(file);
+        }
+        
+        function deleteImage(imageId) {
+            if (confirm('Apakah Anda yakin ingin menghapus gambar ini?')) {
+                let images = JSON.parse(localStorage.getItem('e-pedia-images')) || [];
+                images = images.filter(img => img.id != imageId);
+                localStorage.setItem('e-pedia-images', JSON.stringify(images));
+                
+                loadGallery();
+            }
+        }
+    </script>
+</body>
+</html>
