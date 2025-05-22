@@ -3,1059 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-PEDIA - Digital Library</title>
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            overflow-x: hidden;
-        }
-        
-        /* Header Styles */
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow);
-            position: relative;
-            z-index: 100;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo img {
-            height: 40px;
-            margin-right: 10px;
-        }
-        
-        .logo h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        
-        /* Notification Banner */
-        .notification-banner {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 0.5rem;
-            text-align: center;
-            font-size: 0.9rem;
-            position: relative;
-        }
-        
-        .notification-banner .close-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        /* Book Container */
-        .book-container {
-            perspective: 1500px;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .book {
-            position: relative;
-            width: 100%;
-            height: 80vh;
-            transform-style: preserve-3d;
-            transition: transform 1s;
-        }
-        
-        /* Page Styles */
-        .page {
-            position: absolute;
-            width: 50%;
-            height: 100%;
-            top: 0;
-            left: 50%;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 1s;
-            background-color: white;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            overflow-y: auto;
-            background-image: linear-gradient(to bottom, #f9f9f9 0%, white 10%);
-            background-size: 100% 30px;
-            line-height: 30px;
-        }
-        
-        .page-content {
-            height: 100%;
-            position: relative;
-        }
-        
-        .page-number {
-            position: absolute;
-            bottom: 10px;
-            right: 20px;
-            font-size: 0.8rem;
-            color: #777;
-        }
-        
-        .page-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-        }
-        
-        .page-image {
-            width: 100%;
-            margin: 1rem 0;
-            border-radius: 4px;
-            box-shadow: var(--shadow);
-        }
-        
-        .page-image.top {
-            margin-top: 0;
-        }
-        
-        .page-image.bottom {
-            margin-bottom: 0;
-        }
-        
-        /* Cover Page */
-        .cover-page {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            height: 100%;
-        }
-        
-        .cover-page img {
-            max-width: 60%;
-            max-height: 50%;
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
-            object-fit: contain;
-        }
-        
-        .cover-page h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .cover-page p {
-            font-size: 1.2rem;
-            max-width: 80%;
-            line-height: 1.6;
-        }
-        
-        .welcome-message {
-            font-style: italic;
-            margin-top: 2rem;
-            font-size: 1.1rem;
-        }
-        
-        /* Table of Contents */
-        .toc-page ul {
-            list-style-type: none;
-        }
-        
-        .toc-page li {
-            margin-bottom: 0.8rem;
-            padding-left: 1rem;
-            border-left: 3px solid var(--secondary-color);
-        }
-        
-        .toc-page a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .toc-page a:hover {
-            color: var(--secondary-color);
-        }
-        
-        .toc-page .bookmark {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            background-color: var(--accent-color);
-            border-radius: 50%;
-            margin-right: 8px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .toc-page .has-bookmark .bookmark {
-            opacity: 1;
-        }
-        
-        /* Navigation Controls */
-        .controls {
-            display: flex;
-            justify-content: center;
-            margin-top: 1rem;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 0.5rem 1rem;
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-        
-        .btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-        
-        .btn-admin {
-            background-color: var(--accent-color);
-        }
-        
-        .btn-admin:hover {
-            background-color: #c0392b;
-        }
-        
-        .zoom-controls {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        
-        .zoom-controls span {
-            font-weight: 500;
-            color: var(--dark-color);
-        }
-        
-        /* Page Flip Animation */
-        .page.flipped {
-            transform: rotateY(-180deg);
-        }
-        
-        .page.front {
-            z-index: 2;
-        }
-        
-        .page.back {
-            z-index: 1;
-        }
-        
-        /* Admin Panel */
-        .admin-panel {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100vh;
-            background-color: white;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-            transition: right 0.3s;
-            z-index: 1000;
-            padding: 1rem;
-            overflow-y: auto;
-        }
-        
-        .admin-panel.active {
-            right: 0;
-        }
-        
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .admin-tabs {
-            display: flex;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .admin-tab {
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-        }
-        
-        .admin-tab.active {
-            border-bottom: 3px solid var(--secondary-color);
-            font-weight: 500;
-        }
-        
-        .admin-content {
-            display: none;
-        }
-        
-        .admin-content.active {
-            display: block;
-        }
-        
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .form-group input, 
-        .form-group textarea, 
-        .form-group select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        .image-preview {
-            width: 100%;
-            max-height: 150px;
-            object-fit: contain;
-            margin-top: 0.5rem;
-            border: 1px dashed #ddd;
-            display: none;
-        }
-        
-        /* Login Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .modal-header {
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        
-        .modal-header h2 {
-            color: var(--primary-color);
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #777;
-        }
-        
-        /* User Registration */
-        .user-info {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            box-shadow: var(--shadow);
-            display: none;
-            z-index: 100;
-        }
-        
-        .user-info.active {
-            display: block;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .book {
-                height: 70vh;
-            }
-            
-            .page {
-                padding: 1rem;
-            }
-            
-            .cover-page h1 {
-                font-size: 2rem;
-            }
-            
-            .admin-panel {
-                width: 100%;
-                right: -100%;
-            }
-            
-            .controls {
-                flex-wrap: wrap;
-            }
-        }
-        
-        /* Animation for page turn */
-        @keyframes pageTurn {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(-180deg); }
-        }
-        
-        .page.turning {
-            animation: pageTurn 1s forwards;
-        }
-    </style>
+    <title>E-PEDIA - Digital Encyclopedia</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/turn.js"></script>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="https://raw.githubusercontent.com/pergunu/E-PEDIA/refs/heads/main/logo_e-pedia.png" alt="E-PEDIA Logo">
-            <h1>E-PEDIA</h1>
-        </div>
-        <div>
-            <button id="user-btn" class="btn">Masuk/Daftar</button>
-            <button id="admin-btn" class="btn btn-admin">Admin Panel</button>
-        </div>
-    </header>
-    
-    <div class="notification-banner">
-        <span id="notification-text">📢 Buku baru telah rilis: "Sejarah Peradaban Dunia" - Temukan sekarang di koleksi kami!</span>
-        <span class="close-btn" id="close-notification">×</span>
-    </div>
-    
-    <div class="book-container">
-        <div class="book" id="book">
-            <!-- Pages will be dynamically inserted here -->
-        </div>
-        
-        <div class="controls">
-            <button id="prev-btn" class="btn">← Sebelumnya</button>
-            <input type="number" id="page-jump" min="1" value="1" style="width: 60px; text-align: center;">
-            <button id="go-to-btn" class="btn">Pergi ke Halaman</button>
-            <button id="next-btn" class="btn">Selanjutnya →</button>
-            
-            <div class="zoom-controls">
-                <button id="zoom-out" class="btn">-</button>
-                <span id="zoom-level">100%</span>
-                <button id="zoom-in" class="btn">+</button>
-            </div>
-            
-            <button id="toc-btn" class="btn">Daftar Isi</button>
-            <button id="bookmark-btn" class="btn">Tandai Halaman</button>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo">
+            <div class="spinner"></div>
+            <p>Loading Knowledge Universe...</p>
         </div>
     </div>
-    
-    <div class="user-info" id="user-info">
-        ID Peserta: <span id="user-id"></span>
-    </div>
-    
-    <!-- Admin Panel -->
-    <div class="admin-panel" id="admin-panel">
-        <div class="admin-header">
-            <h3>Kontrol Panel Admin</h3>
-            <button id="close-admin" class="btn">Tutup</button>
-        </div>
-        
-        <div class="admin-tabs">
-            <div class="admin-tab active" data-tab="manage-pages">Kelola Halaman</div>
-            <div class="admin-tab" data-tab="upload-images">Upload Gambar</div>
-            <div class="admin-tab" data-tab="book-settings">Pengaturan Buku</div>
-            <div class="admin-tab" data-tab="system-settings">Pengaturan Sistem</div>
-        </div>
-        
-        <div class="admin-content active" id="manage-pages">
-            <div class="form-group">
-                <label for="admin-page-select">Pilih Halaman:</label>
-                <select id="admin-page-select" class="form-control">
-                    <!-- Options will be populated by JS -->
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="page-title">Judul Halaman:</label>
-                <input type="text" id="page-title" class="form-control">
-            </div>
-            
-            <div class="form-group">
-                <label for="page-content">Isi Halaman:</label>
-                <textarea id="page-content" class="form-control"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="page-number">Nomor Halaman:</label>
-                <input type="number" id="page-number" class="form-control" min="1">
-            </div>
-            
-            <div class="form-group">
-                <button id="save-page" class="btn">Simpan Halaman</button>
-                <button id="new-page" class="btn">Halaman Baru</button>
-                <button id="delete-page" class="btn btn-admin">Hapus Halaman</button>
-            </div>
-        </div>
-        
-        <div class="admin-content" id="upload-images">
-            <div class="form-group">
-                <label for="image-page-select">Pilih Halaman:</label>
-                <select id="image-page-select" class="form-control">
-                    <!-- Options will be populated by JS -->
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="image-position">Posisi Gambar:</label>
-                <select id="image-position" class="form-control">
-                    <option value="top">Atas</option>
-                    <option value="middle">Tengah</option>
-                    <option value="bottom">Bawah</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="image-upload">Upload Gambar:</label>
-                <input type="file" id="image-upload" class="form-control" accept="image/*">
-                <img id="image-preview" class="image-preview" src="" alt="Preview Gambar">
-            </div>
-            
-            <div class="form-group">
-                <button id="save-image" class="btn">Simpan Gambar</button>
-                <button id="remove-image" class="btn btn-admin">Hapus Gambar</button>
-            </div>
-        </div>
-        
-        <div class="admin-content" id="book-settings">
-            <div class="form-group">
-                <label for="book-title">Judul Buku:</label>
-                <input type="text" id="book-title" class="form-control" value="E-PEDIA Digital Library">
-            </div>
-            
-            <div class="form-group">
-                <label for="book-cover">Cover Gambar:</label>
-                <input type="file" id="book-cover" class="form-control" accept="image/*">
-                <img id="cover-preview" class="image-preview" src="https://raw.githubusercontent.com/pergunu/E-PEDIA/refs/heads/main/gambar-cover.png" alt="Preview Cover">
-            </div>
-            
-            <div class="form-group">
-                <label for="welcome-message">Pesan Sambutan:</label>
-                <textarea id="welcome-message" class="form-control">Selamat datang di E-PEDIA - Perpustakaan Digital Lengkap untuk semua kebutuhan akademik dan pengetahuan Anda.</textarea>
-            </div>
-            
-            <div class="form-group">
-                <button id="save-book-settings" class="btn">Simpan Pengaturan</button>
-            </div>
-        </div>
-        
-        <div class="admin-content" id="system-settings">
-            <div class="form-group">
-                <label for="admin-password">Password Admin:</label>
-                <input type="password" id="admin-password" class="form-control" value="65614222">
-            </div>
-            
-            <div class="form-group">
-                <label for="notification-message">Pesan Notifikasi:</label>
-                <input type="text" id="notification-message" class="form-control" value="Buku baru telah rilis: 'Sejarah Peradaban Dunia' - Temukan sekarang di koleksi kami!">
-            </div>
-            
-            <div class="form-group">
-                <button id="save-system-settings" class="btn">Simpan Pengaturan</button>
-            </div>
-            
-            <div class="form-group">
-                <h4>Tentang Aplikasi</h4>
-                <p>Aplikasi E-PEDIA dikembangkan oleh Cendhanu Tim Kreator Pergunu Situbondo sejak 2025.</p>
-                <p>E-PEDIA (Easy PEDIA) adalah platform buku digital yang menghadirkan koleksi akademik dan referensi pengetahuan luas dalam satu tempat.</p>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Login/Registration Modal -->
-    <div class="modal" id="login-modal">
+
+    <!-- User Registration Modal -->
+    <div id="user-modal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" id="close-modal">×</span>
-            <div class="modal-header">
-                <h2>Registrasi Pembaca</h2>
-                <p>Silakan isi data diri Anda untuk mendapatkan ID Peserta</p>
+            <span class="close-modal">&times;</span>
+            <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo" class="modal-logo">
+            <h2>Welcome to E-PEDIA</h2>
+            <form id="user-form">
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" required placeholder="Enter your address">
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp Number:</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Enter your WhatsApp number">
+                </div>
+                <button type="submit" class="submit-btn">Register & Explore</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo-container">
+                <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo" class="logo">
+                <h1>E-PEDIA</h1>
             </div>
-            
-            <div class="form-group">
-                <label for="user-name">Nama Lengkap:</label>
-                <input type="text" id="user-name" class="form-control" placeholder="Contoh: ADAM">
+            <div class="user-info">
+                <span id="user-greeting">Welcome, Guest</span>
+                <button id="admin-login" class="admin-btn">Admin Panel</button>
             </div>
-            
-            <div class="form-group">
-                <label for="user-address">Alamat:</label>
-                <input type="text" id="user-address" class="form-control" placeholder="Contoh: SITUBONDO">
+        </header>
+
+        <!-- Notification Bar -->
+        <div id="notification-bar">
+            <span id="notification-text">New book added: "History of Ancient Civilizations" - Check it out now!</span>
+            <span class="close-notification">&times;</span>
+        </div>
+
+        <!-- Library Section -->
+        <section class="library-section">
+            <div class="library-header">
+                <h2>Digital Library Collection</h2>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search books...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="user-phone">Nomor WhatsApp:</label>
-                <input type="text" id="user-phone" class="form-control" placeholder="Contoh: 08123456789">
+
+            <div class="books-grid">
+                <!-- Book items will be dynamically loaded here -->
+                <div class="book-item">
+                    <div class="book-cover" onclick="loadBook('history')">
+                        <img src="assets/images/gambar-cover.png" alt="Book Cover">
+                        <div class="book-overlay">
+                            <h3>History Encyclopedia</h3>
+                            <p>Explore ancient civilizations</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- More books will be added dynamically -->
             </div>
-            
-            <div class="form-group">
-                <button id="register-btn" class="btn">Daftar</button>
+        </section>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo" class="footer-logo">
+                    <p>E-PEDIA (Easy PEDIA) – Comprehensive Digital Library for All Academic and Knowledge Needs</p>
+                    <p>Developed by Cendhanu Tim Kreator Pergunu Situbondo since 2025</p>
+                </div>
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-envelope"></i> info@e-pedia.com</p>
+                    <p><i class="fas fa-phone"></i> +62 812 3456 7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 E-PEDIA. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Book Reader Modal -->
+    <div id="book-modal" class="modal">
+        <div class="modal-content book-content">
+            <span class="close-book">&times;</span>
+            <div id="book-container">
+                <!-- Book content will be loaded here -->
+            </div>
+            <div class="book-controls">
+                <button id="prev-page"><i class="fas fa-arrow-left"></i> Previous</button>
+                <span id="page-indicator">Page 1 of 10</span>
+                <button id="next-page">Next <i class="fas fa-arrow-right"></i></button>
+                <button id="zoom-in"><i class="fas fa-search-plus"></i></button>
+                <button id="zoom-out"><i class="fas fa-search-minus"></i></button>
+                <button id="toc-toggle">Table of Contents</button>
+                <button id="add-bookmark"><i class="fas fa-bookmark"></i> Bookmark</button>
+                <input type="number" id="go-to-page" min="1" placeholder="Go to page...">
+                <button id="go-btn">Go</button>
             </div>
         </div>
     </div>
-    
-    <script>
-        // Sample book data
-        const bookData = {
-            title: "E-PEDIA Digital Library",
-            coverImage: "https://raw.githubusercontent.com/pergunu/E-PEDIA/refs/heads/main/gambar-cover.png",
-            logo: "https://raw.githubusercontent.com/pergunu/E-PEDIA/refs/heads/main/logo_e-pedia.png",
-            welcomeMessage: "Selamat datang di E-PEDIA - Perpustakaan Digital Lengkap untuk semua kebutuhan akademik dan pengetahuan Anda.",
-            pages: [
-                {
-                    number: 1,
-                    title: "Cover",
-                    content: "",
-                    isCover: true
-                },
-                {
-                    number: 2,
-                    title: "Daftar Isi",
-                    content: "<ul><li><a href='#page4'>Pendahuluan</a></li><li><a href='#page6'>Sejarah Kuno</a></li><li><a href='#page8'>Abad Pertengahan</a></li><li><a href='#page10'>Revolusi Industri</a></li><li><a href='#page12'>Era Modern</a></li></ul>",
-                    isTOC: true
-                },
-                {
-                    number: 3,
-                    title: "Kata Pengantar",
-                    content: "<p>E-PEDIA hadir sebagai jembatan menuju pengetahuan tanpa batas, membantu pengguna menjelajahi ilmu dengan lebih mudah, cepat, dan efisien.</p><p>Platform ini menyediakan akses ke berbagai materi dari ilmu pengetahuan, teknologi, ekonomi, sejarah, sastra, hingga pengembangan keterampilan pribadi.</p>",
-                    images: {
-                        top: ""
-                    }
-                },
-                {
-                    number: 4,
-                    title: "Pendahuluan",
-                    content: "<p>Sejarah adalah cermin masa lalu yang memberikan kita pelajaran berharga untuk masa depan. Melalui E-PEDIA, kita dapat menjelajahi berbagai peristiwa penting yang membentuk dunia seperti yang kita kenal sekarang.</p>",
-                    images: {
-                        middle: ""
-                    }
-                },
-                {
-                    number: 5,
-                    title: "Peradaban Awal",
-                    content: "<p>Peradaban pertama muncul di lembah sungai-sungai besar seperti Sungai Nil, Tigris-Efrat, Indus, dan Sungai Kuning. Peradaban ini mengembangkan sistem tulisan, pemerintahan terorganisir, dan teknologi pertanian yang maju.</p>",
-                    images: {
-                        top: ""
-                    }
-                }
-            ],
-            currentPage: 0,
-            zoomLevel: 1
-        };
-        
-        // User data
-        let userData = {
-            name: "",
-            address: "",
-            phone: "",
-            userId: "",
-            bookmarks: []
-        };
-        
-        // Admin state
-        let adminActive = false;
-        const adminPassword = "65614222";
-        
-        // DOM Elements
-        const bookElement = document.getElementById('book');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const pageJump = document.getElementById('page-jump');
-        const goToBtn = document.getElementById('go-to-btn');
-        const tocBtn = document.getElementById('toc-btn');
-        const bookmarkBtn = document.getElementById('bookmark-btn');
-        const zoomInBtn = document.getElementById('zoom-in');
-        const zoomOutBtn = document.getElementById('zoom-out');
-        const zoomLevel = document.getElementById('zoom-level');
-        const adminBtn = document.getElementById('admin-btn');
-        const adminPanel = document.getElementById('admin-panel');
-        const closeAdmin = document.getElementById('close-admin');
-        const userBtn = document.getElementById('user-btn');
-        const userInfo = document.getElementById('user-info');
-        const userIdSpan = document.getElementById('user-id');
-        const loginModal = document.getElementById('login-modal');
-        const closeModal = document.getElementById('close-modal');
-        const registerBtn = document.getElementById('register-btn');
-        const notificationText = document.getElementById('notification-text');
-        const closeNotification = document.getElementById('close-notification');
-        
-        // Initialize the book
-        function initBook() {
-            renderPages();
-            updateControls();
-            
-            // Set notification message
-            notificationText.textContent = localStorage.getItem('notificationMessage') || "📢 Buku baru telah rilis: 'Sejarah Peradaban Dunia' - Temukan sekarang di koleksi kami!";
-            
-            // Check if user is registered
-            const savedUser = localStorage.getItem('userData');
-            if (savedUser) {
-                userData = JSON.parse(savedUser);
-                userBtn.textContent = userData.name;
-                userInfo.classList.add('active');
-                userIdSpan.textContent = userData.userId;
-            }
-            
-            // Show cover preview in admin panel
-            document.getElementById('cover-preview').style.display = 'block';
-        }
-        
-        // Render all pages
-        function renderPages() {
-            bookElement.innerHTML = '';
-            
-            bookData.pages.forEach((page, index) => {
-                const pageElement = document.createElement('div');
-                pageElement.className = `page ${index === bookData.currentPage ? 'front' : 'back'}`;
-                pageElement.id = `page${index + 1}`;
-                pageElement.dataset.index = index;
-                
-                let pageContent = '';
-                
-                if (page.isCover) {
-                    pageContent = `
-                        <div class="page-content cover-page">
-                            <img src="${bookData.coverImage}" alt="Book Cover" onerror="this.style.display='none'">
-                            <h1>${bookData.title}</h1>
-                            <p>${bookData.welcomeMessage}</p>
-                            <p class="welcome-message">"Membaca adalah jendela dunia"</p>
-                        </div>
-                    `;
-                } else if (page.isTOC) {
-                    pageContent = `
-                        <div class="page-content toc-page">
-                            <h2 class="page-title">${page.title}</h2>
-                            <div>${page.content}</div>
-                        </div>
-                        <div class="page-number">Halaman ${page.number}</div>
-                    `;
-                } else {
-                    let imagesHTML = '';
-                    if (page.images) {
-                        if (page.images.top) {
-                            imagesHTML += `<img src="${page.images.top}" class="page-image top" alt="Top Image" onerror="this.style.display='none'">`;
-                        }
-                        if (page.images.middle) {
-                            imagesHTML += `<img src="${page.images.middle}" class="page-image" alt="Middle Image" onerror="this.style.display='none'">`;
-                        }
-                        if (page.images.bottom) {
-                            imagesHTML += `<img src="${page.images.bottom}" class="page-image bottom" alt="Bottom Image" onerror="this.style.display='none'">`;
-                        }
-                    }
-                    
-                    pageContent = `
-                        <div class="page-content">
-                            <h2 class="page-title">${page.title}</h2>
-                            ${imagesHTML}
-                            <div>${page.content}</div>
-                        </div>
-                        <div class="page-number">Halaman ${page.number}</div>
-                    `;
-                }
-                
-                pageElement.innerHTML = pageContent;
-                bookElement.appendChild(pageElement);
-            });
-            
-            // Highlight current page in TOC if it exists
-            highlightCurrentPageInTOC();
-        }
-        
-        // Highlight current page in Table of Contents
-        function highlightCurrentPageInTOC() {
-            const tocPage = bookData.pages.find(page => page.isTOC);
-            if (!tocPage) return;
-            
-            const tocElement = document.querySelector('.toc-page ul');
-            if (!tocElement) return;
-            
-            // Reset all highlights
-            const links = tocElement.querySelectorAll('a');
-            links.forEach(link => {
-                link.classList.remove('current-page');
-            });
-            
-            // Highlight current page
-            const currentPage = bookData.pages[bookData.currentPage];
-            if (currentPage.number > 2) { // Skip cover and TOC
-                const pageLink = tocElement.querySelector(`a[href="#page${currentPage.number}"]`);
-                if (pageLink) {
-                    pageLink.classList.add('current-page');
-                }
-            }
-        }
-        
-        // Update navigation controls
-        function updateControls() {
-            prevBtn.disabled = bookData.currentPage === 0;
-            nextBtn.disabled = bookData.currentPage === bookData.pages.length - 1;
-            pageJump.value = bookData.pages[bookData.currentPage].number;
-            
-            // Update bookmark button
-            const isBookmarked = userData.bookmarks && userData.bookmarks.includes(bookData.currentPage);
-            bookmarkBtn.textContent = isBookmarked ? "Hapus Tanda" : "Tandai Halaman";
-            
-            // Update TOC highlights
-            highlightCurrentPageInTOC();
-        }
-        
-        // Go to specific page
-        function goToPage(index) {
-            if (index < 0 || index >= bookData.pages.length) return;
-            
-            // Animate page turn
-            const currentPageElement = document.querySelector('.page.front');
-            if (currentPageElement) {
-                currentPageElement.classList.add('turning');
-                
-                setTimeout(() => {
-                    bookData.currentPage = index;
-                    renderPages();
-                    updateControls();
-                    
-                    // Scroll to top of the page
-                    window.scrollTo(0, 0);
-                }, 500);
-            }
-        }
-        
-        // Generate user ID
-        function generateUserId(name) {
-            const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + 
-                             Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + 
-                             Math.random().toString(36).substring(2, 6).toUpperCase();
-            return `E-PEDIA/PERGUNUSITUBONDO/${name.toUpperCase()}/${randomPart}`;
-        }
-        
-        // Toggle bookmark for current page
-        function toggleBookmark() {
-            if (!userData.userId) {
-                alert("Silakan daftar terlebih dahulu untuk menggunakan fitur penanda halaman.");
-                loginModal.classList.add('active');
-                return;
-            }
-            
-            const currentPageIndex = bookData.currentPage;
-            const bookmarkIndex = userData.bookmarks.indexOf(currentPageIndex);
-            
-            if (bookmarkIndex === -1) {
-                userData.bookmarks.push(currentPageIndex);
-            } else {
-                userData.bookmarks.splice(bookmarkIndex, 1);
-            }
-            
-            // Save to localStorage
-            localStorage.setItem('userData', JSON.stringify(userData));
-            
-            // Update UI
-            updateControls();
-            
-            // Update TOC highlights
-            const tocItems = document.querySelectorAll('.toc-page li');
-            tocItems.forEach((item, index) => {
-                if (userData.bookmarks.includes(index + 2)) { // +2 to skip cover and TOC
-                    item.classList.add('has-bookmark');
-                } else {
-                    item.classList.remove('has-bookmark');
-                }
-            });
-        }
-        
-        // Event Listeners
-        prevBtn.addEventListener('click', () => {
-            goToPage(bookData.currentPage - 1);
-        });
-        
-        nextBtn.addEventListener('click', () => {
-            goToPage(bookData.currentPage + 1);
-        });
-        
-        goToBtn.addEventListener('click', () => {
-            const pageNum = parseInt(pageJump.value);
-            const pageIndex = bookData.pages.findIndex(p => p.number === pageNum);
-            if (pageIndex !== -1) {
-                goToPage(pageIndex);
-            }
-        });
-        
-        tocBtn.addEventListener('click', () => {
-            const tocPageIndex = bookData.pages.findIndex(p => p.isTOC);
-            if (tocPageIndex !== -1) {
-                goToPage(tocPageIndex);
-            }
-        });
-        
-        bookmarkBtn.addEventListener('click', toggleBookmark);
-        
-        zoomInBtn.addEventListener('click', () => {
-            if (bookData.zoomLevel < 2) {
-                bookData.zoomLevel += 0.1;
-                bookElement.style.transform = `scale(${bookData.zoomLevel})`;
-                zoomLevel.textContent = `${Math.round(bookData.zoomLevel * 100)}%`;
-            }
-        });
-        
-        zoomOutBtn.addEventListener('click', () => {
-            if (bookData.zoomLevel > 0.5) {
-                bookData.zoomLevel -= 0.1;
-                bookElement.style.transform = `scale(${bookData.zoomLevel})`;
-                zoomLevel.textContent = `${Math.round(bookData.zoomLevel * 100)}%`;
-            }
-        });
-        
-        adminBtn.addEventListener('click', () => {
-            const password = prompt("Masukkan Password Admin:", "65614222");
-            if (password === adminPassword) {
-                adminPanel.classList.add('active');
-                adminActive = true;
-            } else if (password !== null) {
-                alert("Password salah!");
-            }
-        });
-        
-        closeAdmin.addEventListener('click', () => {
-            adminPanel.classList.remove('active');
-            adminActive = false;
-        });
-        
-        userBtn.addEventListener('click', () => {
-            if (userData.userId) {
-                // Show user info
-                userInfo.classList.toggle('active');
-            } else {
-                // Show registration modal
-                loginModal.classList.add('active');
-            }
-        });
-        
-        closeModal.addEventListener('click', () => {
-            loginModal.classList.remove('active');
-        });
-        
-        registerBtn.addEventListener('click', () => {
-            const name = document.getElementById('user-name').value.trim();
-            const address = document.getElementById('user-address').value.trim();
-            const phone = document.getElementById('user-phone').value.trim();
-            
-            if (!name || !address || !phone) {
-                alert("Harap isi semua data dengan lengkap!");
-                return;
-            }
-            
-            userData = {
-                name,
-                address,
-                phone,
-                userId: generateUserId(name),
-                bookmarks: []
-            };
-            
-            // Save to localStorage
-            localStorage.setItem('userData', JSON.stringify(userData));
-            
-            // Update UI
-            userBtn.textContent = name;
-            userInfo.classList.add('active');
-            userIdSpan.textContent = userData.userId;
-            
-            // Close modal
-            loginModal.classList.remove('active');
-            
-            alert(`Registrasi berhasil!\nID Peserta Anda: ${userData.userId}`);
-        });
-        
-        closeNotification.addEventListener('click', () => {
-            document.querySelector('.notification-banner').style.display = 'none';
-        });
-        
-        // Tab switching in admin panel
-        document.querySelectorAll('.admin-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs and contents
-                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab and corresponding content
-                tab.classList.add('active');
-                const tabId = tab.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-        
-        // Image upload preview
-        document.getElementById('image-upload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const preview = document.getElementById('image-preview');
-                    preview.src = event.target.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        // Initialize the application
-        window.addEventListener('DOMContentLoaded', initBook);
-    </script>
+
+    <!-- Table of Contents Sidebar -->
+    <div id="toc-sidebar">
+        <div class="toc-header">
+            <h3>Table of Contents</h3>
+            <span class="close-toc">&times;</span>
+        </div>
+        <ul id="toc-list">
+            <!-- TOC items will be loaded here -->
+        </ul>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="admin-modal" class="modal">
+        <div class="modal-content admin-login">
+            <span class="close-admin">&times;</span>
+            <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo" class="modal-logo">
+            <h2>Admin Login</h2>
+            <form id="admin-form">
+                <div class="form-group">
+                    <label for="admin-password">Password:</label>
+                    <input type="password" id="admin-password" name="password" required placeholder="Enter admin password">
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
