@@ -4,56 +4,892 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-PEDIA - Buku Sejarah Digital</title>
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --light-color: #ecf0f1;
+            --page-color: #f9f3e6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+        
+        body {
+            background-color: #ddd;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+        
+        /* Book Container */
+        .book-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            perspective: 1500px;
+        }
+        
+        .book {
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+            height: 600px;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+        
+        .book-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('gambar-cover.png');
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px 15px 15px 5px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            backface-visibility: hidden;
+            transform-origin: left;
+            transition: transform 1s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--primary-color);
+        }
+        
+        .book-cover h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .book-cover p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .book-cover .open-book {
+            margin-top: 2rem;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .book-cover .open-book:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+        
+        .book-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--page-color);
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        /* Page Styles */
+        .page {
+            display: none;
+            flex: 1;
+            padding: 2rem;
+            position: relative;
+            overflow-y: auto;
+            background-color: var(--page-color);
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .page-number {
+            color: var(--secondary-color);
+        }
+        
+        .page-content {
+            line-height: 1.6;
+        }
+        
+        .page-image {
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .page-image img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .page-image img:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            background-color: var(--primary-color);
+        }
+        
+        .nav-button {
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .table-of-contents {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100%;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s;
+            z-index: 10;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .table-of-contents.active {
+            transform: translateX(0);
+        }
+        
+        .toc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .toc-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .close-toc {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary-color);
+        }
+        
+        .toc-list {
+            list-style: none;
+        }
+        
+        .toc-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        
+        .toc-item:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(100%);
+            transition: transform 0.3s;
+            z-index: 10;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .admin-panel.active {
+            transform: translateX(0);
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .admin-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .close-admin {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary-color);
+        }
+        
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .form-control {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .admin-button {
+            padding: 0.7rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .admin-button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        /* Password Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .modal-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary-color);
+        }
+        
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
+        /* Zoom Controls */
+        .zoom-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 5;
+        }
+        
+        .zoom-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .zoom-button:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .book {
+                height: 500px;
+            }
+            
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+            
+            .book-cover h2 {
+                font-size: 1.8rem;
+            }
+            
+            .book-cover p {
+                font-size: 1rem;
+            }
+            
+            .page {
+                padding: 1rem;
+            }
+            
+            .page-title {
+                font-size: 1.2rem;
+            }
+            
+            .admin-panel {
+                width: 90%;
+            }
+        }
+        
+        /* Animation Classes */
+        .flip-cover {
+            transform: rotateY(-160deg);
+        }
+        
+        .show-book {
+            display: flex;
+        }
+        
+        /* Page Turn Animation */
+        @keyframes pageTurn {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(-180deg);
+            }
+        }
+        
+        .page-turn {
+            animation: pageTurn 0.8s ease-in-out;
+        }
+    </style>
 </head>
 <body>
-    <div class="book-container">
-        <div class="book-cover">
-            <h1>E-PEDIA</h1>
-            <p>Buku Sejarah Digital Interaktif</p>
-            <button id="open-book">Buka Buku</button>
-        </div>
+    <div class="app-container">
+        <header class="header">
+            <div class="logo">
+                <img src="logo_e-pedia.png" alt="E-PEDIA Logo">
+                <h1>E-<span>PEDIA</span></h1>
+            </div>
+            <button id="admin-btn" class="nav-button">Admin Panel</button>
+        </header>
         
-        <div class="book-content hidden">
-            <div class="page left-page">
-                <div class="page-number">1</div>
-                <div class="page-content">
-                    <h2 class="page-title">Judul Halaman 1</h2>
-                    <div class="image-container top-image">
-                        <img src="images/default-top.jpg" alt="Gambar Atas">
+        <div class="book-container">
+            <div class="book">
+                <div class="book-cover" id="book-cover">
+                    <h2>Sejarah Peradaban Dunia</h2>
+                    <p>Jelajahi perjalanan panjang peradaban manusia dari masa prasejarah hingga era modern dalam buku digital interaktif ini.</p>
+                    <button class="open-book" id="open-book">Buka Buku</button>
+                </div>
+                
+                <div class="book-content" id="book-content">
+                    <div class="page active" id="page1" data-page="1" style="zoom: 1;">
+                        <div class="page-header">
+                            <h3 class="page-title">Pendahuluan</h3>
+                            <span class="page-number">Halaman 1</span>
+                        </div>
+                        <div class="page-content">
+                            <div class="page-image" data-position="top">
+                                <img src="https://via.placeholder.com/600x300?text=Gambar+Atas" alt="Gambar Atas">
+                            </div>
+                            <p>Sejarah peradaban manusia adalah kisah yang panjang dan kompleks, dimulai sejak manusia pertama kali muncul di muka bumi hingga perkembangan masyarakat modern seperti yang kita kenal sekarang. Buku ini akan membawa Anda dalam perjalanan melalui waktu, mengeksplorasi berbagai era penting yang membentuk dunia kita.</p>
+                            <div class="page-image" data-position="middle">
+                                <img src="https://via.placeholder.com/600x300?text=Gambar+Tengah" alt="Gambar Tengah">
+                            </div>
+                            <p>Dari revolusi pertanian yang mengubah cara manusia hidup, hingga kemunculan kota-kota pertama, dari kerajaan-kerajaan kuno hingga revolusi industri, setiap babak sejarah memberikan pelajaran berharga bagi kita semua. Melalui buku ini, kita akan memahami bagaimana masa lalu membentuk masa kini dan mempengaruhi masa depan.</p>
+                            <div class="page-image" data-position="bottom">
+                                <img src="https://via.placeholder.com/600x300?text=Gambar+Bawah" alt="Gambar Bawah">
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-content">
-                        <p>Isi konten halaman akan muncul di sini...</p>
+                    
+                    <div class="page" id="page2" data-page="2" style="zoom: 1;">
+                        <div class="page-header">
+                            <h3 class="page-title">Zaman Prasejarah</h3>
+                            <span class="page-number">Halaman 2</span>
+                        </div>
+                        <div class="page-content">
+                            <div class="page-image" data-position="top">
+                                <img src="https://via.placeholder.com/600x300?text=Zaman+Prasejarah" alt="Zaman Prasejarah">
+                            </div>
+                            <p>Zaman prasejarah mencakup periode sebelum ditemukannya tulisan, sekitar 3,3 juta tahun yang lalu hingga 3000 SM. Pada masa ini, manusia hidup sebagai pemburu-pengumpul, bergantung sepenuhnya pada alam untuk bertahan hidup.</p>
+                            <p>Beberapa pencapaian penting pada zaman prasejarah termasuk penemuan api, pembuatan alat dari batu, dan perkembangan bahasa awal. Lukisan gua seperti yang ditemukan di Lascaux, Prancis, menunjukkan kemampuan artistik dan spiritual manusia purba.</p>
+                            <div class="page-image" data-position="middle">
+                                <img src="https://via.placeholder.com/600x300?text=Alat+Batu" alt="Alat Batu">
+                            </div>
+                            <p>Revolusi Neolitik sekitar 10.000 SM menandai transisi penting dari gaya hidup nomaden ke menetap dengan berkembangnya pertanian dan peternakan. Perubahan ini memungkinkan pertumbuhan populasi dan munculnya pemukiman permanen yang menjadi cikal bakal peradaban.</p>
+                        </div>
                     </div>
-                    <div class="image-container bottom-image">
-                        <img src="images/default-bottom.jpg" alt="Gambar Bawah">
+                    
+                    <div class="page" id="page3" data-page="3" style="zoom: 1;">
+                        <div class="page-header">
+                            <h3 class="page-title">Peradaban Kuno</h3>
+                            <span class="page-number">Halaman 3</span>
+                        </div>
+                        <div class="page-content">
+                            <div class="page-image" data-position="top">
+                                <img src="https://via.placeholder.com/600x300?text=Mesopotamia" alt="Mesopotamia">
+                            </div>
+                            <p>Peradaban pertama muncul di lembah sungai Mesopotamia (sekitar 3500 SM), Mesir (sekitar 3100 SM), Lembah Indus (sekitar 2600 SM), dan Cina (sekitar 1600 SM). Peradaban-peradaban ini mengembangkan sistem irigasi, pemerintahan terpusat, agama terorganisir, dan yang paling penting - sistem tulisan.</p>
+                            <div class="page-image" data-position="middle">
+                                <img src="https://via.placeholder.com/600x300?text=Piramida" alt="Piramida">
+                            </div>
+                            <p>Mesir Kuno terkenal dengan piramida, sistem tulisan hieroglif, dan kemajuan dalam matematika dan kedokteran. Mesopotamia memberikan kontribusi penting seperti roda, kode hukum Hammurabi, dan sistem angka seksagesimal yang masih kita gunakan untuk mengukur waktu dan sudut.</p>
+                            <p>Peradaban Lembah Indus menunjukkan perencanaan kota yang canggih dengan sistem drainase yang baik, sementara Dinasti Shang di Cina mengembangkan sistem tulisan yang menjadi dasar tulisan Cina modern.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="page right-page">
-                <div class="page-number">2</div>
-                <div class="page-content">
-                    <h2 class="page-title">Judul Halaman 2</h2>
-                    <div class="text-content">
-                        <p>Isi konten halaman akan muncul di sini...</p>
-                    </div>
-                    <div class="image-container center-image">
-                        <img src="images/default-center.jpg" alt="Gambar Tengah">
-                    </div>
-                </div>
-            </div>
         </div>
         
-        <div class="navigation">
-            <button id="prev-page">Sebelumnya</button>
-            <button id="next-page">Berikutnya</button>
-            <button id="table-contents">Daftar Isi</button>
-            <button id="admin-login">Admin</button>
+        <div class="navigation" id="navigation" style="display: none;">
+            <button id="prev-btn" class="nav-button">Halaman Sebelumnya</button>
+            <button id="toc-btn" class="nav-button">Daftar Isi</button>
+            <button id="next-btn" class="nav-button">Halaman Berikutnya</button>
         </div>
     </div>
     
-    <script src="js/page-turn.js"></script>
-    <script src="js/app.js"></script>
+    <!-- Table of Contents -->
+    <div class="table-of-contents" id="table-of-contents">
+        <div class="toc-header">
+            <h3 class="toc-title">Daftar Isi</h3>
+            <button class="close-toc" id="close-toc">&times;</button>
+        </div>
+        <ul class="toc-list">
+            <li class="toc-item" data-page="1">Pendahuluan</li>
+            <li class="toc-item" data-page="2">Zaman Prasejarah</li>
+            <li class="toc-item" data-page="3">Peradaban Kuno</li>
+            <li class="toc-item" data-page="4">Yunani dan Romawi</li>
+            <li class="toc-item" data-page="5">Abad Pertengahan</li>
+            <li class="toc-item" data-page="6">Renaissance</li>
+            <li class="toc-item" data-page="7">Revolusi Industri</li>
+            <li class="toc-item" data-page="8">Era Modern</li>
+        </ul>
+    </div>
+    
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="admin-panel">
+        <div class="admin-header">
+            <h3 class="admin-title">Kontrol Panel Admin</h3>
+            <button class="close-admin" id="close-admin">&times;</button>
+        </div>
+        <form class="admin-form" id="admin-form">
+            <div class="form-group">
+                <label for="current-page">Halaman Saat Ini:</label>
+                <select id="current-page" class="form-control">
+                    <option value="1">Halaman 1 - Pendahuluan</option>
+                    <option value="2">Halaman 2 - Zaman Prasejarah</option>
+                    <option value="3">Halaman 3 - Peradaban Kuno</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="page-title">Judul Halaman:</label>
+                <input type="text" id="page-title" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label for="page-content">Isi Halaman:</label>
+                <textarea id="page-content" class="form-control" rows="5"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Gambar:</label>
+                <div class="form-group">
+                    <label for="top-image">Gambar Atas:</label>
+                    <input type="file" id="top-image" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="middle-image">Gambar Tengah:</label>
+                    <input type="file" id="middle-image" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="bottom-image">Gambar Bawah:</label>
+                    <input type="file" id="bottom-image" class="form-control">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="admin-password">Password Baru:</label>
+                <input type="password" id="admin-password" class="form-control" placeholder="Masukkan password baru">
+            </div>
+            
+            <button type="submit" class="admin-button">Simpan Perubahan</button>
+        </form>
+    </div>
+    
+    <!-- Password Modal -->
+    <div class="modal" id="password-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Masukkan Password Admin</h3>
+                <button class="close-modal" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="password" id="password-input" class="form-control" placeholder="Masukkan password">
+                <p id="password-error" style="color: red; margin-top: 0.5rem; display: none;">Password salah!</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-btn" class="nav-button">Batal</button>
+                <button id="submit-password" class="nav-button">Masuk</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Zoom Controls -->
+    <div class="zoom-controls">
+        <button class="zoom-button" id="zoom-in">+</button>
+        <button class="zoom-button" id="zoom-out">-</button>
+    </div>
+    
+    <script>
+        // Current page and state management
+        let currentPage = 1;
+        const totalPages = 3;
+        let adminPassword = "65614222";
+        let zoomLevel = 1;
+        
+        // DOM Elements
+        const bookCover = document.getElementById('book-cover');
+        const bookContent = document.getElementById('book-content');
+        const openBookBtn = document.getElementById('open-book');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const tocBtn = document.getElementById('toc-btn');
+        const closeTocBtn = document.getElementById('close-toc');
+        const tableOfContents = document.getElementById('table-of-contents');
+        const tocItems = document.querySelectorAll('.toc-item');
+        const navigation = document.getElementById('navigation');
+        const adminBtn = document.getElementById('admin-btn');
+        const adminPanel = document.getElementById('admin-panel');
+        const closeAdminBtn = document.getElementById('close-admin');
+        const passwordModal = document.getElementById('password-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const submitPasswordBtn = document.getElementById('submit-password');
+        const passwordInput = document.getElementById('password-input');
+        const passwordError = document.getElementById('password-error');
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        const adminForm = document.getElementById('admin-form');
+        const currentPageSelect = document.getElementById('current-page');
+        const pageTitleInput = document.getElementById('page-title');
+        const pageContentInput = document.getElementById('page-content');
+        const adminPasswordInput = document.getElementById('admin-password');
+        
+        // Open book animation
+        openBookBtn.addEventListener('click', () => {
+            bookCover.classList.add('flip-cover');
+            setTimeout(() => {
+                bookContent.classList.add('show-book');
+                navigation.style.display = 'flex';
+            }, 500);
+        });
+        
+        // Navigation functions
+        function goToPage(pageNumber) {
+            if (pageNumber < 1 || pageNumber > totalPages) return;
+            
+            const currentPageElement = document.getElementById(`page${currentPage}`);
+            const nextPageElement = document.getElementById(`page${pageNumber}`);
+            
+            currentPageElement.classList.remove('active');
+            nextPageElement.classList.add('active');
+            
+            // Apply zoom level to the new page
+            nextPageElement.style.zoom = zoomLevel;
+            
+            currentPage = pageNumber;
+            
+            // Add page turn animation
+            nextPageElement.classList.add('page-turn');
+            setTimeout(() => {
+                nextPageElement.classList.remove('page-turn');
+            }, 800);
+            
+            // Update admin panel
+            updateAdminPanel();
+        }
+        
+        prevBtn.addEventListener('click', () => {
+            goToPage(currentPage - 1);
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            goToPage(currentPage + 1);
+        });
+        
+        // Table of Contents
+        tocBtn.addEventListener('click', () => {
+            tableOfContents.classList.add('active');
+        });
+        
+        closeTocBtn.addEventListener('click', () => {
+            tableOfContents.classList.remove('active');
+        });
+        
+        tocItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const pageNumber = parseInt(item.getAttribute('data-page'));
+                goToPage(pageNumber);
+                tableOfContents.classList.remove('active');
+            });
+        });
+        
+        // Admin Panel
+        adminBtn.addEventListener('click', () => {
+            passwordModal.style.display = 'flex';
+        });
+        
+        closeAdminBtn.addEventListener('click', () => {
+            adminPanel.classList.remove('active');
+        });
+        
+        // Password Modal
+        closeModalBtn.addEventListener('click', () => {
+            passwordModal.style.display = 'none';
+            passwordError.style.display = 'none';
+            passwordInput.value = '';
+        });
+        
+        cancelBtn.addEventListener('click', () => {
+            passwordModal.style.display = 'none';
+            passwordError.style.display = 'none';
+            passwordInput.value = '';
+        });
+        
+        submitPasswordBtn.addEventListener('click', () => {
+            if (passwordInput.value === adminPassword) {
+                passwordModal.style.display = 'none';
+                passwordError.style.display = 'none';
+                passwordInput.value = '';
+                adminPanel.classList.add('active');
+                updateAdminPanel();
+            } else {
+                passwordError.style.display = 'block';
+            }
+        });
+        
+        // Zoom Controls
+        zoomInBtn.addEventListener('click', () => {
+            if (zoomLevel < 1.5) {
+                zoomLevel += 0.1;
+                document.getElementById(`page${currentPage}`).style.zoom = zoomLevel;
+            }
+        });
+        
+        zoomOutBtn.addEventListener('click', () => {
+            if (zoomLevel > 0.7) {
+                zoomLevel -= 0.1;
+                document.getElementById(`page${currentPage}`).style.zoom = zoomLevel;
+            }
+        });
+        
+        // Update admin panel with current page data
+        function updateAdminPanel() {
+            const currentPageElement = document.getElementById(`page${currentPage}`);
+            const pageTitle = currentPageElement.querySelector('.page-title').textContent;
+            const pageContent = currentPageElement.querySelector('.page-content').innerHTML;
+            
+            currentPageSelect.value = currentPage;
+            pageTitleInput.value = pageTitle;
+            pageContentInput.value = pageContent.replace(/<[^>]*>/g, ''); // Remove HTML tags
+        }
+        
+        // Admin form submission
+        adminForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Update page title
+            const currentPageElement = document.getElementById(`page${currentPage}`);
+            currentPageElement.querySelector('.page-title').textContent = pageTitleInput.value;
+            
+            // Update page content (simplified - in a real app you'd use a proper editor)
+            currentPageElement.querySelector('.page-content').innerHTML = pageContentInput.value;
+            
+            // Update password if changed
+            if (adminPasswordInput.value) {
+                adminPassword = adminPasswordInput.value;
+                adminPasswordInput.value = '';
+                alert('Password berhasil diubah!');
+            }
+            
+            // Handle image uploads (simulated - in a real app you'd upload to server)
+            const topImage = document.getElementById('top-image').files[0];
+            const middleImage = document.getElementById('middle-image').files[0];
+            const bottomImage = document.getElementById('bottom-image').files[0];
+            
+            if (topImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgElement = currentPageElement.querySelector('.page-image[data-position="top"] img');
+                    imgElement.src = e.target.result;
+                };
+                reader.readAsDataURL(topImage);
+                document.getElementById('top-image').value = '';
+            }
+            
+            if (middleImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgElement = currentPageElement.querySelector('.page-image[data-position="middle"] img');
+                    imgElement.src = e.target.result;
+                };
+                reader.readAsDataURL(middleImage);
+                document.getElementById('middle-image').value = '';
+            }
+            
+            if (bottomImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgElement = currentPageElement.querySelector('.page-image[data-position="bottom"] img');
+                    imgElement.src = e.target.result;
+                };
+                reader.readAsDataURL(bottomImage);
+                document.getElementById('bottom-image').value = '';
+            }
+            
+            alert('Perubahan berhasil disimpan!');
+        });
+        
+        // Initialize admin panel
+        updateAdminPanel();
+    </script>
 </body>
 </html>
