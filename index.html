@@ -154,12 +154,15 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            height: 100%;
         }
         
         .cover-page img {
             max-width: 60%;
+            max-height: 50%;
             margin-bottom: 2rem;
             filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
+            object-fit: contain;
         }
         
         .cover-page h1 {
@@ -222,6 +225,7 @@
             justify-content: center;
             margin-top: 1rem;
             gap: 1rem;
+            flex-wrap: wrap;
         }
         
         .btn {
@@ -460,7 +464,7 @@
 <body>
     <header>
         <div class="logo">
-            <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo">
+            <img src="https://raw.githubusercontent.com/pergunu/E-PEDIA/refs/heads/main/logo_e-pedia.png" alt="E-PEDIA Logo">
             <h1>E-PEDIA</h1>
         </div>
         <div>
@@ -582,7 +586,7 @@
             <div class="form-group">
                 <label for="book-cover">Cover Gambar:</label>
                 <input type="file" id="book-cover" class="form-control" accept="image/*">
-                <img id="cover-preview" class="image-preview" src="assets/images/gambar-cover.png" alt="Preview Cover">
+                <img id="cover-preview" class="image-preview" src="https://raw.githubusercontent.com/pergunu/E-PEDIA/refs/heads/main/gambar-cover.png" alt="Preview Cover">
             </div>
             
             <div class="form-group">
@@ -652,8 +656,8 @@
         // Sample book data
         const bookData = {
             title: "E-PEDIA Digital Library",
-            coverImage: "assets/images/gambar-cover.png",
-            logo: "assets/images/logo_e-pedia.png",
+            coverImage: "https://raw.githubusercontent.com/pergunu/E-PEDIA/refs/heads/main/gambar-cover.png",
+            logo: "https://raw.githubusercontent.com/pergunu/E-PEDIA/refs/heads/main/logo_e-pedia.png",
             welcomeMessage: "Selamat datang di E-PEDIA - Perpustakaan Digital Lengkap untuk semua kebutuhan akademik dan pengetahuan Anda.",
             pages: [
                 {
@@ -749,6 +753,9 @@
                 userInfo.classList.add('active');
                 userIdSpan.textContent = userData.userId;
             }
+            
+            // Show cover preview in admin panel
+            document.getElementById('cover-preview').style.display = 'block';
         }
         
         // Render all pages
@@ -766,7 +773,7 @@
                 if (page.isCover) {
                     pageContent = `
                         <div class="page-content cover-page">
-                            <img src="${bookData.coverImage}" alt="Book Cover">
+                            <img src="${bookData.coverImage}" alt="Book Cover" onerror="this.style.display='none'">
                             <h1>${bookData.title}</h1>
                             <p>${bookData.welcomeMessage}</p>
                             <p class="welcome-message">"Membaca adalah jendela dunia"</p>
@@ -784,13 +791,13 @@
                     let imagesHTML = '';
                     if (page.images) {
                         if (page.images.top) {
-                            imagesHTML += `<img src="${page.images.top}" class="page-image top" alt="Top Image">`;
+                            imagesHTML += `<img src="${page.images.top}" class="page-image top" alt="Top Image" onerror="this.style.display='none'">`;
                         }
                         if (page.images.middle) {
-                            imagesHTML += `<img src="${page.images.middle}" class="page-image" alt="Middle Image">`;
+                            imagesHTML += `<img src="${page.images.middle}" class="page-image" alt="Middle Image" onerror="this.style.display='none'">`;
                         }
                         if (page.images.bottom) {
-                            imagesHTML += `<img src="${page.images.bottom}" class="page-image bottom" alt="Bottom Image">`;
+                            imagesHTML += `<img src="${page.images.bottom}" class="page-image bottom" alt="Bottom Image" onerror="this.style.display='none'">`;
                         }
                     }
                     
