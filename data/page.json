@@ -1,0 +1,25 @@
+[
+    {
+        "id": "1",
+        "title": "Pendahuluan",
+        "number": 1,
+        "content": "Selamat datang di E-PEDIA, buku sejarah digital interaktif. Aplikasi ini dirancang untuk memberikan pengalaman membaca yang menyenangkan dengan fitur-fitur modern.",
+        "topImage": "intro-top.jpg",
+        "bottomImage": "intro-bottom.jpg"
+    },
+    {
+        "id": "2",
+        "title": "Sejarah Kuno",
+        "number": 2,
+        "content": "Peradaban kuno dimulai sekitar 3000 SM dengan munculnya peradaban Mesopotamia dan Mesir Kuno. Peradaban ini mengembangkan sistem tulisan, arsitektur monumental, dan organisasi sosial yang kompleks.",
+        "centerImage": "ancient-civ.jpg"
+    },
+    {
+        "id": "3",
+        "title": "Abad Pertengahan",
+        "number": 3,
+        "content": "Abad Pertengahan di Eropa berlangsung dari abad ke-5 hingga ke-15 Masehi. Periode ini ditandai dengan sistem feodal, perkembangan agama Kristen, dan pembangunan katedral-katedral besar.",
+        "topImage": "middle-ages-top.jpg",
+        "bottomImage": "middle-ages-bottom.jpg"
+    }
+]
