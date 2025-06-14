@@ -585,6 +585,37 @@ class BookService {
 const bookService = new BookService();
 }
 
+ // Konfigurasi Aplikasi E-pedia
+const EPediaConfig = {
+  appName: "E-pedia",
+  appDescription: "Perpustakaan Digital Interaktif",
+  appVersion: "1.0.0",
+  defaultAdminPassword: "65614222",
+  defaultTheme: "light",
+  categories: [
+    { id: "pendidikan", name: "Pendidikan" },
+    { id: "agama", name: "Agama" },
+    { id: "umum", name: "Umum" },
+    { id: "sastra", name: "Sastra" },
+    { id: "teknologi", name: "Teknologi" }
+  ],
+  pageSize: 10,
+  api: {
+    baseUrl: "",
+    endpoints: {
+      books: "/api/books",
+      uploads: "/api/uploads"
+    }
+  },
+  features: {
+    textToSpeech: true,
+    pdfExport: true,
+    sharing: true,
+    bookmarks: true,
+    darkMode: true
+  }
+};                         
+
 // Ekspor singleton instance
 const ePediaFeatures = new EPediaFeatures();
     
