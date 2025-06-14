@@ -3,161 +3,2866 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-pedia - Perpustakaan Digital Interaktif</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="assets/images/logo_e-pedia.png">
+    <title>Perpustakaan Digital PERGUNU Situbondo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #2c3e50;
+            --color-secondary: #3498db;
+            --color-accent: #e74c3c;
+            --color-success: #27ae60;
+            --color-error: #e74c3c;
+            --color-warning: #f39c12;
+            --color-info: #3498db;
+            --color-dark: #1a1a2e;
+            --color-light: #f8f9fa;
+            --color-text: #333;
+            --color-text-light: #777;
+            --color-bg: #f5f7fa;
+            --color-card: #fff;
+            --color-border: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        /* Container Styles */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo {
+            height: 100px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--color-text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 30px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--color-card);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 8px;
+            background: var(--color-secondary);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            margin: 5px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+            background: #2980b9;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--color-secondary);
+            color: var(--color-secondary);
+        }
+
+        .btn-outline:hover {
+            background: var(--color-secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--color-success);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #219955;
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .btn-danger {
+            background: var(--color-error);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-warning {
+            background: var(--color-warning);
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-warning:hover {
+            background: #d35400;
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-info {
+            background: var(--color-info);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-info:hover {
+            background: #2980b9;
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-accent {
+            background: var(--color-accent);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-accent:hover {
+            background: #c0392b;
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--color-text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            background: white;
+            color: var(--color-text);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: var(--color-text-light);
+            margin-top: 5px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-btn {
+            padding: 0 25px;
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #2980b9;
+        }
+
+        /* Book Grid */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .book-details {
+            padding: 20px;
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: 10px;
+        }
+
+        .book-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .book-category {
+            background: var(--color-secondary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .book-rating {
+            color: var(--color-warning);
+            font-weight: 600;
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--color-accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        /* Book Detail Page */
+        .book-detail {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .book-cover-large {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-title-large {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+
+        .book-author-large {
+            font-size: 1.2rem;
+            color: var(--color-text-light);
+            margin-bottom: 20px;
+        }
+
+        .book-description {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .book-meta-large {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .book-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        /* Categories */
+        .categories-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            flex: 1 1 200px;
+            text-align: center;
+            border: 1px solid var(--color-border);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--color-secondary);
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            color: var(--color-secondary);
+            margin-bottom: 15px;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+
+        .category-count {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        /* User Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid var(--color-border);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(52, 152, 219, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--color-secondary);
+            font-size: 1.2rem;
+        }
+
+        .dashboard-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .dashboard-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-secondary);
+            margin-bottom: 10px;
+        }
+
+        .dashboard-card-text {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        /* Reading List */
+        .reading-list {
+            margin-top: 30px;
+        }
+
+        .reading-list-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--color-border);
+            transition: all 0.3s ease;
+        }
+
+        .reading-list-item:hover {
+            background: rgba(52, 152, 219, 0.05);
+        }
+
+        .reading-list-cover {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 20px;
+        }
+
+        .reading-list-details {
+            flex: 1;
+        }
+
+        .reading-list-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--color-primary);
+        }
+
+        .reading-list-author {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: 5px;
+        }
+
+        .reading-list-progress {
+            width: 100%;
+            height: 5px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .reading-list-progress-bar {
+            height: 100%;
+            background: var(--color-secondary);
+            border-radius: 5px;
+        }
+
+        .reading-list-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-primary);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-about {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .footer-social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social-link:hover {
+            background: var(--color-secondary);
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--color-secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link-item {
+            margin-bottom: 10px;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            padding: 5px 0;
+        }
+
+        .footer-link:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .footer-contact-icon {
+            margin-right: 10px;
+            color: var(--color-secondary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Floating Button Styles */
+        .floating-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .floating-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--color-secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .floating-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            background: #2980b9;
+        }
+
+        .floating-btn .tooltip {
+            position: absolute;
+            right: 70px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .floating-btn:hover .tooltip {
+            opacity: 1;
+            right: 80px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            color: var(--color-text);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--color-text-light);
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--color-error);
+            transform: rotate(90deg);
+        }
+
+        /* Login/Signup Form */
+        .auth-form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--color-primary);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        .auth-link {
+            color: var(--color-secondary);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .book-detail {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--color-primary);
+                flex-direction: column;
+                align-items: center;
+                padding-top: 30px;
+                transition: all 0.3s ease;
+                z-index: 99;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-item {
+                margin: 15px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .floating-buttons {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .floating-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                padding: 12px 15px;
+            }
+            
+            .search-btn {
+                padding: 12px;
+            }
+            
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .reading-list-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .reading-list-cover {
+                margin-bottom: 15px;
+            }
+            
+            .reading-list-actions {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-secondary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--color-secondary);
+            animation: spin 1s ease-in-out infinite;
+            margin: 30px auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-primary {
+            background: var(--color-secondary);
+            color: white;
+        }
+
+        .badge-success {
+            background: var(--color-success);
+            color: white;
+        }
+
+        .badge-warning {
+            background: var(--color-warning);
+            color: white;
+        }
+
+        .badge-danger {
+            background: var(--color-error);
+            color: white;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--color-text-light);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover {
+            color: var(--color-primary);
+        }
+
+        .tab.active {
+            color: var(--color-secondary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--color-secondary);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 5px;
+        }
+
+        .page-item {
+            list-style: none;
+        }
+
+        .page-link {
+            display: block;
+            padding: 8px 15px;
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .page-link:hover {
+            background: var(--color-secondary);
+            color: white;
+            border-color: var(--color-secondary);
+        }
+
+        .page-item.active .page-link {
+            background: var(--color-secondary);
+            color: white;
+            border-color: var(--color-secondary);
+        }
+
+        .page-item.disabled .page-link {
+            color: var(--color-text-light);
+            pointer-events: none;
+            background: #f8f9fa;
+        }
+
+        /* Tooltip */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            z-index: 100;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            width: max-content;
+            max-width: 200px;
+            text-align: center;
+        }
+
+        .tooltip-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip-top {
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 5px;
+        }
+
+        /* Book Reader */
+        .book-reader {
+            width: 100%;
+            height: 80vh;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .reader-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .reader-content {
+            width: 100%;
+            height: calc(100% - 50px);
+            padding: 30px;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            background: var(--color-primary);
+            color: white;
+            padding: 20px 0;
+        }
+
+        .admin-logo {
+            text-align: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .admin-menu-item {
+            margin-bottom: 5px;
+        }
+
+        .admin-menu-link {
+            display: block;
+            padding: 10px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .admin-menu-link:hover,
+        .admin-menu-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .admin-menu-icon {
+            margin-right: 10px;
+        }
+
+        .admin-content {
+            padding: 30px;
+            background: var(--color-bg);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .admin-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table th, 
+        .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .data-table th {
+            background: var(--color-primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .data-table tr:hover {
+            background: rgba(52, 152, 219, 0.05);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid var(--color-border);
+        }
+
+        .stats-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-secondary);
+            margin-bottom: 5px;
+        }
+
+        .stats-label {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        /* Form Groups */
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-col {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed var(--color-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .file-upload:hover {
+            border-color: var(--color-secondary);
+            background: rgba(52, 152, 219, 0.05);
+        }
+
+        .file-upload-icon {
+            font-size: 2rem;
+            color: var(--color-secondary);
+            margin-bottom: 10px;
+        }
+
+        .file-upload-text {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--color-success);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background: rgba(39, 174, 96, 0.1);
+            border-left: 4px solid var(--color-success);
+            color: var(--color-success);
+        }
+
+        .alert-danger {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--color-error);
+            color: var(--color-error);
+        }
+
+        .alert-warning {
+            background: rgba(243, 156, 18, 0.1);
+            border-left: 4px solid var(--color-warning);
+            color: var(--color-warning);
+        }
+
+        .alert-info {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--color-info);
+            color: var(--color-info);
+        }
+
+        /* Bookmark */
+        .bookmark {
+            position: absolute;
+            top: 0;
+            right: 20px;
+            width: 30px;
+            height: 40px;
+            background: var(--color-accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+        }
+
+        /* Rating */
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .rating-stars {
+            color: var(--color-warning);
+        }
+
+        .rating-count {
+            font-size: 0.8rem;
+            color: var(--color-text-light);
+        }
+
+        /* Featured Books */
+        .featured-books {
+            position: relative;
+            margin: 40px 0;
+            padding: 30px 0;
+        }
+
+        .featured-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: var(--color-primary);
+            position: relative;
+        }
+
+        .featured-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--color-secondary);
+        }
+
+        .featured-slider {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .featured-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .featured-slide {
+            scroll-snap-align: start;
+            min-width: 300px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .featured-slide:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .featured-cover {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .featured-details {
+            padding: 20px;
+        }
+
+        .featured-book-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+
+        .featured-book-author {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: 15px;
+        }
+
+        .featured-book-description {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+            margin: 50px 0;
+            border-radius: 10px;
+        }
+
+        .newsletter-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .newsletter-text {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .newsletter-btn {
+            padding: 0 25px;
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .newsletter-btn:hover {
+            background: #c0392b;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            margin: 50px 0;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin: 15px;
+            position: relative;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -10px;
+            font-size: 3rem;
+            color: rgba(52, 152, 219, 0.1);
+            font-family: serif;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: var(--color-text-light);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-item {
+            color: var(--color-text-light);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        .breadcrumb-divider {
+            color: var(--color-text-light);
+        }
+
+        /* Book Filters */
+        .book-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* Book Preview */
+        .book-preview {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .book-preview.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .preview-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .preview-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--color-text-light);
+            transition: all 0.3s ease;
+        }
+
+        .preview-close:hover {
+            color: var(--color-error);
+            transform: rotate(90deg);
+        }
+
+        .preview-body {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .preview-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Shelf View */
+        .shelf-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .shelf-book {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .shelf-cover {
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .shelf-cover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .shelf-title {
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .shelf-author {
+            font-size: 0.8rem;
+            color: var(--color-text-light);
+        }
+
+        /* Reading Progress */
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background: #e0e0e0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--color-secondary);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+    </style>
 </head>
 <body>
-    <header class="app-header">
-        <div class="logo-container">
-            <img src="assets/images/logo_e-pedia.png" alt="E-pedia Logo" class="logo">
-            <h1>E-pedia</h1>
-            <p>Perpustakaan Digital Interaktif</p>
-        </div>
-        <div class="theme-toggle">
-            <button id="themeToggleBtn" aria-label="Toggle dark mode">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-            </button>
-        </div>
-    </header>
+    <!-- Reading Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
 
-    <main class="main-content">
-        <section class="book-list-section">
-            <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Cari buku atau artikel...">
-                <button id="searchBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">PERPUSTAKAAN DIGITAL</a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#koleksi" class="nav-link">Koleksi</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#kategori" class="nav-link">Kategori</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tentang" class="nav-link">Tentang</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#kontak" class="nav-link">Kontak</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="login-link">Masuk</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="header">
+        <img src="https://raw.githubusercontent.com/pergunu/ujian-online/main/assets/images/logo.png" alt="PERGUNU Logo" class="logo">
+        <h1>Perpustakaan Digital PERGUNU Situbondo</h1>
+        <p>Jelajahi ribuan koleksi buku digital berkualitas untuk menunjang pendidikan dan pengembangan diri</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Search Section -->
+        <div class="card">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Cari buku, penulis, atau kategori...">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
                 </button>
             </div>
+        </div>
 
-            <div class="filter-container">
-                <select id="categoryFilter">
-                    <option value="all">Semua Kategori</option>
-                    <option value="pendidikan">Pendidikan</option>
-                    <option value="agama">Agama</option>
-                    <option value="umum">Umum</option>
-                    <option value="sastra">Sastra</option>
-                    <option value="teknologi">Teknologi</option>
-                </select>
-                <select id="sortBy">
-                    <option value="recent">Terbaru</option>
-                    <option value="oldest">Terlama</option>
-                    <option value="title">Judul (A-Z)</option>
-                    <option value="popular">Populer</option>
-                </select>
+        <!-- Featured Books -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Buku Unggulan</h2>
+                <div class="card-actions">
+                    <button class="btn btn-outline">Lihat Semua</button>
+                </div>
             </div>
-
-            <div class="books-grid" id="booksGrid">
-                <!-- Buku akan dimuat secara dinamis di sini -->
+            <div class="featured-books">
+                <div class="featured-slider">
+                    <div class="featured-slide">
+                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="featured-cover">
+                        <div class="featured-details">
+                            <h3 class="featured-book-title">Pendidikan Karakter</h3>
+                            <p class="featured-book-author">Oleh: Prof. Dr. Ahmad Dahlan</p>
+                            <p class="featured-book-description">Buku ini membahas tentang pentingnya pendidikan karakter dalam membangun generasi muda yang berakhlak mulia dan berintegritas tinggi.</p>
+                            <button class="btn btn-primary">Baca Sekarang</button>
+                        </div>
+                    </div>
+                    <div class="featured-slide">
+                        <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="featured-cover">
+                        <div class="featured-details">
+                            <h3 class="featured-book-title">Matematika Dasar</h3>
+                            <p class="featured-book-author">Oleh: Dr. Sri Mulyani</p>
+                            <p class="featured-book-description">Panduan lengkap untuk memahami konsep dasar matematika dengan pendekatan yang mudah dipahami dan contoh aplikasi sehari-hari.</p>
+                            <button class="btn btn-primary">Baca Sekarang</button>
+                        </div>
+                    </div>
+                    <div class="featured-slide">
+                        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="featured-cover">
+                        <div class="featured-details">
+                            <h3 class="featured-book-title">Sejarah Islam</h3>
+                            <p class="featured-book-author">Oleh: Prof. Dr. Komaruddin Hidayat</p>
+                            <p class="featured-book-description">Mengungkap perjalanan sejarah Islam dari masa ke masa dengan analisis mendalam dan referensi yang akurat.</p>
+                            <button class="btn btn-primary">Baca Sekarang</button>
+                        </div>
+                    </div>
+                    <div class="featured-slide">
+                        <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="featured-cover">
+                        <div class="featured-details">
+                            <h3 class="featured-book-title">Sains Modern</h3>
+                            <p class="featured-book-author">Oleh: Dr. Eng. Bambang Permadi</p>
+                            <p class="featured-book-description">Eksplorasi perkembangan sains modern dan dampaknya terhadap kehidupan manusia di abad ke-21.</p>
+                            <button class="btn btn-primary">Baca Sekarang</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
-    </main>
+        </div>
 
-    <!-- Modal Baca Buku -->
-    <div class="modal" id="bookModal">
+        <!-- Categories Section -->
+        <div class="card" id="kategori">
+            <div class="card-header">
+                <h2 class="card-title">Kategori Buku</h2>
+                <div class="card-actions">
+                    <button class="btn btn-outline">Lihat Semua</button>
+                </div>
+            </div>
+            <div class="categories-list">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-book-quran"></i>
+                    </div>
+                    <h3 class="category-title">Agama</h3>
+                    <p class="category-count">245 Buku</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="category-title">Pendidikan</h3>
+                    <p class="category-count">189 Buku</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3 class="category-title">Sains</h3>
+                    <p class="category-count">132 Buku</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="category-title">Teknologi</h3>
+                    <p class="category-count">98 Buku</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <h3 class="category-title">Sejarah</h3>
+                    <p class="category-count">76 Buku</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Books -->
+        <div class="card" id="koleksi">
+            <div class="card-header">
+                <h2 class="card-title">Koleksi Terbaru</h2>
+                <div class="card-actions">
+                    <button class="btn btn-outline">Lihat Semua</button>
+                </div>
+            </div>
+            <div class="books-grid">
+                <div class="book-card">
+                    <span class="book-badge">Baru</span>
+                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="book-cover">
+                    <div class="book-details">
+                        <h3 class="book-title">Metode Penelitian Pendidikan</h3>
+                        <p class="book-author">Oleh: Prof. Dr. Sutrisno Hadi</p>
+                        <div class="book-meta">
+                            <span class="book-category">Pendidikan</span>
+                            <span class="book-rating">
+                                <i class="fas fa-star"></i> 4.8
+                            </span>
+                        </div>
+                        <div class="book-actions" style="margin-top: 15px;">
+                            <button class="btn btn-primary" style="flex: 1;">Baca</button>
+                            <button class="btn btn-outline">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="book-cover">
+                    <div class="book-details">
+                        <h3 class="book-title">Konsep Dasar Kimia</h3>
+                        <p class="book-author">Oleh: Dr. Ir. Budi Santoso</p>
+                        <div class="book-meta">
+                            <span class="book-category">Sains</span>
+                            <span class="book-rating">
+                                <i class="fas fa-star"></i> 4.5
+                            </span>
+                        </div>
+                        <div class="book-actions" style="margin-top: 15px;">
+                            <button class="btn btn-primary" style="flex: 1;">Baca</button>
+                            <button class="btn btn-outline">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <span class="book-badge">Populer</span>
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="book-cover">
+                    <div class="book-details">
+                        <h3 class="book-title">Filsafat Pendidikan Islam</h3>
+                        <p class="book-author">Oleh: Dr. H. Abdul Malik</p>
+                        <div class="book-meta">
+                            <span class="book-category">Agama</span>
+                            <span class="book-rating">
+                                <i class="fas fa-star"></i> 4.9
+                            </span>
+                        </div>
+                        <div class="book-actions" style="margin-top: 15px;">
+                            <button class="btn btn-primary" style="flex: 1;">Baca</button>
+                            <button class="btn btn-outline">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="book-cover">
+                    <div class="book-details">
+                        <h3 class="book-title">Pengantar Teknologi Informasi</h3>
+                        <p class="book-author">Oleh: Dr. Eng. Rini Wijaya</p>
+                        <div class="book-meta">
+                            <span class="book-category">Teknologi</span>
+                            <span class="book-rating">
+                                <i class="fas fa-star"></i> 4.7
+                            </span>
+                        </div>
+                        <div class="book-actions" style="margin-top: 15px;">
+                            <button class="btn btn-primary" style="flex: 1;">Baca</button>
+                            <button class="btn btn-outline">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Apa Kata Mereka?</h2>
+            </div>
+            <div class="testimonials">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Perpustakaan digital PERGUNU sangat membantu saya dalam menunjang pembelajaran. Koleksi bukunya lengkap dan mudah diakses kapan saja.</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="testimonial-avatar">
+                        <div>
+                            <h4 class="testimonial-name">Siti Aminah</h4>
+                            <p class="testimonial-role">Guru SMA Negeri 1 Situbondo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="newsletter">
+            <h2 class="newsletter-title">Berlangganan Newsletter</h2>
+            <p class="newsletter-text">Dapatkan update terbaru tentang koleksi buku, event, dan konten eksklusif langsung ke email Anda.</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Alamat email Anda">
+                <button type="submit" class="newsletter-btn">Berlangganan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="kontak">
+        <div class="footer-container">
+            <div>
+                <a href="#" class="footer-logo">PERPUSTAKAAN DIGITAL</a>
+                <p class="footer-about">
+                    Perpustakaan Digital PERGUNU Situbondo merupakan platform penyedia buku digital berkualitas untuk menunjang pendidikan dan pengembangan diri masyarakat Situbondo dan sekitarnya.
+                </p>
+                <div class="footer-social">
+                    <a href="#" class="footer-social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="footer-social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="footer-social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="footer-social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="footer-title">Tautan Cepat</h3>
+                <ul class="footer-links">
+                    <li class="footer-link-item"><a href="#" class="footer-link">Beranda</a></li>
+                    <li class="footer-link-item"><a href="#koleksi" class="footer-link">Koleksi Buku</a></li>
+                    <li class="footer-link-item"><a href="#kategori" class="footer-link">Kategori</a></li>
+                    <li class="footer-link-item"><a href="#" class="footer-link">Tentang Kami</a></li>
+                    <li class="footer-link-item"><a href="#" class="footer-link">Kebijakan Privasi</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="footer-title">Kategori Populer</h3>
+                <ul class="footer-links">
+                    <li class="footer-link-item"><a href="#" class="footer-link">Agama</a></li>
+                    <li class="footer-link-item"><a href="#" class="footer-link">Pendidikan</a></li>
+                    <li class="footer-link-item"><a href="#" class="footer-link">Sains</a></li>
+                    <li class="footer-link-item"><a href="#" class="footer-link">Teknologi</a></li>
+                    <li class="footer-link-item"><a href="#" class="footer-link">Sejarah</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="footer-title">Kontak Kami</h3>
+                <div class="footer-contact-item">
+                    <i class="fas fa-map-marker-alt footer-contact-icon"></i>
+                    <span>Jl. Pendidikan No. 123, Situbondo, Jawa Timur</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-phone-alt footer-contact-icon"></i>
+                    <span>+62 123 4567 890</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-envelope footer-contact-icon"></i>
+                    <span>info@pergunudigital.id</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-clock footer-contact-icon"></i>
+                    <span>Senin - Jumat: 08.00 - 16.00</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Perpustakaan Digital PERGUNU Situbondo. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <button class="floating-btn" id="chat-btn">
+            <i class="fas fa-comment-dots"></i>
+            <span class="tooltip">Live Chat</span>
+        </button>
+        <button class="floating-btn" id="theme-btn">
+            <i class="fas fa-moon"></i>
+            <span class="tooltip">Mode Gelap</span>
+        </button>
+        <button class="floating-btn" id="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+            <span class="tooltip">Ke Atas</span>
+        </button>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="book-reader-container">
-                <div class="book-header">
-                    <h2 id="bookModalTitle"></h2>
-                    <div class="book-progress">
-                        <span id="currentPage">1</span> / <span id="totalPages">1</span>
+            <div class="modal-header">
+                <h3 class="modal-title">Masuk ke Akun Anda</h3>
+                <button class="modal-close" id="close-login-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label">Email</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="Masukkan email Anda">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="Masukkan password">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk</button>
+                    </div>
+                    <div class="auth-footer">
+                        Belum punya akun? <a href="#" class="auth-link" id="show-register">Daftar sekarang</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Buat Akun Baru</h3>
+                <button class="modal-close" id="close-register-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="auth-form">
+                    <div class="form-group">
+                        <label for="register-name" class="form-label">Nama Lengkap</label>
+                        <input type="text" id="register-name" class="form-control" placeholder="Masukkan nama lengkap">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email" class="form-label">Email</label>
+                        <input type="email" id="register-email" class="form-control" placeholder="Masukkan email Anda">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password" class="form-label">Password</label>
+                        <input type="password" id="register-password" class="form-control" placeholder="Buat password">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm" class="form-label">Konfirmasi Password</label>
+                        <input type="password" id="register-confirm" class="form-control" placeholder="Ulangi password">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Daftar</button>
+                    </div>
+                    <div class="auth-footer">
+                        Sudah punya akun? <a href="#" class="auth-link" id="show-login">Masuk sekarang</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Preview Modal -->
+    <div class="book-preview" id="book-preview">
+        <div class="preview-content">
+            <span class="preview-close" id="close-preview">&times;</span>
+            <div class="preview-body">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="book-cover-large">
+                    <div class="book-actions" style="margin-top: 20px;">
+                        <button class="btn btn-primary" style="flex: 1;">Baca Sekarang</button>
+                        <button class="btn btn-outline">
+                            <i class="far fa-bookmark"></i> Simpan
+                        </button>
                     </div>
                 </div>
-                <div class="flipbook" id="flipbook">
-                    <!-- Halaman buku akan dimuat di sini -->
-                </div>
-                <div class="book-controls">
-                    <button id="prevPage" class="control-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                        Sebelumnya
-                    </button>
-                    <div class="reading-status">
-                        <input type="checkbox" id="markAsRead">
-                        <label for="markAsRead">Tandai sebagai selesai dibaca</label>
+                <div>
+                    <h2 class="book-title-large">Pendidikan Karakter</h2>
+                    <p class="book-author-large">Oleh: Prof. Dr. Ahmad Dahlan</p>
+                    <div class="book-meta-large">
+                        <div class="book-meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>250 Halaman</span>
+                        </div>
+                        <div class="book-meta-item">
+                            <i class="fas fa-star"></i>
+                            <span>4.8 (120 Ulasan)</span>
+                        </div>
+                        <div class="book-meta-item">
+                            <i class="fas fa-download"></i>
+                            <span>1.2K Unduhan</span>
+                        </div>
                     </div>
-                    <button id="nextPage" class="control-btn">
-                        Selanjutnya
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
-                <div class="additional-options">
-                    <button id="bookmarkBtn" class="option-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                        </svg>
-                        Bookmark
-                    </button>
-                    <button id="downloadBtn" class="option-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        Unduh PDF
-                    </button>
-                    <button id="ttsBtn" class="option-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                            <line x1="12" y1="19" x2="12" y2="23"></line>
-                            <line x1="8" y1="23" x2="16" y2="23"></line>
-                        </svg>
-                        Baca Lantang
-                    </button>
-                    <button id="shareBtn" class="option-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="18" cy="5" r="3"></circle>
-                            <circle cx="6" cy="12" r="3"></circle>
-                            <circle cx="18" cy="19" r="3"></circle>
-                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                        </svg>
-                        Bagikan
-                    </button>
+                    <div class="rating" style="margin-bottom: 20px;">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="rating-count">(120 ulasan)</div>
+                    </div>
+                    <h3 style="margin-bottom: 15px;">Deskripsi Buku</h3>
+                    <p class="book-description">
+                        Buku "Pendidikan Karakter" karya Prof. Dr. Ahmad Dahlan membahas secara komprehensif tentang pentingnya pendidikan karakter dalam membangun generasi muda yang berakhlak mulia dan berintegritas tinggi. Buku ini menyajikan konsep-konsep dasar pendidikan karakter, metode pengajaran yang efektif, serta studi kasus dari berbagai lembaga pendidikan yang telah berhasil menerapkan pendidikan karakter.
+                        <br><br>
+                        Dengan gaya bahasa yang mudah dipahami namun tetap akademis, buku ini cocok untuk pendidik, orang tua, dan siapa saja yang peduli dengan pembentukan karakter generasi muda. Setiap bab dilengkapi dengan latihan dan refleksi yang membantu pembaca untuk menginternalisasi nilai-nilai karakter dalam kehidupan sehari-hari.
+                    </p>
+                    <div style="margin-top: 20px;">
+                        <h3 style="margin-bottom: 15px;">Detail Buku</h3>
+                        <div class="book-meta-large">
+                            <div class="book-meta-item">
+                                <i class="fas fa-tag"></i>
+                                <span>Pendidikan, Karakter</span>
+                            </div>
+                            <div class="book-meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>2022</span>
+                            </div>
+                            <div class="book-meta-item">
+                                <i class="fas fa-language"></i>
+                                <span>Bahasa Indonesia</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Admin Login -->
-    <div class="modal" id="adminLoginModal">
-        <div class="modal-content small-modal">
-            <span class="close-modal">&times;</span>
-            <h2>Panel Admin</h2>
-            <p>Masukkan kode sandi untuk mengakses panel admin:</p>
-            <input type="password" id="adminPassword" placeholder="Masukkan kode sandi">
-            <button id="adminLoginBtn">Masuk</button>
-            <p class="error-message" id="adminLoginError"></p>
-        </div>
+    <!-- Admin Panel (Hidden) -->
+    <div id="admin-panel" style="display: none;">
+        <!-- Admin panel content will be loaded here -->
     </div>
 
-    <!-- Floating Admin Button -->
-    <button class="floating-admin-btn" id="floatingAdminBtn" title="Kontrol Panel Admin">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-        </svg>
-    </button>
+    <!-- Audio Elements -->
+    <audio id="button-sound" src="https://github.com/pergunu/pergunusmart/raw/main/assets/audio/audiotombol.mp3" preload="auto"></audio>
+    <audio id="notification-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" preload="auto"></audio>
 
-    <script src="libs/turn.js"></script>
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Global variables
+        let currentUser = null;
+        let books = [];
+        let categories = [];
+        let readingList = [];
+        
+        // DOM Elements
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+        const loginLink = document.getElementById('login-link');
+        const loginModal = document.getElementById('login-modal');
+        const closeLoginModal = document.getElementById('close-login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const closeRegisterModal = document.getElementById('close-register-modal');
+        const showRegister = document.getElementById('show-register');
+        const showLogin = document.getElementById('show-login');
+        const backToTopBtn = document.getElementById('back-to-top');
+        const themeBtn = document.getElementById('theme-btn');
+        const chatBtn = document.getElementById('chat-btn');
+        const bookPreview = document.getElementById('book-preview');
+        const closePreview = document.getElementById('close-preview');
+        const progressBar = document.getElementById('progress-bar');
+        
+        // Audio elements
+        const buttonSound = document.getElementById('button-sound');
+        const notificationSound = document.getElementById('notification-sound');
+        
+        // Sample data
+        const SAMPLE_BOOKS = [
+            {
+                id: 1,
+                title: "Pendidikan Karakter",
+                author: "Prof. Dr. Ahmad Dahlan",
+                cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                description: "Buku ini membahas tentang pentingnya pendidikan karakter dalam membangun generasi muda yang berakhlak mulia dan berintegritas tinggi.",
+                pages: 250,
+                rating: 4.8,
+                reviews: 120,
+                downloads: 1250,
+                year: 2022,
+                language: "Bahasa Indonesia",
+                category: "Pendidikan",
+                tags: ["Pendidikan", "Karakter"],
+                isNew: true,
+                isFeatured: true
+            },
+            {
+                id: 2,
+                title: "Matematika Dasar",
+                author: "Dr. Sri Mulyani",
+                cover: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                description: "Panduan lengkap untuk memahami konsep dasar matematika dengan pendekatan yang mudah dipahami dan contoh aplikasi sehari-hari.",
+                pages: 320,
+                rating: 4.5,
+                reviews: 85,
+                downloads: 980,
+                year: 2021,
+                language: "Bahasa Indonesia",
+                category: "Pendidikan",
+                tags: ["Matematika", "Dasar"],
+                isFeatured: true
+            },
+            {
+                id: 3,
+                title: "Sejarah Islam",
+                author: "Prof. Dr. Komaruddin Hidayat",
+                cover: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                description: "Mengungkap perjalanan sejarah Islam dari masa ke masa dengan analisis mendalam dan referensi yang akurat.",
+                pages: 450,
+                rating: 4.9,
+                reviews: 150,
+                downloads: 2100,
+                year: 2020,
+                language: "Bahasa Indonesia",
+                category: "Agama",
+                tags: ["Sejarah", "Islam"],
+                isPopular: true,
+                isFeatured: true
+            },
+            {
+                id: 4,
+                title: "Sains Modern",
+                author: "Dr. Eng. Bambang Permadi",
+                cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                description: "Eksplorasi perkembangan sains modern dan dampaknya terhadap kehidupan manusia di abad ke-21.",
+                pages: 380,
+                rating: 4.7,
+                reviews: 95,
+                downloads: 1500,
+                year: 2023,
+                language: "Bahasa Indonesia",
+                category: "Sains",
+                tags: ["Sains", "Teknologi"],
+                isFeatured: true
+            },
+            {
+                id: 5,
+                title: "Metode Penelitian Pendidikan",
+                author: "Prof. Dr. Sutrisno Hadi",
+                cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                description: "Panduan komprehensif tentang berbagai metode penelitian dalam bidang pendidikan.",
+                pages: 280,
+                rating: 4.8,
+                reviews: 75,
+                downloads: 890,
+                year: 2021,
+                language: "Bahasa Indonesia",
+                category: "Pendidikan",
+                tags: ["Penelitian", "Pendidikan"],
+                isNew: true
+            },
+            {
+                id: 6,
+                title: "Konsep Dasar Kimia",
+                author: "Dr. Ir. Budi Santoso",
+                cover: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                description: "Pengantar konsep dasar kimia untuk pemula dengan penjelasan yang mudah dipahami.",
+                pages: 350,
+                rating: 4.5,
+                reviews: 60,
+                downloads: 720,
+                year: 2022,
+                language: "Bahasa Indonesia",
+                category: "Sains",
+                tags: ["Kimia", "Dasar"]
+            },
+            {
+                id: 7,
+                title: "Filsafat Pendidikan Islam",
+                author: "Dr. H. Abdul Malik",
+                cover: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                description: "Kajian mendalam tentang filsafat pendidikan dalam perspektif Islam.",
+                pages: 420,
+                rating: 4.9,
+                reviews: 110,
+                downloads: 1800,
+                year: 2020,
+                language: "Bahasa Indonesia",
+                category: "Agama",
+                tags: ["Filsafat", "Pendidikan", "Islam"],
+                isPopular: true
+            },
+            {
+                id: 8,
+                title: "Pengantar Teknologi Informasi",
+                author: "Dr. Eng. Rini Wijaya",
+                cover: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                description: "Pengenalan konsep dasar teknologi informasi untuk pemula.",
+                pages: 300,
+                rating: 4.7,
+                reviews: 80,
+                downloads: 950,
+                year: 2023,
+                language: "Bahasa Indonesia",
+                category: "Teknologi",
+                tags: ["Teknologi", "Informasi"]
+            }
+        ];
+
+        const SAMPLE_CATEGORIES = [
+            { id: 1, name: "Agama", count: 245, icon: "book-quran" },
+            { id: 2, name: "Pendidikan", count: 189, icon: "graduation-cap" },
+            { id: 3, name: "Sains", count: 132, icon: "flask" },
+            { id: 4, name: "Teknologi", count: 98, icon: "laptop-code" },
+            { id: 5, name: "Sejarah", count: 76, icon: "landmark" },
+            { id: 6, name: "Sastra", count: 65, icon: "book-open" },
+            { id: 7, name: "Bisnis", count: 54, icon: "chart-line" },
+            { id: 8, name: "Kesehatan", count: 43, icon: "heartbeat" }
+        ];
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize particles.js for background
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 60,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#3498db"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.3,
+                        "random": false,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#3498db",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 0.5
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // Load sample data
+            books = SAMPLE_BOOKS;
+            categories = SAMPLE_CATEGORIES;
+            
+            // Check if user is logged in
+            checkLoginStatus();
+            
+            // Event listeners
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            loginLink.addEventListener('click', showLoginModal);
+            closeLoginModal.addEventListener('click', hideLoginModal);
+            closeRegisterModal.addEventListener('click', hideRegisterModal);
+            showRegister.addEventListener('click', showRegisterModal);
+            showLogin.addEventListener('click', showLoginModal);
+            backToTopBtn.addEventListener('click', scrollToTop);
+            themeBtn.addEventListener('click', toggleTheme);
+            chatBtn.addEventListener('click', openChat);
+            closePreview.addEventListener('click', hideBookPreview);
+            
+            // Book preview buttons
+            document.querySelectorAll('.book-card .btn-primary').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const bookId = parseInt(this.closest('.book-card').dataset.id || 1);
+                    showBookPreview(bookId);
+                });
+            });
+            
+            // Add to reading list buttons
+            document.querySelectorAll('.book-card .btn-outline').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const bookId = parseInt(this.closest('.book-card').dataset.id || 1);
+                    addToReadingList(bookId);
+                });
+            });
+            
+            // Scroll event for progress bar
+            window.addEventListener('scroll', updateProgressBar);
+            
+            // Play button sound for all buttons
+            document.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (!this.disabled) {
+                        buttonSound.currentTime = 0;
+                        buttonSound.play().catch(e => console.log("Button sound prevented:", e));
+                    }
+                });
+            });
+            
+            // Initialize theme from localStorage
+            initTheme();
+        });
+        
+        // Functions
+        function toggleMobileMenu() {
+            navMenu.classList.toggle('active');
+        }
+        
+        function checkLoginStatus() {
+            // In a real app, this would check with the server
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                currentUser = {
+                    name: "John Doe",
+                    email: "john@example.com",
+                    avatar: "https://randomuser.me/api/portraits/men/1.jpg"
+                };
+                updateLoginUI();
+            }
+        }
+        
+        function updateLoginUI() {
+            if (currentUser) {
+                loginLink.innerHTML = `
+                    <img src="${currentUser.avatar}" alt="User" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
+                    ${currentUser.name.split(' ')[0]}
+                `;
+                loginLink.href = "#";
+                loginLink.addEventListener('click', showUserDropdown);
+            } else {
+                loginLink.textContent = "Masuk";
+                loginLink.href = "#";
+                loginLink.addEventListener('click', showLoginModal);
+            }
+        }
+        
+        function showUserDropdown(e) {
+            e.preventDefault();
+            // In a real app, this would show a dropdown menu
+            alert(`Selamat datang, ${currentUser.name}`);
+        }
+        
+        function showLoginModal() {
+            loginModal.style.display = 'flex';
+            hideRegisterModal();
+        }
+        
+        function hideLoginModal() {
+            loginModal.style.display = 'none';
+        }
+        
+        function showRegisterModal() {
+            registerModal.style.display = 'flex';
+            hideLoginModal();
+        }
+        
+        function hideRegisterModal() {
+            registerModal.style.display = 'none';
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-theme');
+            themeBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            themeBtn.querySelector('.tooltip').textContent = isDark ? 'Mode Terang' : 'Mode Gelap';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+        
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+                themeBtn.querySelector('.tooltip').textContent = 'Mode Terang';
+            }
+        }
+        
+        function openChat() {
+            alert("Fitur live chat akan segera hadir!");
+        }
+        
+        function showBookPreview(bookId) {
+            const book = books.find(b => b.id === bookId) || books[0];
+            
+            // Update preview content
+            const preview = document.getElementById('book-preview');
+            preview.querySelector('.book-cover-large').src = book.cover;
+            preview.querySelector('.book-title-large').textContent = book.title;
+            preview.querySelector('.book-author-large').textContent = `Oleh: ${book.author}`;
+            preview.querySelector('.book-description').textContent = book.description;
+            
+            // Update metadata
+            const metaItems = preview.querySelectorAll('.book-meta-item');
+            metaItems[0].querySelector('span').textContent = `${book.pages} Halaman`;
+            metaItems[1].querySelector('span').textContent = `${book.rating} (${book.reviews} Ulasan)`;
+            metaItems[2].querySelector('span').textContent = `${book.downloads.toLocaleString()} Unduhan`;
+            
+            // Show preview
+            preview.classList.add('active');
+        }
+        
+        function hideBookPreview() {
+            document.getElementById('book-preview').classList.remove('active');
+        }
+        
+        function addToReadingList(bookId) {
+            if (!currentUser) {
+                showLoginModal();
+                return;
+            }
+            
+            const book = books.find(b => b.id === bookId);
+            if (book) {
+                readingList.push(book);
+                notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
+                
+                // Show notification
+                alert(`"${book.title}" telah ditambahkan ke daftar bacaan Anda.`);
+            }
+        }
+        
+        function updateProgressBar() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollProgress = (scrollTop / scrollHeight) * 100;
+            progressBar.style.width = scrollProgress + '%';
+            
+            // Show/hide back to top button
+            if (scrollTop > 300) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        }
+        
+        // Admin functions (would be more extensive in a real app)
+        function loadAdminPanel() {
+            // This would load the admin panel content
+            document.getElementById('admin-panel').style.display = 'grid';
+        }
+    </script>
 </body>
 </html>
