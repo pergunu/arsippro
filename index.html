@@ -3,168 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-PEDIA - Digital Encyclopedia</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="js/turn.js"></script>
+    <title>E-pedia - Perpustakaan Digital Interaktif</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/images/logo_e-pedia.png">
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div class="loading-content">
-            <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo">
-            <div class="spinner"></div>
-            <p>Loading Knowledge Universe...</p>
+    <header class="app-header">
+        <div class="logo-container">
+            <img src="assets/images/logo_e-pedia.png" alt="E-pedia Logo" class="logo">
+            <h1>E-pedia</h1>
+            <p>Perpustakaan Digital Interaktif</p>
         </div>
-    </div>
-
-    <!-- User Registration Modal -->
-    <div id="user-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo" class="modal-logo">
-            <h2>Welcome to E-PEDIA</h2>
-            <form id="user-form">
-                <div class="form-group">
-                    <label for="name">Full Name:</label>
-                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                    <label for="address">Address:</label>
-                    <input type="text" id="address" name="address" required placeholder="Enter your address">
-                </div>
-                <div class="form-group">
-                    <label for="whatsapp">WhatsApp Number:</label>
-                    <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Enter your WhatsApp number">
-                </div>
-                <button type="submit" class="submit-btn">Register & Explore</button>
-            </form>
+        <div class="theme-toggle">
+            <button id="themeToggleBtn" aria-label="Toggle dark mode">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
         </div>
-    </div>
+    </header>
 
-    <!-- Main Container -->
-    <div class="main-container">
-        <!-- Header -->
-        <header class="main-header">
-            <div class="logo-container">
-                <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo" class="logo">
-                <h1>E-PEDIA</h1>
-            </div>
-            <div class="user-info">
-                <span id="user-greeting">Welcome, Guest</span>
-                <button id="admin-login" class="admin-btn">Admin Panel</button>
-            </div>
-        </header>
-
-        <!-- Notification Bar -->
-        <div id="notification-bar">
-            <span id="notification-text">New book added: "History of Ancient Civilizations" - Check it out now!</span>
-            <span class="close-notification">&times;</span>
-        </div>
-
-        <!-- Library Section -->
-        <section class="library-section">
-            <div class="library-header">
-                <h2>Digital Library Collection</h2>
-                <div class="search-container">
-                    <input type="text" id="search-input" placeholder="Search books...">
-                    <button id="search-btn"><i class="fas fa-search"></i></button>
-                </div>
+    <main class="main-content">
+        <section class="book-list-section">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Cari buku atau artikel...">
+                <button id="searchBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
             </div>
 
-            <div class="books-grid">
-                <!-- Book items will be dynamically loaded here -->
-                <div class="book-item">
-                    <div class="book-cover" onclick="loadBook('history')">
-                        <img src="assets/images/gambar-cover.png" alt="Book Cover">
-                        <div class="book-overlay">
-                            <h3>History Encyclopedia</h3>
-                            <p>Explore ancient civilizations</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- More books will be added dynamically -->
+            <div class="filter-container">
+                <select id="categoryFilter">
+                    <option value="all">Semua Kategori</option>
+                    <option value="pendidikan">Pendidikan</option>
+                    <option value="agama">Agama</option>
+                    <option value="umum">Umum</option>
+                    <option value="sastra">Sastra</option>
+                    <option value="teknologi">Teknologi</option>
+                </select>
+                <select id="sortBy">
+                    <option value="recent">Terbaru</option>
+                    <option value="oldest">Terlama</option>
+                    <option value="title">Judul (A-Z)</option>
+                    <option value="popular">Populer</option>
+                </select>
+            </div>
+
+            <div class="books-grid" id="booksGrid">
+                <!-- Buku akan dimuat secara dinamis di sini -->
             </div>
         </section>
+    </main>
 
-        <!-- Footer -->
-        <footer class="main-footer">
-            <div class="footer-content">
-                <div class="footer-section about">
-                    <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo" class="footer-logo">
-                    <p>E-PEDIA (Easy PEDIA) – Comprehensive Digital Library for All Academic and Knowledge Needs</p>
-                    <p>Developed by Cendhanu Tim Kreator Pergunu Situbondo since 2025</p>
+    <!-- Modal Baca Buku -->
+    <div class="modal" id="bookModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="book-reader-container">
+                <div class="book-header">
+                    <h2 id="bookModalTitle"></h2>
+                    <div class="book-progress">
+                        <span id="currentPage">1</span> / <span id="totalPages">1</span>
+                    </div>
                 </div>
-                <div class="footer-section links">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
+                <div class="flipbook" id="flipbook">
+                    <!-- Halaman buku akan dimuat di sini -->
                 </div>
-                <div class="footer-section contact">
-                    <h3>Contact Us</h3>
-                    <p><i class="fas fa-envelope"></i> pergunusitubondo@gmail.com</p>
-                    <p><i class="fas fa-phone"></i> +62 856 4770 9114</p>
+                <div class="book-controls">
+                    <button id="prevPage" class="control-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                        Sebelumnya
+                    </button>
+                    <div class="reading-status">
+                        <input type="checkbox" id="markAsRead">
+                        <label for="markAsRead">Tandai sebagai selesai dibaca</label>
+                    </div>
+                    <button id="nextPage" class="control-btn">
+                        Selanjutnya
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
                 </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 E-PEDIA. All rights reserved.</p>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Book Reader Modal -->
-    <div id="book-modal" class="modal">
-        <div class="modal-content book-content">
-            <span class="close-book">&times;</span>
-            <div id="book-container">
-                <!-- Book content will be loaded here -->
-            </div>
-            <div class="book-controls">
-                <button id="prev-page"><i class="fas fa-arrow-left"></i> Previous</button>
-                <span id="page-indicator">Page 1 of 10</span>
-                <button id="next-page">Next <i class="fas fa-arrow-right"></i></button>
-                <button id="zoom-in"><i class="fas fa-search-plus"></i></button>
-                <button id="zoom-out"><i class="fas fa-search-minus"></i></button>
-                <button id="toc-toggle">Table of Contents</button>
-                <button id="add-bookmark"><i class="fas fa-bookmark"></i> Bookmark</button>
-                <input type="number" id="go-to-page" min="1" placeholder="Go to page...">
-                <button id="go-btn">Go</button>
+                <div class="additional-options">
+                    <button id="bookmarkBtn" class="option-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        Bookmark
+                    </button>
+                    <button id="downloadBtn" class="option-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Unduh PDF
+                    </button>
+                    <button id="ttsBtn" class="option-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                        Baca Lantang
+                    </button>
+                    <button id="shareBtn" class="option-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="18" cy="5" r="3"></circle>
+                            <circle cx="6" cy="12" r="3"></circle>
+                            <circle cx="18" cy="19" r="3"></circle>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                        </svg>
+                        Bagikan
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Table of Contents Sidebar -->
-    <div id="toc-sidebar">
-        <div class="toc-header">
-            <h3>Table of Contents</h3>
-            <span class="close-toc">&times;</span>
-        </div>
-        <ul id="toc-list">
-            <!-- TOC items will be loaded here -->
-        </ul>
-    </div>
-
-    <!-- Admin Login Modal -->
-    <div id="admin-modal" class="modal">
-        <div class="modal-content admin-login">
-            <span class="close-admin">&times;</span>
-            <img src="assets/images/logo_e-pedia.png" alt="E-PEDIA Logo" class="modal-logo">
-            <h2>Admin Login</h2>
-            <form id="admin-form">
-                <div class="form-group">
-                    <label for="admin-password">Password:</label>
-                    <input type="password" id="admin-password" name="password" required placeholder="Enter admin password">
-                </div>
-                <button type="submit" class="submit-btn">Login</button>
-            </form>
+    <!-- Modal Admin Login -->
+    <div class="modal" id="adminLoginModal">
+        <div class="modal-content small-modal">
+            <span class="close-modal">&times;</span>
+            <h2>Panel Admin</h2>
+            <p>Masukkan kode sandi untuk mengakses panel admin:</p>
+            <input type="password" id="adminPassword" placeholder="Masukkan kode sandi">
+            <button id="adminLoginBtn">Masuk</button>
+            <p class="error-message" id="adminLoginError"></p>
         </div>
     </div>
 
-    <script src="js/script.js"></script>
+    <!-- Floating Admin Button -->
+    <button class="floating-admin-btn" id="floatingAdminBtn" title="Kontrol Panel Admin">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+    </button>
+
+    <script src="libs/turn.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
