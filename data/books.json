@@ -1,0 +1,60 @@
+[
+  {
+    "id": 1,
+    "title": "Pengantar Pendidikan Karakter",
+    "author": "Tim Cendhanu Pergunu",
+    "description": "Buku panduan untuk memahami pentingnya pendidikan karakter dalam pembelajaran.",
+    "category": "pendidikan",
+    "cover": "assets/images/default-book-cover.jpg",
+    "pages": [
+      {
+        "number": 1,
+        "content": "<h1>Pengantar Pendidikan Karakter</h1><p>Pendidikan karakter adalah suatu sistem penanaman nilai-nilai karakter kepada warga sekolah yang meliputi komponen pengetahuan, kesadaran atau kemauan, dan tindakan untuk melaksanakan nilai-nilai tersebut.</p>"
+      },
+      {
+        "number": 2,
+        "content": "<h2>Manfaat Pendidikan Karakter</h2><p>Pendidikan karakter memiliki banyak manfaat, antara lain: membentuk kepribadian yang kuat, meningkatkan kecerdasan emosional, dan menciptakan lingkungan belajar yang positif.</p>"
+      },
+      {
+        "number": 3,
+        "content": "<h2>Implementasi di Sekolah</h2><p>Implementasi pendidikan karakter di sekolah dapat dilakukan melalui: integrasi dalam mata pelajaran, pembiasaan sehari-hari, dan keteladanan dari guru.</p>"
+      }
+    ],
+    "read": false,
+    "lastReadPage": 1,
+    "bookmarked": false,
+    "views": 0,
+    "createdAt": "2023-06-15T10:30:00Z"
+  },
+  {
+    "id": 2,
+    "title": "Fiqih Ibadah untuk Pemula",
+    "author": "Ust. Ahmad Zaini",
+    "description": "Panduan lengkap tata cara ibadah sehari-hari sesuai sunnah Nabi Muhammad SAW.",
+    "category": "agama",
+    "cover": "assets/images/default-book-cover.jpg",
+    "pages": [
+      {
+        "number": 1,
+        "content": "<h1>Fiqih Ibadah untuk Pemula</h1><p>Buku ini membahas tata cara ibadah sehari-hari yang benar sesuai dengan sunnah Nabi Muhammad SAW.</p>"
+      },
+      {
+        "number": 2,
+        "content": "<h2>Bersuci (Thaharah)</h2><p>Bab ini menjelaskan tentang tata cara wudhu, mandi wajib, dan tayammum dengan lengkap.</p>"
+      },
+      {
+        "number": 3,
+        "content": "<h2>Shalat Wajib</h2><p>Panduan lengkap tentang syarat, rukun, dan sunnah-sunnah dalam shalat wajib.</p>"
+      },
+      {
+        "number": 4,
+        "content": "<h2>Shalat Sunnah</h2><p>Penjelasan tentang berbagai macam shalat sunnah dan keutamaannya.</p>"
+      }
+    ],
+    "read": false,
+    "lastReadPage": 1,
+    "bookmarked": false,
+    "views": 0,
+    "createdAt": "2023-06-16T14:45:00Z"
+  }
+]
