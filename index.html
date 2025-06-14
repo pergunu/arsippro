@@ -2038,6 +2038,47 @@
             opacity: 1;
             left: 80px;
         }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--color-card);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            color: var(--color-text);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--color-border);
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -2070,7 +2111,15 @@
                     <a href="#kontak" class="nav-link">Kontak</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" id="login-link">Masuk</a>
+                    <div class="dropdown" id="user-dropdown">
+                        <a href="#" class="nav-link" id="login-link">Masuk</a>
+                        <div class="dropdown-content" id="dropdown-menu">
+                            <a href="#" class="dropdown-item"><i class="fas fa-user-circle mr-2"></i> Profil</a>
+                            <a href="#" class="dropdown-item"><i class="fas fa-bookmark mr-2"></i> Daftar Bacaan</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt mr-2"></i> Keluar</a>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -2305,8 +2354,8 @@
         <div class="newsletter">
             <h2 class="newsletter-title">Berlangganan Newsletter</h2>
             <p class="newsletter-text">Dapatkan update terbaru tentang koleksi buku, event, dan konten eksklusif langsung ke email Anda.</p>
-            <form class="newsletter-form">
-                <input type="email" class="newsletter-input" placeholder="Alamat email Anda">
+            <form class="newsletter-form" id="newsletter-form">
+                <input type="email" class="newsletter-input" id="newsletter-email" placeholder="Alamat email Anda" required>
                 <button type="submit" class="newsletter-btn">Berlangganan</button>
             </form>
         </div>
@@ -2453,11 +2502,11 @@
                     </div>
                     <div class="form-group">
                         <label for="register-password" class="form-label">Password</label>
-                        <input type="password" id="register-password" class="form-control" placeholder="Buat password" required>
+                        <input type="password" id="register-password" class="form-control" placeholder="Buat password" required minlength="6">
                     </div>
                     <div class="form-group">
                         <label for="register-confirm" class="form-label">Konfirmasi Password</label>
-                        <input type="password" id="register-confirm" class="form-control" placeholder="Ulangi password" required>
+                        <input type="password" id="register-confirm" class="form-control" placeholder="Ulangi password" required minlength="6">
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" style="width: 100%;">Daftar</button>
@@ -2937,6 +2986,10 @@
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
         const adminSettingsForm = document.getElementById('admin-settings-form');
+        const logoutBtn = document.getElementById('logout-btn');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+        const userDropdown = document.getElementById('user-dropdown');
+        const newsletterForm = document.getElementById('newsletter-form');
         
         // Audio elements
         const buttonSound = document.getElementById('button-sound');
@@ -3209,6 +3262,8 @@
             adminLogout.addEventListener('click', logoutAdmin);
             readBookBtn.addEventListener('click', readBook);
             bookmarkBookBtn.addEventListener('click', toggleBookmark);
+            logoutBtn.addEventListener('click', logoutUser);
+            newsletterForm.addEventListener('submit', handleNewsletter);
             
             // Form submissions
             loginForm.addEventListener('submit', handleLogin);
@@ -3255,6 +3310,13 @@
             
             // Initialize theme from localStorage
             initTheme();
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userDropdown.contains(e.target)) {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
         });
         
         // Functions
@@ -3282,18 +3344,15 @@
                     ${currentUser.name.split(' ')[0]}
                 `;
                 loginLink.href = "#";
-                loginLink.addEventListener('click', showUserDropdown);
+                loginLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+                });
             } else {
                 loginLink.textContent = "Masuk";
                 loginLink.href = "#";
                 loginLink.addEventListener('click', showLoginModal);
             }
-        }
-        
-        function showUserDropdown(e) {
-            e.preventDefault();
-            // In a real app, this would show a dropdown menu
-            alert(`Selamat datang, ${currentUser.name}`);
         }
         
         function showLoginModal() {
@@ -3360,6 +3419,7 @@
         
         function logoutAdmin() {
             hideAdminPanel();
+            notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
             alert("Anda telah keluar dari panel admin.");
         }
         
@@ -3403,6 +3463,12 @@
             metaItems[0].querySelector('span').textContent = `${currentBook.pages} Halaman`;
             metaItems[1].querySelector('span').textContent = `${currentBook.rating} (${currentBook.reviews} Ulasan)`;
             metaItems[2].querySelector('span').textContent = `${currentBook.downloads.toLocaleString()} Unduhan`;
+            
+            // Update bookmark button
+            const isBookmarked = readingList.some(book => book.id === currentBook.id);
+            bookmarkBookBtn.innerHTML = isBookmarked 
+                ? '<i class="fas fa-bookmark"></i> Disimpan' 
+                : '<i class="far fa-bookmark"></i> Simpan';
             
             // Show preview
             preview.classList.add('active');
@@ -3484,6 +3550,7 @@
                 
                 updateLoginUI();
                 hideLoginModal();
+                notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
                 alert("Anda berhasil masuk!");
             } else {
                 alert("Silakan isi email dan password dengan benar.");
@@ -3502,6 +3569,11 @@
                 return;
             }
             
+            if (password.length < 6) {
+                alert("Password harus terdiri dari minimal 6 karakter!");
+                return;
+            }
+            
             // In a real app, this would register with the server
             if (name && email && password) {
                 currentUser = {
@@ -3515,10 +3587,20 @@
                 
                 updateLoginUI();
                 hideRegisterModal();
+                notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
                 alert("Pendaftaran berhasil! Anda sekarang masuk.");
             } else {
                 alert("Silakan isi semua field dengan benar.");
             }
+        }
+        
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('authToken');
+            updateLoginUI();
+            dropdownMenu.style.display = 'none';
+            notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
+            alert("Anda telah keluar dari akun Anda.");
         }
         
         function saveAdminSettings(e) {
@@ -3540,6 +3622,7 @@
                 localStorage.setItem('theme', 'light');
             }
             
+            notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
             alert("Pengaturan berhasil disimpan!");
         }
         
@@ -3566,6 +3649,19 @@
                 if (darkModeToggle) {
                     darkModeToggle.checked = true;
                 }
+            }
+        }
+        
+        function handleNewsletter(e) {
+            e.preventDefault();
+            const email = document.getElementById('newsletter-email').value;
+            
+            if (email) {
+                notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
+                alert(`Terima kasih telah berlangganan newsletter dengan email ${email}.`);
+                e.target.reset();
+            } else {
+                alert("Silakan masukkan alamat email yang valid.");
             }
         }
     </script>
