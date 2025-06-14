@@ -431,6 +431,89 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         return categories[category] || category;
     }
+
+    // Fitur Tambahan untuk E-pedia
+class EPediaFeatures {
+  constructor() {
+    this.speechSynthesis = window.speechSynthesis;
+    this.currentUtterance = null;
+  }
+  
+  // Text-to-Speech
+  textToSpeech(text, lang = 'id-ID') {
+    if (this.speechSynthesis) {
+      if (this.currentUtterance) {
+        this.speechSynthesis.cancel();
+      }
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang;
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      
+      this.currentUtterance = utterance;
+      this.speechSynthesis.speak(utterance);
+      
+      return utterance;
+    } else {
+      console.error('Text-to-Speech tidak didukung di browser ini');
+      return null;
+    }
+  }
+  
+  stopSpeech() {
+    if (this.speechSynthesis) {
+      this.speechSynthesis.cancel();
+      this.currentUtterance = null;
+    }
+  }
+  
+  // Web Share API
+  shareContent(title, text, url) {
+    if (navigator.share) {
+      return navigator.share({
+        title: title,
+        text: text,
+        url: url
+      });
+    } else {
+      // Fallback untuk browser yang tidak mendukung
+      const shareUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(text + '\n\n' + url)}`;
+      window.location.href = shareUrl;
+      return Promise.resolve();
+    }
+  }
+  
+  // Bookmarking
+  toggleBookmark(bookId) {
+    const books = JSON.parse(localStorage.getItem('epedia_books')) || [];
+    const bookIndex = books.findIndex(b => b.id === bookId);
+    
+    if (bookIndex !== -1) {
+      books[bookIndex].bookmarked = !books[bookIndex].bookmarked;
+      localStorage.setItem('epedia_books', JSON.stringify(books));
+      return books[bookIndex].bookmarked;
+    }
+    
+    return false;
+  }
+  
+  // Theme Management
+  toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('epedia_theme', newTheme);
+    
+    return newTheme;
+  }
+  
+  // ... tambahkan fitur lainnya sesuai kebutuhan ...
+}
+
+// Ekspor singleton instance
+const ePediaFeatures = new EPediaFeatures();
     
     // Tutup modal ketika klik di luar konten modal
     window.addEventListener('click', function(event) {
