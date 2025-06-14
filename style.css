@@ -519,4 +519,53 @@ body {
         width: 20px;
         height: 20px;
     }
+/* Flipbook Styles */
+.turn-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  perspective: 1500px;
+}
+
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.page img {
+  max-width: 100%;
+  height: auto;
+}
+
+.page h1, .page h2, .page h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.page p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+/* Animation for page turn */
+@keyframes turn-page {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(-180deg); }
+}
+
+/* Responsive Flipbook */
+@media (max-width: 768px) {
+  .turn-wrapper {
+    perspective: 1000px;
+  }
+  
+  .page {
+    padding: 1rem;
+  }
 }
