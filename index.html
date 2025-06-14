@@ -1269,20 +1269,12 @@
             display: grid;
             grid-template-columns: 250px 1fr;
             min-height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 2000;
-            background: var(--color-bg);
         }
 
         .admin-sidebar {
             background: var(--color-primary);
             color: white;
             padding: 20px 0;
-            height: 100vh;
-            overflow-y: auto;
         }
 
         .admin-logo {
@@ -1321,8 +1313,6 @@
         .admin-content {
             padding: 30px;
             background: var(--color-bg);
-            height: 100vh;
-            overflow-y: auto;
         }
 
         .admin-header {
@@ -2039,45 +2029,81 @@
             left: 80px;
         }
 
-        /* Dropdown Menu */
-        .dropdown {
-            position: relative;
-            display: inline-block;
+        /* Testimonial Form */
+        .testimonial-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background: var(--color-card);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: var(--color-card);
-            min-width: 200px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            z-index: 1;
+        .testimonial-form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--color-primary);
+        }
+
+        /* PDF Reader */
+        .pdf-reader-container {
+            width: 100%;
+            height: 80vh;
+            border: 1px solid var(--color-border);
             border-radius: 8px;
             overflow: hidden;
-            margin-top: 10px;
+            margin-top: 30px;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
+        .pdf-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: var(--color-primary);
+            color: white;
         }
 
-        .dropdown-item {
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            color: var(--color-text);
+        .pdf-viewer {
+            width: 100%;
+            height: calc(100% - 50px);
+            border: none;
+        }
+
+        /* Book Link Management */
+        .link-management {
+            margin-top: 20px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--color-border);
             transition: all 0.3s ease;
         }
 
-        .dropdown-item:hover {
-            background-color: rgba(52, 152, 219, 0.1);
+        .link-item:hover {
+            background: rgba(52, 152, 219, 0.05);
         }
 
-        .dropdown-divider {
-            height: 1px;
-            background-color: var(--color-border);
-            margin: 5px 0;
+        .link-title {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .link-url {
+            flex: 2;
+            color: var(--color-text-light);
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .link-actions {
+            display: flex;
+            gap: 10px;
         }
     </style>
 </head>
@@ -2111,15 +2137,7 @@
                     <a href="#kontak" class="nav-link">Kontak</a>
                 </li>
                 <li class="nav-item">
-                    <div class="dropdown" id="user-dropdown">
-                        <a href="#" class="nav-link" id="login-link">Masuk</a>
-                        <div class="dropdown-content" id="dropdown-menu">
-                            <a href="#" class="dropdown-item"><i class="fas fa-user-circle mr-2"></i> Profil</a>
-                            <a href="#" class="dropdown-item"><i class="fas fa-bookmark mr-2"></i> Daftar Bacaan</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt mr-2"></i> Keluar</a>
-                        </div>
-                    </div>
+                    <a href="#" class="nav-link" id="login-link">Masuk</a>
                 </li>
             </ul>
         </div>
@@ -2153,43 +2171,8 @@
                 </div>
             </div>
             <div class="featured-books">
-                <div class="featured-slider">
-                    <div class="featured-slide">
-                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="featured-cover">
-                        <div class="featured-details">
-                            <h3 class="featured-book-title">Pendidikan Karakter</h3>
-                            <p class="featured-book-author">Oleh: Prof. Dr. Ahmad Dahlan</p>
-                            <p class="featured-book-description">Buku ini membahas tentang pentingnya pendidikan karakter dalam membangun generasi muda yang berakhlak mulia dan berintegritas tinggi.</p>
-                            <button class="btn btn-primary btn-read" data-book-id="1">Baca Sekarang</button>
-                        </div>
-                    </div>
-                    <div class="featured-slide">
-                        <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="featured-cover">
-                        <div class="featured-details">
-                            <h3 class="featured-book-title">Matematika Dasar</h3>
-                            <p class="featured-book-author">Oleh: Dr. Sri Mulyani</p>
-                            <p class="featured-book-description">Panduan lengkap untuk memahami konsep dasar matematika dengan pendekatan yang mudah dipahami dan contoh aplikasi sehari-hari.</p>
-                            <button class="btn btn-primary btn-read" data-book-id="2">Baca Sekarang</button>
-                        </div>
-                    </div>
-                    <div class="featured-slide">
-                        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="featured-cover">
-                        <div class="featured-details">
-                            <h3 class="featured-book-title">Sejarah Islam</h3>
-                            <p class="featured-book-author">Oleh: Prof. Dr. Komaruddin Hidayat</p>
-                            <p class="featured-book-description">Mengungkap perjalanan sejarah Islam dari masa ke masa dengan analisis mendalam dan referensi yang akurat.</p>
-                            <button class="btn btn-primary btn-read" data-book-id="3">Baca Sekarang</button>
-                        </div>
-                    </div>
-                    <div class="featured-slide">
-                        <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="featured-cover">
-                        <div class="featured-details">
-                            <h3 class="featured-book-title">Sains Modern</h3>
-                            <p class="featured-book-author">Oleh: Dr. Eng. Bambang Permadi</p>
-                            <p class="featured-book-description">Eksplorasi perkembangan sains modern dan dampaknya terhadap kehidupan manusia di abad ke-21.</p>
-                            <button class="btn btn-primary btn-read" data-book-id="4">Baca Sekarang</button>
-                        </div>
-                    </div>
+                <div class="featured-slider" id="featured-slider">
+                    <!-- Featured books will be loaded here by JavaScript -->
                 </div>
             </div>
         </div>
@@ -2202,42 +2185,8 @@
                     <button class="btn btn-outline">Lihat Semua</button>
                 </div>
             </div>
-            <div class="categories-list">
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="fas fa-book-quran"></i>
-                    </div>
-                    <h3 class="category-title">Agama</h3>
-                    <p class="category-count">245 Buku</p>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h3 class="category-title">Pendidikan</h3>
-                    <p class="category-count">189 Buku</p>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <h3 class="category-title">Sains</h3>
-                    <p class="category-count">132 Buku</p>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h3 class="category-title">Teknologi</h3>
-                    <p class="category-count">98 Buku</p>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="fas fa-landmark"></i>
-                    </div>
-                    <h3 class="category-title">Sejarah</h3>
-                    <p class="category-count">76 Buku</p>
-                </div>
+            <div class="categories-list" id="categories-list">
+                <!-- Categories will be loaded here by JavaScript -->
             </div>
         </div>
 
@@ -2249,85 +2198,8 @@
                     <button class="btn btn-outline">Lihat Semua</button>
                 </div>
             </div>
-            <div class="books-grid">
-                <div class="book-card" data-id="1">
-                    <span class="book-badge">Baru</span>
-                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="book-cover">
-                    <div class="book-details">
-                        <h3 class="book-title">Metode Penelitian Pendidikan</h3>
-                        <p class="book-author">Oleh: Prof. Dr. Sutrisno Hadi</p>
-                        <div class="book-meta">
-                            <span class="book-category">Pendidikan</span>
-                            <span class="book-rating">
-                                <i class="fas fa-star"></i> 4.8
-                            </span>
-                        </div>
-                        <div class="book-actions" style="margin-top: 15px;">
-                            <button class="btn btn-primary btn-read" data-book-id="1" style="flex: 1;">Baca</button>
-                            <button class="btn btn-outline btn-bookmark" data-book-id="1">
-                                <i class="far fa-bookmark"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="book-card" data-id="2">
-                    <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="book-cover">
-                    <div class="book-details">
-                        <h3 class="book-title">Konsep Dasar Kimia</h3>
-                        <p class="book-author">Oleh: Dr. Ir. Budi Santoso</p>
-                        <div class="book-meta">
-                            <span class="book-category">Sains</span>
-                            <span class="book-rating">
-                                <i class="fas fa-star"></i> 4.5
-                            </span>
-                        </div>
-                        <div class="book-actions" style="margin-top: 15px;">
-                            <button class="btn btn-primary btn-read" data-book-id="2" style="flex: 1;">Baca</button>
-                            <button class="btn btn-outline btn-bookmark" data-book-id="2">
-                                <i class="far fa-bookmark"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="book-card" data-id="3">
-                    <span class="book-badge">Populer</span>
-                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="book-cover">
-                    <div class="book-details">
-                        <h3 class="book-title">Filsafat Pendidikan Islam</h3>
-                        <p class="book-author">Oleh: Dr. H. Abdul Malik</p>
-                        <div class="book-meta">
-                            <span class="book-category">Agama</span>
-                            <span class="book-rating">
-                                <i class="fas fa-star"></i> 4.9
-                            </span>
-                        </div>
-                        <div class="book-actions" style="margin-top: 15px;">
-                            <button class="btn btn-primary btn-read" data-book-id="3" style="flex: 1;">Baca</button>
-                            <button class="btn btn-outline btn-bookmark" data-book-id="3">
-                                <i class="far fa-bookmark"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="book-card" data-id="4">
-                    <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="book-cover">
-                    <div class="book-details">
-                        <h3 class="book-title">Pengantar Teknologi Informasi</h3>
-                        <p class="book-author">Oleh: Dr. Eng. Rini Wijaya</p>
-                        <div class="book-meta">
-                            <span class="book-category">Teknologi</span>
-                            <span class="book-rating">
-                                <i class="fas fa-star"></i> 4.7
-                            </span>
-                        </div>
-                        <div class="book-actions" style="margin-top: 15px;">
-                            <button class="btn btn-primary btn-read" data-book-id="4" style="flex: 1;">Baca</button>
-                            <button class="btn btn-outline btn-bookmark" data-book-id="4">
-                                <i class="far fa-bookmark"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="books-grid" id="books-grid">
+                <!-- Books will be loaded here by JavaScript -->
             </div>
         </div>
 
@@ -2335,18 +2207,12 @@
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">Apa Kata Mereka?</h2>
-            </div>
-            <div class="testimonials">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">Perpustakaan digital PERGUNU sangat membantu saya dalam menunjang pembelajaran. Koleksi bukunya lengkap dan mudah diakses kapan saja.</p>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="testimonial-avatar">
-                        <div>
-                            <h4 class="testimonial-name">Siti Aminah</h4>
-                            <p class="testimonial-role">Guru SMA Negeri 1 Situbondo</p>
-                        </div>
-                    </div>
+                <div class="card-actions">
+                    <button class="btn btn-outline" id="add-testimonial-btn">Tambah Testimoni</button>
                 </div>
+            </div>
+            <div class="testimonials" id="testimonials-container">
+                <!-- Testimonials will be loaded here by JavaScript -->
             </div>
         </div>
 
@@ -2355,7 +2221,7 @@
             <h2 class="newsletter-title">Berlangganan Newsletter</h2>
             <p class="newsletter-text">Dapatkan update terbaru tentang koleksi buku, event, dan konten eksklusif langsung ke email Anda.</p>
             <form class="newsletter-form" id="newsletter-form">
-                <input type="email" class="newsletter-input" id="newsletter-email" placeholder="Alamat email Anda" required>
+                <input type="email" class="newsletter-input" placeholder="Alamat email Anda" required>
                 <button type="submit" class="newsletter-btn">Berlangganan</button>
             </form>
         </div>
@@ -2388,12 +2254,8 @@
             </div>
             <div>
                 <h3 class="footer-title">Kategori Populer</h3>
-                <ul class="footer-links">
-                    <li class="footer-link-item"><a href="#" class="footer-link">Agama</a></li>
-                    <li class="footer-link-item"><a href="#" class="footer-link">Pendidikan</a></li>
-                    <li class="footer-link-item"><a href="#" class="footer-link">Sains</a></li>
-                    <li class="footer-link-item"><a href="#" class="footer-link">Teknologi</a></li>
-                    <li class="footer-link-item"><a href="#" class="footer-link">Sejarah</a></li>
+                <ul class="footer-links" id="footer-categories">
+                    <!-- Categories will be loaded here by JavaScript -->
                 </ul>
             </div>
             <div>
@@ -2502,11 +2364,11 @@
                     </div>
                     <div class="form-group">
                         <label for="register-password" class="form-label">Password</label>
-                        <input type="password" id="register-password" class="form-control" placeholder="Buat password" required minlength="6">
+                        <input type="password" id="register-password" class="form-control" placeholder="Buat password" required>
                     </div>
                     <div class="form-group">
                         <label for="register-confirm" class="form-label">Konfirmasi Password</label>
-                        <input type="password" id="register-confirm" class="form-control" placeholder="Ulangi password" required minlength="6">
+                        <input type="password" id="register-confirm" class="form-control" placeholder="Ulangi password" required>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" style="width: 100%;">Daftar</button>
@@ -2525,7 +2387,7 @@
             <span class="preview-close" id="close-preview">&times;</span>
             <div class="preview-body">
                 <div>
-                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Book Cover" class="book-cover-large">
+                    <img src="" alt="Book Cover" class="book-cover-large" id="preview-book-cover">
                     <div class="book-actions" style="margin-top: 20px;">
                         <button class="btn btn-primary" id="read-book-btn" style="flex: 1;">Baca Sekarang</button>
                         <button class="btn btn-outline" id="bookmark-book-btn">
@@ -2534,56 +2396,120 @@
                     </div>
                 </div>
                 <div>
-                    <h2 class="book-title-large">Pendidikan Karakter</h2>
-                    <p class="book-author-large">Oleh: Prof. Dr. Ahmad Dahlan</p>
+                    <h2 class="book-title-large" id="preview-book-title"></h2>
+                    <p class="book-author-large" id="preview-book-author"></p>
                     <div class="book-meta-large">
                         <div class="book-meta-item">
                             <i class="fas fa-book-open"></i>
-                            <span>250 Halaman</span>
+                            <span id="preview-book-pages"></span>
                         </div>
                         <div class="book-meta-item">
                             <i class="fas fa-star"></i>
-                            <span>4.8 (120 Ulasan)</span>
+                            <span id="preview-book-rating"></span>
                         </div>
                         <div class="book-meta-item">
                             <i class="fas fa-download"></i>
-                            <span>1.2K Unduhan</span>
+                            <span id="preview-book-downloads"></span>
                         </div>
                     </div>
                     <div class="rating" style="margin-bottom: 20px;">
-                        <div class="rating-stars">
+                        <div class="rating-stars" id="preview-book-stars">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
                         </div>
-                        <div class="rating-count">(120 ulasan)</div>
+                        <div class="rating-count" id="preview-book-reviews"></div>
                     </div>
                     <h3 style="margin-bottom: 15px;">Deskripsi Buku</h3>
-                    <p class="book-description">
-                        Buku "Pendidikan Karakter" karya Prof. Dr. Ahmad Dahlan membahas secara komprehensif tentang pentingnya pendidikan karakter dalam membangun generasi muda yang berakhlak mulia dan berintegritas tinggi. Buku ini menyajikan konsep-konsep dasar pendidikan karakter, metode pengajaran yang efektif, serta studi kasus dari berbagai lembaga pendidikan yang telah berhasil menerapkan pendidikan karakter.
-                        <br><br>
-                        Dengan gaya bahasa yang mudah dipahami namun tetap akademis, buku ini cocok untuk pendidik, orang tua, dan siapa saja yang peduli dengan pembentukan karakter generasi muda. Setiap bab dilengkapi dengan latihan dan refleksi yang membantu pembaca untuk menginternalisasi nilai-nilai karakter dalam kehidupan sehari-hari.
-                    </p>
+                    <p class="book-description" id="preview-book-description"></p>
                     <div style="margin-top: 20px;">
                         <h3 style="margin-bottom: 15px;">Detail Buku</h3>
                         <div class="book-meta-large">
                             <div class="book-meta-item">
                                 <i class="fas fa-tag"></i>
-                                <span>Pendidikan, Karakter</span>
+                                <span id="preview-book-tags"></span>
                             </div>
                             <div class="book-meta-item">
                                 <i class="fas fa-calendar-alt"></i>
-                                <span>2022</span>
+                                <span id="preview-book-year"></span>
                             </div>
                             <div class="book-meta-item">
                                 <i class="fas fa-language"></i>
-                                <span>Bahasa Indonesia</span>
+                                <span id="preview-book-language"></span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Reader Modal -->
+    <div class="modal" id="pdf-reader-modal">
+        <div class="modal-content" style="width: 90%; max-width: 1000px; height: 90vh;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="pdf-reader-title">Membaca Buku</h3>
+                <button class="modal-close" id="close-pdf-reader">&times;</button>
+            </div>
+            <div class="modal-body" style="height: calc(100% - 60px);">
+                <div class="pdf-reader-container">
+                    <div class="pdf-toolbar">
+                        <div>
+                            <button class="btn btn-sm btn-outline" id="prev-page">
+                                <i class="fas fa-chevron-left"></i> Sebelumnya
+                            </button>
+                            <span id="page-num" style="margin: 0 15px;">Halaman 1</span>
+                            <button class="btn btn-sm btn-outline" id="next-page">
+                                Berikutnya <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-outline" id="zoom-out">
+                                <i class="fas fa-search-minus"></i>
+                            </button>
+                            <span id="zoom-level" style="margin: 0 10px;">100%</span>
+                            <button class="btn btn-sm btn-outline" id="zoom-in">
+                                <i class="fas fa-search-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <iframe class="pdf-viewer" id="pdf-viewer" src="about:blank"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonial Form Modal -->
+    <div class="modal" id="testimonial-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Tambah Testimoni</h3>
+                <button class="modal-close" id="close-testimonial-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="testimonial-form" id="testimonial-form">
+                    <div class="form-group">
+                        <label for="testimonial-name" class="form-label">Nama Lengkap</label>
+                        <input type="text" id="testimonial-name" class="form-control" placeholder="Masukkan nama lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="testimonial-email" class="form-label">Email</label>
+                        <input type="email" id="testimonial-email" class="form-control" placeholder="Masukkan email Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="testimonial-role" class="form-label">Profesi/Peran</label>
+                        <input type="text" id="testimonial-role" class="form-control" placeholder="Contoh: Guru, Mahasiswa, Dll" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="testimonial-text" class="form-label">Testimoni Anda</label>
+                        <textarea id="testimonial-text" class="form-control" rows="5" placeholder="Bagikan pengalaman Anda menggunakan perpustakaan digital ini" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Kirim Testimoni</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -2615,9 +2541,9 @@
                         </a>
                     </li>
                     <li class="admin-menu-item">
-                        <a href="#" class="admin-menu-link" data-tab="users">
-                            <i class="fas fa-users admin-menu-icon"></i>
-                            Pengguna
+                        <a href="#" class="admin-menu-link" data-tab="testimonials">
+                            <i class="fas fa-comment admin-menu-icon"></i>
+                            Testimoni
                         </a>
                     </li>
                     <li class="admin-menu-item">
@@ -2647,19 +2573,19 @@
                 <div class="admin-tab-content" id="dashboard-tab">
                     <div class="stats-grid">
                         <div class="stats-card">
-                            <div class="stats-value">1,245</div>
+                            <div class="stats-value" id="total-books">0</div>
                             <div class="stats-label">Total Buku</div>
                         </div>
                         <div class="stats-card">
-                            <div class="stats-value">856</div>
+                            <div class="stats-value" id="total-users">0</div>
                             <div class="stats-label">Pengguna Terdaftar</div>
                         </div>
                         <div class="stats-card">
-                            <div class="stats-value">3,452</div>
+                            <div class="stats-value" id="total-downloads">0</div>
                             <div class="stats-label">Unduhan</div>
                         </div>
                         <div class="stats-card">
-                            <div class="stats-value">12</div>
+                            <div class="stats-value" id="total-categories">0</div>
                             <div class="stats-label">Kategori</div>
                         </div>
                     </div>
@@ -2678,31 +2604,8 @@
                                         <th>Detail</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>10 menit lalu</td>
-                                        <td>John Doe</td>
-                                        <td>Membaca buku</td>
-                                        <td>Pendidikan Karakter</td>
-                                    </tr>
-                                    <tr>
-                                        <td>30 menit lalu</td>
-                                        <td>Jane Smith</td>
-                                        <td>Mengunduh</td>
-                                        <td>Matematika Dasar</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1 jam lalu</td>
-                                        <td>Bob Johnson</td>
-                                        <td>Mendaftar</td>
-                                        <td>Pengguna baru</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2 jam lalu</td>
-                                        <td>Admin</td>
-                                        <td>Menambah buku</td>
-                                        <td>Sejarah Islam</td>
-                                    </tr>
+                                <tbody id="recent-activities">
+                                    <!-- Activities will be loaded here by JavaScript -->
                                 </tbody>
                             </table>
                         </div>
@@ -2726,50 +2629,12 @@
                                         <th>Judul</th>
                                         <th>Penulis</th>
                                         <th>Kategori</th>
-                                        <th>Rating</th>
+                                        <th>Link Baca</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" width="50" style="border-radius: 4px;"></td>
-                                        <td>Pendidikan Karakter</td>
-                                        <td>Prof. Dr. Ahmad Dahlan</td>
-                                        <td>Pendidikan</td>
-                                        <td>4.8</td>
-                                        <td>
-                                            <div class="table-actions">
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" width="50" style="border-radius: 4px;"></td>
-                                        <td>Matematika Dasar</td>
-                                        <td>Dr. Sri Mulyani</td>
-                                        <td>Pendidikan</td>
-                                        <td>4.5</td>
-                                        <td>
-                                            <div class="table-actions">
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" width="50" style="border-radius: 4px;"></td>
-                                        <td>Sejarah Islam</td>
-                                        <td>Prof. Dr. Komaruddin Hidayat</td>
-                                        <td>Agama</td>
-                                        <td>4.9</td>
-                                        <td>
-                                            <div class="table-actions">
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <tbody id="books-table-body">
+                                    <!-- Books will be loaded here by JavaScript -->
                                 </tbody>
                             </table>
                         </div>
@@ -2795,51 +2660,19 @@
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Agama</td>
-                                        <td>245</td>
-                                        <td><i class="fas fa-book-quran"></i></td>
-                                        <td>
-                                            <div class="table-actions">
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pendidikan</td>
-                                        <td>189</td>
-                                        <td><i class="fas fa-graduation-cap"></i></td>
-                                        <td>
-                                            <div class="table-actions">
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sains</td>
-                                        <td>132</td>
-                                        <td><i class="fas fa-flask"></i></td>
-                                        <td>
-                                            <div class="table-actions">
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <tbody id="categories-table-body">
+                                    <!-- Categories will be loaded here by JavaScript -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <!-- Users Tab -->
-                <div class="admin-tab-content" id="users-tab" style="display: none;">
+                <!-- Testimonials Tab -->
+                <div class="admin-tab-content" id="testimonials-tab" style="display: none;">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Manajemen Pengguna</h3>
+                            <h3 class="card-title">Manajemen Testimoni</h3>
                         </div>
                         <div class="card-body">
                             <table class="data-table">
@@ -2847,48 +2680,14 @@
                                     <tr>
                                         <th>Nama</th>
                                         <th>Email</th>
-                                        <th>Bergabung</th>
+                                        <th>Profesi</th>
+                                        <th>Testimoni</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>John Doe</td>
-                                        <td>john@example.com</td>
-                                        <td>12 Jan 2023</td>
-                                        <td><span class="badge badge-success">Aktif</span></td>
-                                        <td>
-                                            <div class="table-actions">
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jane Smith</td>
-                                        <td>jane@example.com</td>
-                                        <td>5 Feb 2023</td>
-                                        <td><span class="badge badge-success">Aktif</span></td>
-                                        <td>
-                                            <div class="table-actions">
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Bob Johnson</td>
-                                        <td>bob@example.com</td>
-                                        <td>20 Mar 2023</td>
-                                        <td><span class="badge badge-warning">Nonaktif</span></td>
-                                        <td>
-                                            <div class="table-actions">
-                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <tbody id="testimonials-table-body">
+                                    <!-- Testimonials will be loaded here by JavaScript -->
                                 </tbody>
                             </table>
                         </div>
@@ -2913,12 +2712,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Kode Akses Admin</label>
-                                    <input type="password" class="form-control" id="admin-password-input" value="65614222">
+                                    <input type="password" class="form-control" id="admin-password-input">
                                     <small class="form-text">Gunakan kode ini untuk mengakses panel admin</small>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Nomor WhatsApp Admin</label>
-                                    <input type="text" class="form-control" id="whatsapp-number-input" value="6285647709114">
+                                    <input type="text" class="form-control" id="whatsapp-number-input">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Mode Warna</label>
@@ -2941,20 +2740,146 @@
         </div>
     </div>
 
+    <!-- Add Book Modal -->
+    <div class="modal" id="add-book-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Tambah Buku Baru</h3>
+                <button class="modal-close" id="close-add-book-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="book-form">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="book-title" class="form-label">Judul Buku</label>
+                                <input type="text" id="book-title" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="book-author" class="form-label">Penulis</label>
+                                <input type="text" id="book-author" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="book-category" class="form-label">Kategori</label>
+                                <select id="book-category" class="form-control" required>
+                                    <!-- Categories will be loaded here by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="book-year" class="form-label">Tahun Terbit</label>
+                                <input type="number" id="book-year" class="form-control" min="1900" max="2099" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="book-description" class="form-label">Deskripsi</label>
+                        <textarea id="book-description" class="form-control" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="book-pages" class="form-label">Jumlah Halaman</label>
+                                <input type="number" id="book-pages" class="form-control" min="1" required>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="book-language" class="form-label">Bahasa</label>
+                                <input type="text" id="book-language" class="form-control" value="Bahasa Indonesia" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="book-link" class="form-label">Link Baca (URL)</label>
+                        <input type="url" id="book-link" class="form-control" placeholder="https://example.com/buku" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="book-cover-url" class="form-label">URL Cover Buku</label>
+                        <input type="url" id="book-cover-url" class="form-control" placeholder="https://example.com/cover.jpg">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="book-featured">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span style="margin-left: 10px;">Featured</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Simpan Buku</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div class="modal" id="add-category-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Tambah Kategori Baru</h3>
+                <button class="modal-close" id="close-add-category-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="category-form">
+                    <div class="form-group">
+                        <label for="category-name" class="form-label">Nama Kategori</label>
+                        <input type="text" id="category-name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category-icon" class="form-label">Icon (Font Awesome)</label>
+                        <input type="text" id="category-icon" class="form-control" placeholder="fas fa-book" required>
+                        <small class="form-text">Gunakan nama class icon dari Font Awesome (contoh: fas fa-book)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Simpan Kategori</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Audio Elements -->
     <audio id="button-sound" src="https://github.com/pergunu/pergunusmart/raw/main/assets/audio/audiotombol.mp3" preload="auto"></audio>
     <audio id="notification-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" preload="auto"></audio>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
     <script>
         // Global variables
         let currentUser = null;
         let currentBook = null;
         let books = [];
         let categories = [];
+        let testimonials = [];
         let readingList = [];
         let adminPassword = "65614222"; // Default admin password
         let whatsappNumber = "6285647709114"; // Default WhatsApp number
+        let currentPdf = null;
+        let currentPage = 1;
+        let pdfScale = 1.0;
+        
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
         
         // DOM Elements
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -2986,10 +2911,29 @@
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
         const adminSettingsForm = document.getElementById('admin-settings-form');
-        const logoutBtn = document.getElementById('logout-btn');
-        const dropdownMenu = document.getElementById('dropdown-menu');
-        const userDropdown = document.getElementById('user-dropdown');
-        const newsletterForm = document.getElementById('newsletter-form');
+        const pdfReaderModal = document.getElementById('pdf-reader-modal');
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const pdfReaderTitle = document.getElementById('pdf-reader-title');
+        const closePdfReader = document.getElementById('close-pdf-reader');
+        const prevPageBtn = document.getElementById('prev-page');
+        const nextPageBtn = document.getElementById('next-page');
+        const pageNumSpan = document.getElementById('page-num');
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        const zoomLevelSpan = document.getElementById('zoom-level');
+        const testimonialModal = document.getElementById('testimonial-modal');
+        const testimonialForm = document.getElementById('testimonial-form');
+        const addTestimonialBtn = document.getElementById('add-testimonial-btn');
+        const closeTestimonialModal = document.getElementById('close-testimonial-modal');
+        const addBookBtn = document.getElementById('add-book-btn');
+        const addBookModal = document.getElementById('add-book-modal');
+        const closeAddBookModal = document.getElementById('close-add-book-modal');
+        const bookForm = document.getElementById('book-form');
+        const addCategoryBtn = document.getElementById('add-category-btn');
+        const addCategoryModal = document.getElementById('add-category-modal');
+        const closeAddCategoryModal = document.getElementById('close-add-category-modal');
+        const categoryForm = document.getElementById('category-form');
+        const bookCategorySelect = document.getElementById('book-category');
         
         // Audio elements
         const buttonSound = document.getElementById('button-sound');
@@ -3011,6 +2955,7 @@
                 language: "Bahasa Indonesia",
                 category: "Pendidikan",
                 tags: ["Pendidikan", "Karakter"],
+                link: "https://pergunu.github.io/pendidikan-karakter",
                 isNew: true,
                 isFeatured: true
             },
@@ -3028,6 +2973,7 @@
                 language: "Bahasa Indonesia",
                 category: "Pendidikan",
                 tags: ["Matematika", "Dasar"],
+                link: "https://pergunu.github.io/matematika-dasar",
                 isFeatured: true
             },
             {
@@ -3044,6 +2990,7 @@
                 language: "Bahasa Indonesia",
                 category: "Agama",
                 tags: ["Sejarah", "Islam"],
+                link: "https://pergunu.github.io/sejarah-islam",
                 isPopular: true,
                 isFeatured: true
             },
@@ -3061,6 +3008,7 @@
                 language: "Bahasa Indonesia",
                 category: "Sains",
                 tags: ["Sains", "Teknologi"],
+                link: "https://pergunu.github.io/sains-modern",
                 isFeatured: true
             },
             {
@@ -3077,6 +3025,7 @@
                 language: "Bahasa Indonesia",
                 category: "Pendidikan",
                 tags: ["Penelitian", "Pendidikan"],
+                link: "https://pergunu.github.io/metode-penelitian",
                 isNew: true
             },
             {
@@ -3092,7 +3041,8 @@
                 year: 2022,
                 language: "Bahasa Indonesia",
                 category: "Sains",
-                tags: ["Kimia", "Dasar"]
+                tags: ["Kimia", "Dasar"],
+                link: "https://pergunu.github.io/kimia-dasar"
             },
             {
                 id: 7,
@@ -3108,6 +3058,7 @@
                 language: "Bahasa Indonesia",
                 category: "Agama",
                 tags: ["Filsafat", "Pendidikan", "Islam"],
+                link: "https://pergunu.github.io/filsafat-pendidikan",
                 isPopular: true
             },
             {
@@ -3123,7 +3074,8 @@
                 year: 2023,
                 language: "Bahasa Indonesia",
                 category: "Teknologi",
-                tags: ["Teknologi", "Informasi"]
+                tags: ["Teknologi", "Informasi"],
+                link: "https://pergunu.github.io/teknologi-informasi"
             }
         ];
 
@@ -3136,6 +3088,36 @@
             { id: 6, name: "Sastra", count: 65, icon: "book-open" },
             { id: 7, name: "Bisnis", count: 54, icon: "chart-line" },
             { id: 8, name: "Kesehatan", count: 43, icon: "heartbeat" }
+        ];
+
+        const SAMPLE_TESTIMONIALS = [
+            {
+                id: 1,
+                name: "Siti Aminah",
+                email: "siti.aminah@example.com",
+                role: "Guru SMA Negeri 1 Situbondo",
+                text: "Perpustakaan digital PERGUNU sangat membantu saya dalam menunjang pembelajaran. Koleksi bukunya lengkap dan mudah diakses kapan saja.",
+                avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+                status: "approved"
+            },
+            {
+                id: 2,
+                name: "Budi Santoso",
+                email: "budi.santoso@example.com",
+                role: "Mahasiswa Universitas Jember",
+                text: "Saya sangat terbantu dengan adanya perpustakaan digital ini. Bisa mengakses buku kapan saja dan di mana saja sangat memudahkan belajar.",
+                avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+                status: "approved"
+            },
+            {
+                id: 3,
+                name: "Rina Wijaya",
+                email: "rina.wijaya@example.com",
+                role: "Dosen STIKES Situbondo",
+                text: "Koleksi buku yang berkualitas dan interface yang user friendly membuat pengalaman membaca menjadi sangat menyenangkan.",
+                avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+                status: "approved"
+            }
         ];
 
         // Initialize the application
@@ -3242,6 +3224,13 @@
             // Load sample data
             books = SAMPLE_BOOKS;
             categories = SAMPLE_CATEGORIES;
+            testimonials = SAMPLE_TESTIMONIALS;
+            
+            // Render initial data
+            renderBooks();
+            renderCategories();
+            renderTestimonials();
+            renderFooterCategories();
             
             // Check if user is logged in
             checkLoginStatus();
@@ -3262,13 +3251,25 @@
             adminLogout.addEventListener('click', logoutAdmin);
             readBookBtn.addEventListener('click', readBook);
             bookmarkBookBtn.addEventListener('click', toggleBookmark);
-            logoutBtn.addEventListener('click', logoutUser);
-            newsletterForm.addEventListener('submit', handleNewsletter);
+            closePdfReader.addEventListener('click', hidePdfReader);
+            prevPageBtn.addEventListener('click', prevPage);
+            nextPageBtn.addEventListener('click', nextPage);
+            zoomInBtn.addEventListener('click', zoomIn);
+            zoomOutBtn.addEventListener('click', zoomOut);
+            addTestimonialBtn.addEventListener('click', showTestimonialModal);
+            closeTestimonialModal.addEventListener('click', hideTestimonialModal);
+            addBookBtn.addEventListener('click', showAddBookModal);
+            closeAddBookModal.addEventListener('click', hideAddBookModal);
+            addCategoryBtn.addEventListener('click', showAddCategoryModal);
+            closeAddCategoryModal.addEventListener('click', hideAddCategoryModal);
             
             // Form submissions
             loginForm.addEventListener('submit', handleLogin);
             registerForm.addEventListener('submit', handleRegister);
             adminSettingsForm.addEventListener('submit', saveAdminSettings);
+            testimonialForm.addEventListener('submit', handleTestimonialSubmit);
+            bookForm.addEventListener('submit', handleBookSubmit);
+            categoryForm.addEventListener('submit', handleCategorySubmit);
             
             // Admin menu tabs
             document.querySelectorAll('.admin-menu-link').forEach(link => {
@@ -3276,22 +3277,6 @@
                     e.preventDefault();
                     const tab = this.getAttribute('data-tab');
                     showAdminTab(tab);
-                });
-            });
-            
-            // Book read buttons
-            document.querySelectorAll('.btn-read').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const bookId = parseInt(this.getAttribute('data-book-id'));
-                    showBookPreview(bookId);
-                });
-            });
-            
-            // Bookmark buttons
-            document.querySelectorAll('.btn-bookmark').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const bookId = parseInt(this.getAttribute('data-book-id'));
-                    addToReadingList(bookId);
                 });
             });
             
@@ -3311,12 +3296,8 @@
             // Initialize theme from localStorage
             initTheme();
             
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!userDropdown.contains(e.target)) {
-                    dropdownMenu.style.display = 'none';
-                }
-            });
+            // Initialize admin settings
+            initAdminSettings();
         });
         
         // Functions
@@ -3344,15 +3325,18 @@
                     ${currentUser.name.split(' ')[0]}
                 `;
                 loginLink.href = "#";
-                loginLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-                });
+                loginLink.addEventListener('click', showUserDropdown);
             } else {
                 loginLink.textContent = "Masuk";
                 loginLink.href = "#";
                 loginLink.addEventListener('click', showLoginModal);
             }
+        }
+        
+        function showUserDropdown(e) {
+            e.preventDefault();
+            // In a real app, this would show a dropdown menu
+            alert(`Selamat datang, ${currentUser.name}`);
         }
         
         function showLoginModal() {
@@ -3410,6 +3394,11 @@
             adminPanel.style.display = 'block';
             showAdminTab('dashboard');
             document.body.style.overflow = 'hidden';
+            updateAdminStats();
+            renderAdminBooks();
+            renderAdminCategories();
+            renderAdminTestimonials();
+            populateCategorySelect();
         }
         
         function hideAdminPanel() {
@@ -3419,7 +3408,6 @@
         
         function logoutAdmin() {
             hideAdminPanel();
-            notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
             alert("Anda telah keluar dari panel admin.");
         }
         
@@ -3444,38 +3432,363 @@
                 tab === 'dashboard' ? 'Dashboard' :
                 tab === 'books' ? 'Manajemen Buku' :
                 tab === 'categories' ? 'Kategori' :
-                tab === 'users' ? 'Pengguna' :
+                tab === 'testimonials' ? 'Testimoni' :
                 tab === 'settings' ? 'Pengaturan' : '';
+        }
+        
+        function updateAdminStats() {
+            document.getElementById('total-books').textContent = books.length;
+            document.getElementById('total-users').textContent = currentUser ? "1" : "0";
+            document.getElementById('total-downloads').textContent = books.reduce((sum, book) => sum + book.downloads, 0);
+            document.getElementById('total-categories').textContent = categories.length;
+            
+            // Update recent activities
+            const activities = [
+                { time: "10 menit lalu", user: "John Doe", activity: "Membaca buku", detail: "Pendidikan Karakter" },
+                { time: "30 menit lalu", user: "Jane Smith", activity: "Mengunduh", detail: "Matematika Dasar" },
+                { time: "1 jam lalu", user: "Bob Johnson", activity: "Mendaftar", detail: "Pengguna baru" },
+                { time: "2 jam lalu", user: "Admin", activity: "Menambah buku", detail: "Sejarah Islam" }
+            ];
+            
+            const activitiesTable = document.getElementById('recent-activities');
+            activitiesTable.innerHTML = '';
+            
+            activities.forEach(activity => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${activity.time}</td>
+                    <td>${activity.user}</td>
+                    <td>${activity.activity}</td>
+                    <td>${activity.detail}</td>
+                `;
+                activitiesTable.appendChild(row);
+            });
+        }
+        
+        function renderBooks() {
+            const featuredSlider = document.getElementById('featured-slider');
+            const booksGrid = document.getElementById('books-grid');
+            
+            // Clear existing content
+            featuredSlider.innerHTML = '';
+            booksGrid.innerHTML = '';
+            
+            // Render featured books
+            const featuredBooks = books.filter(book => book.isFeatured);
+            featuredBooks.forEach(book => {
+                const slide = document.createElement('div');
+                slide.className = 'featured-slide';
+                slide.innerHTML = `
+                    <img src="${book.cover}" alt="Book Cover" class="featured-cover">
+                    <div class="featured-details">
+                        <h3 class="featured-book-title">${book.title}</h3>
+                        <p class="featured-book-author">Oleh: ${book.author}</p>
+                        <p class="featured-book-description">${book.description}</p>
+                        <button class="btn btn-primary btn-read" data-book-id="${book.id}">Baca Sekarang</button>
+                    </div>
+                `;
+                featuredSlider.appendChild(slide);
+            });
+            
+            // Render all books
+            books.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                bookCard.setAttribute('data-id', book.id);
+                
+                let badge = '';
+                if (book.isNew) {
+                    badge = '<span class="book-badge">Baru</span>';
+                } else if (book.isPopular) {
+                    badge = '<span class="book-badge">Populer</span>';
+                }
+                
+                bookCard.innerHTML = `
+                    ${badge}
+                    <img src="${book.cover}" alt="Book Cover" class="book-cover">
+                    <div class="book-details">
+                        <h3 class="book-title">${book.title}</h3>
+                        <p class="book-author">Oleh: ${book.author}</p>
+                        <div class="book-meta">
+                            <span class="book-category">${book.category}</span>
+                            <span class="book-rating">
+                                <i class="fas fa-star"></i> ${book.rating}
+                            </span>
+                        </div>
+                        <div class="book-actions" style="margin-top: 15px;">
+                            <button class="btn btn-primary btn-read" data-book-id="${book.id}" style="flex: 1;">Baca</button>
+                            <button class="btn btn-outline btn-bookmark" data-book-id="${book.id}">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                booksGrid.appendChild(bookCard);
+            });
+            
+            // Add event listeners to read buttons
+            document.querySelectorAll('.btn-read').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const bookId = parseInt(this.getAttribute('data-book-id'));
+                    showBookPreview(bookId);
+                });
+            });
+            
+            // Add event listeners to bookmark buttons
+            document.querySelectorAll('.btn-bookmark').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const bookId = parseInt(this.getAttribute('data-book-id'));
+                    addToReadingList(bookId);
+                });
+            });
+        }
+        
+        function renderCategories() {
+            const categoriesList = document.getElementById('categories-list');
+            categoriesList.innerHTML = '';
+            
+            categories.forEach(category => {
+                const categoryCard = document.createElement('div');
+                categoryCard.className = 'category-card';
+                categoryCard.innerHTML = `
+                    <div class="category-icon">
+                        <i class="fas fa-${category.icon}"></i>
+                    </div>
+                    <h3 class="category-title">${category.name}</h3>
+                    <p class="category-count">${category.count} Buku</p>
+                `;
+                categoriesList.appendChild(categoryCard);
+            });
+        }
+        
+        function renderFooterCategories() {
+            const footerCategories = document.getElementById('footer-categories');
+            footerCategories.innerHTML = '';
+            
+            // Show only 5 popular categories in footer
+            const popularCategories = [...categories].sort((a, b) => b.count - a.count).slice(0, 5);
+            
+            popularCategories.forEach(category => {
+                const item = document.createElement('li');
+                item.className = 'footer-link-item';
+                item.innerHTML = `<a href="#" class="footer-link">${category.name}</a>`;
+                footerCategories.appendChild(item);
+            });
+        }
+        
+        function renderTestimonials() {
+            const testimonialsContainer = document.getElementById('testimonials-container');
+            testimonialsContainer.innerHTML = '';
+            
+            const approvedTestimonials = testimonials.filter(t => t.status === 'approved');
+            
+            approvedTestimonials.forEach(testimonial => {
+                const testimonialCard = document.createElement('div');
+                testimonialCard.className = 'testimonial-card';
+                testimonialCard.innerHTML = `
+                    <p class="testimonial-text">${testimonial.text}</p>
+                    <div class="testimonial-author">
+                        <img src="${testimonial.avatar}" alt="User" class="testimonial-avatar">
+                        <div>
+                            <h4 class="testimonial-name">${testimonial.name}</h4>
+                            <p class="testimonial-role">${testimonial.role}</p>
+                        </div>
+                    </div>
+                `;
+                testimonialsContainer.appendChild(testimonialCard);
+            });
+        }
+        
+        function renderAdminBooks() {
+            const booksTableBody = document.getElementById('books-table-body');
+            booksTableBody.innerHTML = '';
+            
+            books.forEach(book => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><img src="${book.cover}" width="50" style="border-radius: 4px;"></td>
+                    <td>${book.title}</td>
+                    <td>${book.author}</td>
+                    <td>${book.category}</td>
+                    <td><a href="${book.link}" target="_blank">Baca</a></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn btn-sm btn-info" data-book-id="${book.id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger" data-book-id="${book.id}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                `;
+                booksTableBody.appendChild(row);
+            });
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('#books-table-body .btn-info').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const bookId = parseInt(this.getAttribute('data-book-id'));
+                    editBook(bookId);
+                });
+            });
+            
+            document.querySelectorAll('#books-table-body .btn-danger').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const bookId = parseInt(this.getAttribute('data-book-id'));
+                    deleteBook(bookId);
+                });
+            });
+        }
+        
+        function renderAdminCategories() {
+            const categoriesTableBody = document.getElementById('categories-table-body');
+            categoriesTableBody.innerHTML = '';
+            
+            categories.forEach(category => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${category.name}</td>
+                    <td>${category.count}</td>
+                    <td><i class="fas fa-${category.icon}"></i></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn btn-sm btn-info" data-category-id="${category.id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger" data-category-id="${category.id}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                `;
+                categoriesTableBody.appendChild(row);
+            });
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('#categories-table-body .btn-info').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const categoryId = parseInt(this.getAttribute('data-category-id'));
+                    editCategory(categoryId);
+                });
+            });
+            
+            document.querySelectorAll('#categories-table-body .btn-danger').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const categoryId = parseInt(this.getAttribute('data-category-id'));
+                    deleteCategory(categoryId);
+                });
+            });
+        }
+        
+        function renderAdminTestimonials() {
+            const testimonialsTableBody = document.getElementById('testimonials-table-body');
+            testimonialsTableBody.innerHTML = '';
+            
+            testimonials.forEach(testimonial => {
+                const statusBadge = testimonial.status === 'approved' ? 
+                    '<span class="badge badge-success">Disetujui</span>' : 
+                    '<span class="badge badge-warning">Menunggu</span>';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${testimonial.name}</td>
+                    <td>${testimonial.email}</td>
+                    <td>${testimonial.role}</td>
+                    <td>${testimonial.text.substring(0, 50)}...</td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn btn-sm btn-info" data-testimonial-id="${testimonial.id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger" data-testimonial-id="${testimonial.id}"><i class="fas fa-trash"></i></button>
+                            ${testimonial.status !== 'approved' ? 
+                                '<button class="btn btn-sm btn-success" data-testimonial-id="' + testimonial.id + '"><i class="fas fa-check"></i></button>' : ''}
+                        </div>
+                    </td>
+                `;
+                testimonialsTableBody.appendChild(row);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('#testimonials-table-body .btn-info').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const testimonialId = parseInt(this.getAttribute('data-testimonial-id'));
+                    editTestimonial(testimonialId);
+                });
+            });
+            
+            document.querySelectorAll('#testimonials-table-body .btn-danger').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const testimonialId = parseInt(this.getAttribute('data-testimonial-id'));
+                    deleteTestimonial(testimonialId);
+                });
+            });
+            
+            document.querySelectorAll('#testimonials-table-body .btn-success').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const testimonialId = parseInt(this.getAttribute('data-testimonial-id'));
+                    approveTestimonial(testimonialId);
+                });
+            });
+        }
+        
+        function populateCategorySelect() {
+            bookCategorySelect.innerHTML = '';
+            
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.name;
+                option.textContent = category.name;
+                bookCategorySelect.appendChild(option);
+            });
         }
         
         function showBookPreview(bookId) {
             currentBook = books.find(b => b.id === bookId) || books[0];
             
             // Update preview content
-            const preview = document.getElementById('book-preview');
-            preview.querySelector('.book-cover-large').src = currentBook.cover;
-            preview.querySelector('.book-title-large').textContent = currentBook.title;
-            preview.querySelector('.book-author-large').textContent = `Oleh: ${currentBook.author}`;
-            preview.querySelector('.book-description').textContent = currentBook.description;
+            document.getElementById('preview-book-cover').src = currentBook.cover;
+            document.getElementById('preview-book-title').textContent = currentBook.title;
+            document.getElementById('preview-book-author').textContent = `Oleh: ${currentBook.author}`;
+            document.getElementById('preview-book-description').textContent = currentBook.description;
+            document.getElementById('preview-book-pages').textContent = `${currentBook.pages} Halaman`;
+            document.getElementById('preview-book-rating').textContent = `${currentBook.rating} (${currentBook.reviews} Ulasan)`;
+            document.getElementById('preview-book-downloads').textContent = `${currentBook.downloads.toLocaleString()} Unduhan`;
+            document.getElementById('preview-book-tags').textContent = currentBook.tags.join(', ');
+            document.getElementById('preview-book-year').textContent = currentBook.year;
+            document.getElementById('preview-book-language').textContent = currentBook.language;
+            document.getElementById('preview-book-reviews').textContent = `(${currentBook.reviews} ulasan)`;
             
-            // Update metadata
-            const metaItems = preview.querySelectorAll('.book-meta-item');
-            metaItems[0].querySelector('span').textContent = `${currentBook.pages} Halaman`;
-            metaItems[1].querySelector('span').textContent = `${currentBook.rating} (${currentBook.reviews} Ulasan)`;
-            metaItems[2].querySelector('span').textContent = `${currentBook.downloads.toLocaleString()} Unduhan`;
+            // Update rating stars
+            const starsContainer = document.getElementById('preview-book-stars');
+            starsContainer.innerHTML = '';
+            
+            const fullStars = Math.floor(currentBook.rating);
+            const hasHalfStar = currentBook.rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                const star = document.createElement('i');
+                star.className = 'fas fa-star';
+                starsContainer.appendChild(star);
+            }
+            
+            if (hasHalfStar) {
+                const halfStar = document.createElement('i');
+                halfStar.className = 'fas fa-star-half-alt';
+                starsContainer.appendChild(halfStar);
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                const star = document.createElement('i');
+                star.className = 'far fa-star';
+                starsContainer.appendChild(star);
+            }
             
             // Update bookmark button
             const isBookmarked = readingList.some(book => book.id === currentBook.id);
-            bookmarkBookBtn.innerHTML = isBookmarked 
-                ? '<i class="fas fa-bookmark"></i> Disimpan' 
-                : '<i class="far fa-bookmark"></i> Simpan';
+            bookmarkBookBtn.innerHTML = isBookmarked ? 
+                '<i class="fas fa-bookmark"></i> Disimpan' : 
+                '<i class="far fa-bookmark"></i> Simpan';
             
             // Show preview
-            preview.classList.add('active');
+            bookPreview.classList.add('active');
         }
         
         function hideBookPreview() {
-            document.getElementById('book-preview').classList.remove('active');
+            bookPreview.classList.remove('active');
         }
         
         function readBook() {
@@ -3485,8 +3798,116 @@
             }
             
             if (currentBook) {
-                alert(`Membuka buku "${currentBook.title}" untuk dibaca.`);
+                // Check if the book is a PDF
+                if (currentBook.link.toLowerCase().endsWith('.pdf')) {
+                    showPdfReader(currentBook.link);
+                } else {
+                    // Open the book link in a new tab
+                    window.open(currentBook.link, '_blank');
+                }
+                
+                // Increment downloads count
+                currentBook.downloads++;
                 hideBookPreview();
+            }
+        }
+        
+        function showPdfReader(pdfUrl) {
+            pdfReaderTitle.textContent = `Membaca: ${currentBook.title}`;
+            pdfReaderModal.style.display = 'flex';
+            
+            // Reset PDF viewer state
+            currentPage = 1;
+            pdfScale = 1.0;
+            pageNumSpan.textContent = 'Halaman 1';
+            zoomLevelSpan.textContent = '100%';
+            
+            // Load the PDF
+            pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+                currentPdf = pdf;
+                renderPdfPage();
+            }).catch(function(error) {
+                console.error('Error loading PDF:', error);
+                alert('Gagal memuat PDF. Silakan coba lagi.');
+                hidePdfReader();
+            });
+        }
+        
+        function renderPdfPage() {
+            if (!currentPdf) return;
+            
+            currentPdf.getPage(currentPage).then(function(page) {
+                const viewport = page.getViewport({ scale: pdfScale });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                // Render PDF page into canvas context
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                
+                page.render(renderContext).promise.then(function() {
+                    // Convert canvas to image and display in iframe
+                    const imgData = canvas.toDataURL('image/png');
+                    pdfViewer.srcdoc = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <style>
+                                body { margin: 0; padding: 0; }
+                                img { width: 100%; height: auto; }
+                            </style>
+                        </head>
+                        <body>
+                            <img src="${imgData}">
+                        </body>
+                        </html>
+                    `;
+                    
+                    // Update page info
+                    pageNumSpan.textContent = `Halaman ${currentPage} dari ${currentPdf.numPages}`;
+                    zoomLevelSpan.textContent = `${Math.round(pdfScale * 100)}%`;
+                    
+                    // Enable/disable navigation buttons
+                    prevPageBtn.disabled = currentPage <= 1;
+                    nextPageBtn.disabled = currentPage >= currentPdf.numPages;
+                });
+            });
+        }
+        
+        function hidePdfReader() {
+            pdfReaderModal.style.display = 'none';
+            currentPdf = null;
+        }
+        
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderPdfPage();
+            }
+        }
+        
+        function nextPage() {
+            if (currentPdf && currentPage < currentPdf.numPages) {
+                currentPage++;
+                renderPdfPage();
+            }
+        }
+        
+        function zoomIn() {
+            if (pdfScale < 2.0) {
+                pdfScale += 0.1;
+                renderPdfPage();
+            }
+        }
+        
+        function zoomOut() {
+            if (pdfScale > 0.5) {
+                pdfScale -= 0.1;
+                renderPdfPage();
             }
         }
         
@@ -3532,6 +3953,257 @@
             }
         }
         
+        function showTestimonialModal() {
+            testimonialModal.style.display = 'flex';
+        }
+        
+        function hideTestimonialModal() {
+            testimonialModal.style.display = 'none';
+            testimonialForm.reset();
+        }
+        
+        function handleTestimonialSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('testimonial-name').value;
+            const email = document.getElementById('testimonial-email').value;
+            const role = document.getElementById('testimonial-role').value;
+            const text = document.getElementById('testimonial-text').value;
+            
+            // Create new testimonial
+            const newTestimonial = {
+                id: testimonials.length + 1,
+                name: name,
+                email: email,
+                role: role,
+                text: text,
+                avatar: `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 100)}.jpg`,
+                status: 'pending'
+            };
+            
+            testimonials.push(newTestimonial);
+            
+            // Show success message
+            alert('Terima kasih atas testimoni Anda! Testimoni akan ditampilkan setelah disetujui oleh admin.');
+            
+            // Hide modal and reset form
+            hideTestimonialModal();
+            
+            // If admin is viewing testimonials, refresh the list
+            if (adminPanel.style.display === 'block') {
+                renderAdminTestimonials();
+            }
+        }
+        
+        function showAddBookModal() {
+            addBookModal.style.display = 'flex';
+            bookForm.reset();
+        }
+        
+        function hideAddBookModal() {
+            addBookModal.style.display = 'none';
+        }
+        
+        function handleBookSubmit(e) {
+            e.preventDefault();
+            
+            // Create new book
+            const newBook = {
+                id: books.length + 1,
+                title: document.getElementById('book-title').value,
+                author: document.getElementById('book-author').value,
+                cover: document.getElementById('book-cover-url').value || 'https://via.placeholder.com/500x750?text=No+Cover',
+                description: document.getElementById('book-description').value,
+                pages: parseInt(document.getElementById('book-pages').value),
+                rating: 4.5, // Default rating
+                reviews: 0,
+                downloads: 0,
+                year: parseInt(document.getElementById('book-year').value),
+                language: document.getElementById('book-language').value,
+                category: document.getElementById('book-category').value,
+                tags: [],
+                link: document.getElementById('book-link').value,
+                isFeatured: document.getElementById('book-featured').checked,
+                isNew: true
+            };
+            
+            books.push(newBook);
+            
+            // Update category count
+            const category = categories.find(c => c.name === newBook.category);
+            if (category) {
+                category.count++;
+            }
+            
+            // Show success message
+            alert('Buku baru berhasil ditambahkan!');
+            
+            // Hide modal and reset form
+            hideAddBookModal();
+            
+            // Refresh books display
+            renderBooks();
+            renderCategories();
+            renderAdminBooks();
+            renderAdminCategories();
+        }
+        
+        function editBook(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            // Fill form with book data
+            document.getElementById('book-title').value = book.title;
+            document.getElementById('book-author').value = book.author;
+            document.getElementById('book-cover-url').value = book.cover;
+            document.getElementById('book-description').value = book.description;
+            document.getElementById('book-pages').value = book.pages;
+            document.getElementById('book-year').value = book.year;
+            document.getElementById('book-language').value = book.language;
+            document.getElementById('book-category').value = book.category;
+            document.getElementById('book-link').value = book.link;
+            document.getElementById('book-featured').checked = book.isFeatured;
+            
+            // Show modal
+            showAddBookModal();
+            
+            // TODO: Update form to handle editing (need to track which book is being edited)
+        }
+        
+        function deleteBook(bookId) {
+            if (confirm('Apakah Anda yakin ingin menghapus buku ini?')) {
+                // Remove book
+                books = books.filter(b => b.id !== bookId);
+                
+                // Update category counts
+                categories.forEach(category => {
+                    category.count = books.filter(b => b.category === category.name).length;
+                });
+                
+                // Refresh display
+                renderBooks();
+                renderCategories();
+                renderAdminBooks();
+                renderAdminCategories();
+                
+                alert('Buku berhasil dihapus!');
+            }
+        }
+        
+        function showAddCategoryModal() {
+            addCategoryModal.style.display = 'flex';
+            categoryForm.reset();
+        }
+        
+        function hideAddCategoryModal() {
+            addCategoryModal.style.display = 'none';
+        }
+        
+        function handleCategorySubmit(e) {
+            e.preventDefault();
+            
+            // Create new category
+            const newCategory = {
+                id: categories.length + 1,
+                name: document.getElementById('category-name').value,
+                count: 0,
+                icon: document.getElementById('category-icon').value.replace('fas fa-', '')
+            };
+            
+            categories.push(newCategory);
+            
+            // Show success message
+            alert('Kategori baru berhasil ditambahkan!');
+            
+            // Hide modal and reset form
+            hideAddCategoryModal();
+            
+            // Refresh categories display
+            renderCategories();
+            renderAdminCategories();
+            populateCategorySelect();
+        }
+        
+        function editCategory(categoryId) {
+            const category = categories.find(c => c.id === categoryId);
+            if (!category) return;
+            
+            // Fill form with category data
+            document.getElementById('category-name').value = category.name;
+            document.getElementById('category-icon').value = `fas fa-${category.icon}`;
+            
+            // Show modal
+            showAddCategoryModal();
+            
+            // TODO: Update form to handle editing (need to track which category is being edited)
+        }
+        
+        function deleteCategory(categoryId) {
+            const category = categories.find(c => c.id === categoryId);
+            if (!category) return;
+            
+            // Check if category is used by any books
+            const booksInCategory = books.filter(b => b.category === category.name);
+            if (booksInCategory.length > 0) {
+                alert(`Tidak dapat menghapus kategori ini karena terdapat ${booksInCategory.length} buku yang menggunakan kategori ini.`);
+                return;
+            }
+            
+            if (confirm('Apakah Anda yakin ingin menghapus kategori ini?')) {
+                // Remove category
+                categories = categories.filter(c => c.id !== categoryId);
+                
+                // Refresh display
+                renderCategories();
+                renderAdminCategories();
+                populateCategorySelect();
+                
+                alert('Kategori berhasil dihapus!');
+            }
+        }
+        
+        function editTestimonial(testimonialId) {
+            const testimonial = testimonials.find(t => t.id === testimonialId);
+            if (!testimonial) return;
+            
+            // Fill form with testimonial data
+            document.getElementById('testimonial-name').value = testimonial.name;
+            document.getElementById('testimonial-email').value = testimonial.email;
+            document.getElementById('testimonial-role').value = testimonial.role;
+            document.getElementById('testimonial-text').value = testimonial.text;
+            
+            // Show modal
+            showTestimonialModal();
+            
+            // TODO: Update form to handle editing (need to track which testimonial is being edited)
+        }
+        
+        function deleteTestimonial(testimonialId) {
+            if (confirm('Apakah Anda yakin ingin menghapus testimoni ini?')) {
+                // Remove testimonial
+                testimonials = testimonials.filter(t => t.id !== testimonialId);
+                
+                // Refresh display
+                renderTestimonials();
+                renderAdminTestimonials();
+                
+                alert('Testimoni berhasil dihapus!');
+            }
+        }
+        
+        function approveTestimonial(testimonialId) {
+            const testimonial = testimonials.find(t => t.id === testimonialId);
+            if (testimonial) {
+                testimonial.status = 'approved';
+                
+                // Refresh display
+                renderTestimonials();
+                renderAdminTestimonials();
+                
+                alert('Testimoni telah disetujui dan akan ditampilkan!');
+            }
+        }
+        
         function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
@@ -3550,7 +4222,6 @@
                 
                 updateLoginUI();
                 hideLoginModal();
-                notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
                 alert("Anda berhasil masuk!");
             } else {
                 alert("Silakan isi email dan password dengan benar.");
@@ -3569,11 +4240,6 @@
                 return;
             }
             
-            if (password.length < 6) {
-                alert("Password harus terdiri dari minimal 6 karakter!");
-                return;
-            }
-            
             // In a real app, this would register with the server
             if (name && email && password) {
                 currentUser = {
@@ -3587,20 +4253,10 @@
                 
                 updateLoginUI();
                 hideRegisterModal();
-                notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
                 alert("Pendaftaran berhasil! Anda sekarang masuk.");
             } else {
                 alert("Silakan isi semua field dengan benar.");
             }
-        }
-        
-        function logoutUser() {
-            currentUser = null;
-            localStorage.removeItem('authToken');
-            updateLoginUI();
-            dropdownMenu.style.display = 'none';
-            notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
-            alert("Anda telah keluar dari akun Anda.");
         }
         
         function saveAdminSettings(e) {
@@ -3622,8 +4278,12 @@
                 localStorage.setItem('theme', 'light');
             }
             
-            notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
             alert("Pengaturan berhasil disimpan!");
+        }
+        
+        function initAdminSettings() {
+            adminPasswordInput.value = adminPassword;
+            whatsappNumberInput.value = whatsappNumber;
         }
         
         function updateProgressBar() {
@@ -3649,19 +4309,6 @@
                 if (darkModeToggle) {
                     darkModeToggle.checked = true;
                 }
-            }
-        }
-        
-        function handleNewsletter(e) {
-            e.preventDefault();
-            const email = document.getElementById('newsletter-email').value;
-            
-            if (email) {
-                notificationSound.play().catch(e => console.log("Notification sound prevented:", e));
-                alert(`Terima kasih telah berlangganan newsletter dengan email ${email}.`);
-                e.target.reset();
-            } else {
-                alert("Silakan masukkan alamat email yang valid.");
             }
         }
     </script>
