@@ -509,7 +509,80 @@ class EPediaFeatures {
     return newTheme;
   }
   
-  // ... tambahkan fitur lainnya sesuai kebutuhan ...
+  // Book Service untuk mengelola data buku
+class BookService {
+  constructor() {
+    this.storageKey = 'epedia_books';
+    this.books = this.loadBooks();
+  }
+  
+  loadBooks() {
+    const savedBooks = localStorage.getItem(this.storageKey);
+    return savedBooks ? JSON.parse(savedBooks) : [];
+  }
+  
+  saveBooks() {
+    localStorage.setItem(this.storageKey, JSON.stringify(this.books));
+  }
+  
+  getAllBooks() {
+    return this.books;
+  }
+  
+  getBookById(id) {
+    return this.books.find(book => book.id === id);
+  }
+  
+  addBook(bookData) {
+    const newBook = {
+      id: EPediaUtils.generateBookId(this.books),
+      ...bookData,
+      read: false,
+      lastReadPage: 1,
+      bookmarked: false,
+      views: 0,
+      createdAt: new Date().toISOString()
+    };
+    
+    this.books.push(newBook);
+    this.saveBooks();
+    return newBook;
+  }
+  
+  updateBook(id, bookData) {
+    const bookIndex = this.books.findIndex(book => book.id === id);
+    
+    if (bookIndex !== -1) {
+      this.books[bookIndex] = {
+        ...this.books[bookIndex],
+        ...bookData
+      };
+      this.saveBooks();
+      return this.books[bookIndex];
+    }
+    
+    return null;
+  }
+  
+  deleteBook(id) {
+    this.books = this.books.filter(book => book.id !== id);
+    this.saveBooks();
+    return true;
+  }
+  
+  incrementViews(id) {
+    const book = this.getBookById(id);
+    if (book) {
+      book.views = (book.views || 0) + 1;
+      this.saveBooks();
+    }
+  }
+  
+  // ... tambahkan metode lainnya sesuai kebutuhan ...
+}
+
+// Ekspor singleton instance
+const bookService = new BookService();
 }
 
 // Ekspor singleton instance
