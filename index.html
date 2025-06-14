@@ -43,6 +43,17 @@
             line-height: 1.6;
         }
 
+        /* Dark Theme */
+        body.dark-theme {
+            --color-primary: #3498db;
+            --color-secondary: #2c3e50;
+            --color-bg: #1a1a2e;
+            --color-card: #16213e;
+            --color-text: #f8f9fa;
+            --color-text-light: #b8b8b8;
+            --color-border: #2a2a4a;
+        }
+
         /* Particle Background */
         #particles-js {
             position: fixed;
@@ -312,7 +323,7 @@
             padding: 12px 15px;
             border-radius: 8px;
             border: 1px solid var(--color-border);
-            background: white;
+            background: var(--color-card);
             color: var(--color-text);
             font-size: 16px;
             transition: all 0.3s ease;
@@ -345,6 +356,8 @@
             border: none;
             font-size: 16px;
             outline: none;
+            background: var(--color-card);
+            color: var(--color-text);
         }
 
         .search-btn {
@@ -369,7 +382,7 @@
         }
 
         .book-card {
-            background: white;
+            background: var(--color-card);
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -511,7 +524,7 @@
         }
 
         .category-card {
-            background: white;
+            background: var(--color-card);
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -554,7 +567,7 @@
         }
 
         .dashboard-card {
-            background: white;
+            background: var(--color-card);
             border-radius: 10px;
             padding: 25px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -863,7 +876,7 @@
         }
 
         .modal-content {
-            background: white;
+            background: var(--color-card);
             color: var(--color-text);
             border-radius: 15px;
             padding: 30px;
@@ -915,7 +928,7 @@
             max-width: 500px;
             margin: 0 auto;
             padding: 30px;
-            background: white;
+            background: var(--color-card);
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
@@ -1376,7 +1389,7 @@
         }
 
         .stats-card {
-            background: white;
+            background: var(--color-card);
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -1592,7 +1605,7 @@
         .featured-slide {
             scroll-snap-align: start;
             min-width: 300px;
-            background: white;
+            background: var(--color-card);
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -1693,7 +1706,7 @@
         }
 
         .testimonial-card {
-            background: white;
+            background: var(--color-card);
             border-radius: 10px;
             padding: 30px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -1770,7 +1783,7 @@
             gap: 15px;
             margin-bottom: 30px;
             padding: 15px;
-            background: white;
+            background: var(--color-card);
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
@@ -1803,7 +1816,7 @@
         }
 
         .preview-content {
-            background: white;
+            background: var(--color-card);
             border-radius: 10px;
             width: 90%;
             max-width: 900px;
@@ -1902,6 +1915,121 @@
             background: var(--color-secondary);
             width: 0%;
             transition: width 0.1s ease;
+        }
+
+        /* Admin Access Modal */
+        .admin-access-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .admin-access-content {
+            background: var(--color-card);
+            border-radius: 10px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            text-align: center;
+        }
+
+        .admin-access-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--color-primary);
+        }
+
+        .admin-access-input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            font-size: 16px;
+        }
+
+        .admin-access-btn {
+            padding: 12px 25px;
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .admin-access-btn:hover {
+            background: #2980b9;
+        }
+
+        .admin-access-error {
+            color: var(--color-error);
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* WhatsApp Chat Button */
+        .whatsapp-chat {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .whatsapp-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            background: #128C7E;
+        }
+
+        .whatsapp-btn .tooltip {
+            position: absolute;
+            left: 70px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .whatsapp-btn:hover .tooltip {
+            opacity: 1;
+            left: 80px;
         }
     </style>
 </head>
@@ -2237,8 +2365,20 @@
         </div>
     </footer>
 
+    <!-- WhatsApp Chat Button -->
+    <div class="whatsapp-chat">
+        <button class="whatsapp-btn" id="whatsapp-btn">
+            <i class="fab fa-whatsapp"></i>
+            <span class="tooltip">Chat Admin</span>
+        </button>
+    </div>
+
     <!-- Floating Buttons -->
     <div class="floating-buttons">
+        <button class="floating-btn" id="admin-btn">
+            <i class="fas fa-cog"></i>
+            <span class="tooltip">Kontrol Panel Admin</span>
+        </button>
         <button class="floating-btn" id="chat-btn">
             <i class="fas fa-comment-dots"></i>
             <span class="tooltip">Live Chat</span>
@@ -2251,6 +2391,20 @@
             <i class="fas fa-arrow-up"></i>
             <span class="tooltip">Ke Atas</span>
         </button>
+    </div>
+
+    <!-- Admin Access Modal -->
+    <div class="admin-access-modal" id="admin-access-modal">
+        <div class="admin-access-content">
+            <h3 class="admin-access-title">Akses Kontrol Panel Admin</h3>
+            <p style="margin-bottom: 20px;">Masukkan kode akses admin untuk melanjutkan:</p>
+            <input type="password" class="admin-access-input" id="admin-access-code" placeholder="Masukkan kode akses">
+            <p class="admin-access-error" id="admin-access-error">Kode akses salah! Silakan coba lagi.</p>
+            <div style="margin-top: 20px;">
+                <button class="admin-access-btn" id="admin-access-submit">Masuk</button>
+                <button class="admin-access-btn" id="admin-access-cancel">Batal</button>
+            </div>
+        </div>
     </div>
 
     <!-- Login Modal -->
@@ -2388,7 +2542,355 @@
 
     <!-- Admin Panel (Hidden) -->
     <div id="admin-panel" style="display: none;">
-        <!-- Admin panel content will be loaded here -->
+        <div class="admin-panel">
+            <div class="admin-sidebar">
+                <div class="admin-logo">
+                    <h2>Admin Panel</h2>
+                </div>
+                <ul class="admin-menu">
+                    <li class="admin-menu-item">
+                        <a href="#" class="admin-menu-link active" data-tab="dashboard">
+                            <i class="fas fa-tachometer-alt admin-menu-icon"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#" class="admin-menu-link" data-tab="books">
+                            <i class="fas fa-book admin-menu-icon"></i>
+                            Manajemen Buku
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#" class="admin-menu-link" data-tab="categories">
+                            <i class="fas fa-tags admin-menu-icon"></i>
+                            Kategori
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#" class="admin-menu-link" data-tab="users">
+                            <i class="fas fa-users admin-menu-icon"></i>
+                            Pengguna
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#" class="admin-menu-link" data-tab="settings">
+                            <i class="fas fa-cog admin-menu-icon"></i>
+                            Pengaturan
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#" class="admin-menu-link" id="admin-logout">
+                            <i class="fas fa-sign-out-alt admin-menu-icon"></i>
+                            Keluar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="admin-content">
+                <div class="admin-header">
+                    <h2 class="admin-title" id="admin-tab-title">Dashboard</h2>
+                    <div class="admin-user">
+                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Admin" class="admin-avatar">
+                        <span>Admin</span>
+                    </div>
+                </div>
+
+                <!-- Dashboard Tab -->
+                <div class="admin-tab-content" id="dashboard-tab">
+                    <div class="stats-grid">
+                        <div class="stats-card">
+                            <div class="stats-value">1,245</div>
+                            <div class="stats-label">Total Buku</div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="stats-value">856</div>
+                            <div class="stats-label">Pengguna Terdaftar</div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="stats-value">3,452</div>
+                            <div class="stats-label">Unduhan</div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="stats-value">12</div>
+                            <div class="stats-label">Kategori</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Aktivitas Terkini</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>Pengguna</th>
+                                        <th>Aktivitas</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>10 menit lalu</td>
+                                        <td>John Doe</td>
+                                        <td>Membaca buku</td>
+                                        <td>Pendidikan Karakter</td>
+                                    </tr>
+                                    <tr>
+                                        <td>30 menit lalu</td>
+                                        <td>Jane Smith</td>
+                                        <td>Mengunduh</td>
+                                        <td>Matematika Dasar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 jam lalu</td>
+                                        <td>Bob Johnson</td>
+                                        <td>Mendaftar</td>
+                                        <td>Pengguna baru</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2 jam lalu</td>
+                                        <td>Admin</td>
+                                        <td>Menambah buku</td>
+                                        <td>Sejarah Islam</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Books Management Tab -->
+                <div class="admin-tab-content" id="books-tab" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Daftar Buku</h3>
+                            <button class="btn btn-success" id="add-book-btn">
+                                <i class="fas fa-plus"></i> Tambah Buku
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cover</th>
+                                        <th>Judul</th>
+                                        <th>Penulis</th>
+                                        <th>Kategori</th>
+                                        <th>Rating</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" width="50" style="border-radius: 4px;"></td>
+                                        <td>Pendidikan Karakter</td>
+                                        <td>Prof. Dr. Ahmad Dahlan</td>
+                                        <td>Pendidikan</td>
+                                        <td>4.8</td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" width="50" style="border-radius: 4px;"></td>
+                                        <td>Matematika Dasar</td>
+                                        <td>Dr. Sri Mulyani</td>
+                                        <td>Pendidikan</td>
+                                        <td>4.5</td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" width="50" style="border-radius: 4px;"></td>
+                                        <td>Sejarah Islam</td>
+                                        <td>Prof. Dr. Komaruddin Hidayat</td>
+                                        <td>Agama</td>
+                                        <td>4.9</td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Tab -->
+                <div class="admin-tab-content" id="categories-tab" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Kategori Buku</h3>
+                            <button class="btn btn-success" id="add-category-btn">
+                                <i class="fas fa-plus"></i> Tambah Kategori
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Jumlah Buku</th>
+                                        <th>Icon</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Agama</td>
+                                        <td>245</td>
+                                        <td><i class="fas fa-book-quran"></i></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pendidikan</td>
+                                        <td>189</td>
+                                        <td><i class="fas fa-graduation-cap"></i></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sains</td>
+                                        <td>132</td>
+                                        <td><i class="fas fa-flask"></i></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Tab -->
+                <div class="admin-tab-content" id="users-tab" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Manajemen Pengguna</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Bergabung</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>John Doe</td>
+                                        <td>john@example.com</td>
+                                        <td>12 Jan 2023</td>
+                                        <td><span class="badge badge-success">Aktif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jane Smith</td>
+                                        <td>jane@example.com</td>
+                                        <td>5 Feb 2023</td>
+                                        <td><span class="badge badge-success">Aktif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bob Johnson</td>
+                                        <td>bob@example.com</td>
+                                        <td>20 Mar 2023</td>
+                                        <td><span class="badge badge-warning">Nonaktif</span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="admin-tab-content" id="settings-tab" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Pengaturan Sistem</h3>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <label class="form-label">Nama Aplikasi</label>
+                                    <input type="text" class="form-control" value="Perpustakaan Digital PERGUNU">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Deskripsi Aplikasi</label>
+                                    <textarea class="form-control" rows="3">Platform penyedia buku digital berkualitas untuk menunjang pendidikan dan pengembangan diri</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Kode Akses Admin</label>
+                                    <input type="password" class="form-control" id="admin-password-input" value="65614222">
+                                    <small class="form-text">Gunakan kode ini untuk mengakses panel admin</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nomor WhatsApp Admin</label>
+                                    <input type="text" class="form-control" value="6285647709114">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Mode Warna</label>
+                                    <div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="dark-mode-toggle">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        <span style="margin-left: 10px;">Mode Gelap</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Audio Elements -->
@@ -2402,6 +2904,8 @@
         let books = [];
         let categories = [];
         let readingList = [];
+        let adminPassword = "65614222"; // Default admin password
+        let whatsappNumber = "6285647709114"; // Default WhatsApp number
         
         // DOM Elements
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -2416,9 +2920,19 @@
         const backToTopBtn = document.getElementById('back-to-top');
         const themeBtn = document.getElementById('theme-btn');
         const chatBtn = document.getElementById('chat-btn');
+        const whatsappBtn = document.getElementById('whatsapp-btn');
+        const adminBtn = document.getElementById('admin-btn');
         const bookPreview = document.getElementById('book-preview');
         const closePreview = document.getElementById('close-preview');
         const progressBar = document.getElementById('progress-bar');
+        const adminAccessModal = document.getElementById('admin-access-modal');
+        const adminAccessCode = document.getElementById('admin-access-code');
+        const adminAccessSubmit = document.getElementById('admin-access-submit');
+        const adminAccessCancel = document.getElementById('admin-access-cancel');
+        const adminAccessError = document.getElementById('admin-access-error');
+        const adminPanel = document.getElementById('admin-panel');
+        const adminLogout = document.getElementById('admin-logout');
+        const adminPasswordInput = document.getElementById('admin-password-input');
         
         // Audio elements
         const buttonSound = document.getElementById('button-sound');
@@ -2685,7 +3199,21 @@
             backToTopBtn.addEventListener('click', scrollToTop);
             themeBtn.addEventListener('click', toggleTheme);
             chatBtn.addEventListener('click', openChat);
+            whatsappBtn.addEventListener('click', openWhatsApp);
+            adminBtn.addEventListener('click', showAdminAccessModal);
             closePreview.addEventListener('click', hideBookPreview);
+            adminAccessSubmit.addEventListener('click', checkAdminAccess);
+            adminAccessCancel.addEventListener('click', hideAdminAccessModal);
+            adminLogout.addEventListener('click', logoutAdmin);
+            
+            // Admin menu tabs
+            document.querySelectorAll('.admin-menu-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tab = this.getAttribute('data-tab');
+                    showAdminTab(tab);
+                });
+            });
             
             // Book preview buttons
             document.querySelectorAll('.book-card .btn-primary').forEach(btn => {
@@ -2804,6 +3332,73 @@
             alert("Fitur live chat akan segera hadir!");
         }
         
+        function openWhatsApp() {
+            const message = "Halo admin, saya ingin bertanya tentang perpustakaan digital.";
+            const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+        
+        function showAdminAccessModal() {
+            adminAccessModal.style.display = 'flex';
+            adminAccessCode.value = '';
+            adminAccessError.style.display = 'none';
+        }
+        
+        function hideAdminAccessModal() {
+            adminAccessModal.style.display = 'none';
+        }
+        
+        function checkAdminAccess() {
+            const enteredCode = adminAccessCode.value.trim();
+            if (enteredCode === adminPassword) {
+                hideAdminAccessModal();
+                loadAdminPanel();
+            } else {
+                adminAccessError.style.display = 'block';
+            }
+        }
+        
+        function loadAdminPanel() {
+            adminPanel.style.display = 'block';
+            showAdminTab('dashboard');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function hideAdminPanel() {
+            adminPanel.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        
+        function logoutAdmin() {
+            hideAdminPanel();
+            alert("Anda telah keluar dari panel admin.");
+        }
+        
+        function showAdminTab(tab) {
+            // Hide all tab contents
+            document.querySelectorAll('.admin-tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Show selected tab content
+            document.getElementById(`${tab}-tab`).style.display = 'block';
+            
+            // Update active menu item
+            document.querySelectorAll('.admin-menu-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.querySelector(`.admin-menu-link[data-tab="${tab}"]`).classList.add('active');
+            
+            // Update title
+            document.getElementById('admin-tab-title').textContent = 
+                tab === 'dashboard' ? 'Dashboard' :
+                tab === 'books' ? 'Manajemen Buku' :
+                tab === 'categories' ? 'Kategori' :
+                tab === 'users' ? 'Pengguna' :
+                tab === 'settings' ? 'Pengaturan' : '';
+        }
+        
         function showBookPreview(bookId) {
             const book = books.find(b => b.id === bookId) || books[0];
             
@@ -2856,12 +3451,6 @@
             } else {
                 backToTopBtn.style.display = 'none';
             }
-        }
-        
-        // Admin functions (would be more extensive in a real app)
-        function loadAdminPanel() {
-            // This would load the admin panel content
-            document.getElementById('admin-panel').style.display = 'grid';
         }
     </script>
 </body>
