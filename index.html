@@ -1269,12 +1269,20 @@
             display: grid;
             grid-template-columns: 250px 1fr;
             min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2000;
+            background: var(--color-bg);
         }
 
         .admin-sidebar {
             background: var(--color-primary);
             color: white;
             padding: 20px 0;
+            height: 100vh;
+            overflow-y: auto;
         }
 
         .admin-logo {
@@ -1313,6 +1321,8 @@
         .admin-content {
             padding: 30px;
             background: var(--color-bg);
+            height: 100vh;
+            overflow-y: auto;
         }
 
         .admin-header {
@@ -3524,8 +3534,10 @@
             const darkModeToggle = document.getElementById('dark-mode-toggle');
             if (darkModeToggle.checked) {
                 document.body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
             } else {
                 document.body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
             }
             
             alert("Pengaturan berhasil disimpan!");
