@@ -22,8 +22,8 @@
         }
         
         .navbar-brand img {
-            height: 40px;
-            margin-right: 10px;
+            height: 30px;
+            margin-right: 8px;
         }
         
         .sidebar {
@@ -211,6 +211,63 @@
             position: relative;
         }
         
+        .document-preview {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        
+        .document-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .document-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .document-preview .unsupported-format {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #666;
+            font-size: 1.2rem;
+        }
+        
+        .whatsapp-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+        
+        .whatsapp-chat .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            border-radius: 50px;
+            padding: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-chat .btn-whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 margin-left: -250px;
@@ -230,6 +287,10 @@
             
             .stat-card .number {
                 font-size: 2rem;
+            }
+            
+            .document-preview {
+                height: 300px;
             }
         }
         
@@ -325,12 +386,18 @@
     <!-- Toast notification container -->
     <div class="toast-container" id="toastContainer"></div>
     
+    <!-- WhatsApp Chat Button -->
+    <div class="whatsapp-chat">
+        <a href="https://wa.me/6285647709114" class="btn-whatsapp" target="_blank">
+            <i class="bi bi-whatsapp"></i>
+        </a>
+    </div>
+    
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="d-flex justify-content-center mb-4">
-                <img src="https://raw.githubusercontent.com/pergunu/arsippro/refs/heads/main/assets/images/logo.png" alt="ArsipPro Logo" class="img-fluid">
-                <span class="logo-text">ArsipPro</span>
+                <img src="https://via.placeholder.com/150x50?text=ArsipPro" alt="ArsipPro Logo" class="img-fluid">
             </div>
             <ul class="nav flex-column">
                 <li class="nav-item">
@@ -339,43 +406,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#surat-masuk" data-bs-toggle="tab">
-                        <i class="bi bi-envelope-open"></i> Surat Masuk
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#surat-keluar" data-bs-toggle="tab">
-                        <i class="bi bi-envelope"></i> Surat Keluar
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#arsip" data-bs-toggle="tab">
-                        <i class="bi bi-archive"></i> Arsip Dokumen
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="#pencarian" data-bs-toggle="tab">
                         <i class="bi bi-search"></i> Pencarian
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#validasi" data-bs-toggle="tab">
-                        <i class="bi bi-check-circle"></i> Validasi Surat
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#admin-panel" data-bs-toggle="tab" id="admin-link" style="display: none;">
-                        <i class="bi bi-shield-lock"></i> Admin Panel
+                    <a class="nav-link" href="#bantuan" data-bs-toggle="tab">
+                        <i class="bi bi-question-circle"></i> Bantuan
                     </a>
                 </li>
                 <li class="nav-item mt-4">
-                    <a class="nav-link" href="#pengaturan" data-bs-toggle="tab">
-                        <i class="bi bi-gear"></i> Pengaturan
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#bantuan" data-bs-toggle="tab">
-                        <i class="bi bi-question-circle"></i> Bantuan
+                    <a class="nav-link" href="#admin-panel" data-bs-toggle="tab" id="admin-link">
+                        <i class="bi bi-shield-lock"></i> Admin Panel
                     </a>
                 </li>
             </ul>
@@ -392,13 +434,10 @@
                         <div class="dropdown">
                             <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="https://via.placeholder.com/40" alt="User" width="32" height="32" class="rounded-circle me-2">
-                                <strong>Admin</strong>
+                                <strong>Pengunjung</strong>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-                                <li><a class="dropdown-item" href="#profil" data-bs-toggle="tab">Profil</a></li>
-                                <li><a class="dropdown-item" href="#pengaturan" data-bs-toggle="tab">Pengaturan</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#" id="logout-btn">Keluar</a></li>
+                                <li><a class="dropdown-item" href="#bantuan" data-bs-toggle="tab">Bantuan</a></li>
                             </ul>
                         </div>
                     </div>
@@ -493,206 +532,6 @@
                                     <canvas id="chartSurat" height="250"></canvas>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Surat Masuk Tab -->
-                <div class="tab-pane fade" id="surat-masuk">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Surat Masuk</h2>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahSuratMasukModal">
-                            <i class="bi bi-plus-circle"></i> Tambah Surat Masuk
-                        </button>
-                    </div>
-
-                    <div class="search-box">
-                        <i class="bi bi-search"></i>
-                        <input type="text" class="form-control" id="searchIncomingLetters" placeholder="Cari surat masuk...">
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0">Daftar Surat Masuk</h5>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterIncomingLetters" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-funnel"></i> Filter
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterIncomingLetters">
-                                        <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="valid">Valid</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="process">Proses Validasi</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="invalid">Tidak Valid</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>No. Surat</th>
-                                            <th>Tanggal</th>
-                                            <th>Pengirim</th>
-                                            <th>Perihal</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="incoming-letters-table">
-                                        <!-- Data will be populated by JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Surat Keluar Tab -->
-                <div class="tab-pane fade" id="surat-keluar">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Surat Keluar</h2>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahSuratKeluarModal">
-                            <i class="bi bi-plus-circle"></i> Tambah Surat Keluar
-                        </button>
-                    </div>
-
-                    <div class="search-box">
-                        <i class="bi bi-search"></i>
-                        <input type="text" class="form-control" id="searchOutgoingLetters" placeholder="Cari surat keluar...">
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0">Daftar Surat Keluar</h5>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterOutgoingLetters" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-funnel"></i> Filter
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterOutgoingLetters">
-                                        <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="sent">Terkirim</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="draft">Draft</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="canceled">Dibatalkan</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>No. Surat</th>
-                                            <th>Tanggal</th>
-                                            <th>Tujuan</th>
-                                            <th>Perihal</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="outgoing-letters-table">
-                                        <!-- Data will be populated by JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Arsip Dokumen Tab -->
-                <div class="tab-pane fade" id="arsip">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Arsip Dokumen</h2>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahDokumenModal">
-                            <i class="bi bi-plus-circle"></i> Tambah Dokumen
-                        </button>
-                    </div>
-
-                    <div class="search-box">
-                        <i class="bi bi-search"></i>
-                        <input type="text" class="form-control" id="searchDocuments" placeholder="Cari dokumen...">
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0">Daftar Arsip Dokumen</h5>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterDocuments" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-funnel"></i> Filter
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDocuments">
-                                        <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="report">Laporan</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="decision">Surat Keputusan</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="minutes">Notulensi</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="contract">Kontrak</a></li>
-                                        <li><a class="dropdown-item" href="#" data-filter="other">Lainnya</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Kode Dokumen</th>
-                                            <th>Nama Dokumen</th>
-                                            <th>Kategori</th>
-                                            <th>Tanggal Upload</th>
-                                            <th>Ukuran</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="documents-table">
-                                        <!-- Data will be populated by JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
                         </div>
                     </div>
                 </div>
@@ -798,8 +637,321 @@
                     </div>
                 </div>
 
-                <!-- Validasi Surat Tab -->
-                <div class="tab-pane fade" id="validasi">
+                <!-- Admin Panel Tab -->
+                <div class="tab-pane fade" id="admin-panel">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Login Admin</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="adminLoginForm">
+                                <div class="mb-3">
+                                    <label for="adminUsername" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="adminUsername" placeholder="Masukkan username admin" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="adminPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="adminPassword" placeholder="Masukkan password admin" required>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-box-arrow-in-right"></i> Login
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div id="adminContent" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Manajemen Surat Masuk</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Kelola surat masuk yang diterima</p>
+                                        <a href="#surat-masuk-admin" class="btn btn-primary" data-bs-toggle="tab">
+                                            <i class="bi bi-envelope-open"></i> Kelola Surat Masuk
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Manajemen Surat Keluar</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Kelola surat keluar yang dikirim</p>
+                                        <a href="#surat-keluar-admin" class="btn btn-primary" data-bs-toggle="tab">
+                                            <i class="bi bi-envelope"></i> Kelola Surat Keluar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Manajemen Arsip</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Kelola dokumen arsip</p>
+                                        <a href="#arsip-admin" class="btn btn-primary" data-bs-toggle="tab">
+                                            <i class="bi bi-archive"></i> Kelola Arsip
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Validasi Surat</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Validasi keaslian surat masuk dan keluar</p>
+                                        <a href="#validasi-admin" class="btn btn-primary" data-bs-toggle="tab">
+                                            <i class="bi bi-check-circle"></i> Validasi Surat
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Statistik Sistem</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Total Surat Masuk
+                                                <span class="badge bg-primary rounded-pill">125</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Total Surat Keluar
+                                                <span class="badge bg-primary rounded-pill">87</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Total Dokumen
+                                                <span class="badge bg-primary rounded-pill">42</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Versi Sistem
+                                                <span class="badge bg-success rounded-pill">v2.1.0</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Surat Masuk Admin Sub-tab -->
+                <div class="tab-pane fade" id="surat-masuk-admin">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Manajemen Surat Masuk</h2>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahSuratMasukModal">
+                            <i class="bi bi-plus-circle"></i> Tambah Surat Masuk
+                        </button>
+                    </div>
+
+                    <div class="search-box">
+                        <i class="bi bi-search"></i>
+                        <input type="text" class="form-control" id="searchIncomingLetters" placeholder="Cari surat masuk...">
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Daftar Surat Masuk</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterIncomingLetters" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-funnel"></i> Filter
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterIncomingLetters">
+                                        <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="valid">Valid</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="process">Proses Validasi</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="invalid">Tidak Valid</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No. Surat</th>
+                                            <th>Tanggal</th>
+                                            <th>Pengirim</th>
+                                            <th>Perihal</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="incoming-letters-table">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Surat Keluar Admin Sub-tab -->
+                <div class="tab-pane fade" id="surat-keluar-admin">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Manajemen Surat Keluar</h2>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahSuratKeluarModal">
+                            <i class="bi bi-plus-circle"></i> Tambah Surat Keluar
+                        </button>
+                    </div>
+
+                    <div class="search-box">
+                        <i class="bi bi-search"></i>
+                        <input type="text" class="form-control" id="searchOutgoingLetters" placeholder="Cari surat keluar...">
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Daftar Surat Keluar</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterOutgoingLetters" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-funnel"></i> Filter
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterOutgoingLetters">
+                                        <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="sent">Terkirim</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="draft">Draft</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="canceled">Dibatalkan</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No. Surat</th>
+                                            <th>Tanggal</th>
+                                            <th>Tujuan</th>
+                                            <th>Perihal</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="outgoing-letters-table">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arsip Dokumen Admin Sub-tab -->
+                <div class="tab-pane fade" id="arsip-admin">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Manajemen Arsip Dokumen</h2>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahDokumenModal">
+                            <i class="bi bi-plus-circle"></i> Tambah Dokumen
+                        </button>
+                    </div>
+
+                    <div class="search-box">
+                        <i class="bi bi-search"></i>
+                        <input type="text" class="form-control" id="searchDocuments" placeholder="Cari dokumen...">
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Daftar Arsip Dokumen</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterDocuments" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-funnel"></i> Filter
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDocuments">
+                                        <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="report">Laporan</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="decision">Surat Keputusan</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="minutes">Notulensi</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="contract">Kontrak</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="other">Lainnya</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Kode Dokumen</th>
+                                            <th>Nama Dokumen</th>
+                                            <th>Kategori</th>
+                                            <th>Tanggal Upload</th>
+                                            <th>Ukuran</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="documents-table">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Validasi Surat Admin Sub-tab -->
+                <div class="tab-pane fade" id="validasi-admin">
                     <h2 class="mb-4">Validasi Surat</h2>
                     
                     <div class="card mb-4">
@@ -860,351 +1012,6 @@
                     </div>
                 </div>
 
-                <!-- Admin Panel Tab -->
-                <div class="tab-pane fade" id="admin-panel">
-                    <h2 class="mb-4">Admin Panel</h2>
-                    
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Manajemen Pengguna</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Kelola akun pengguna sistem</p>
-                                    <a href="#user-management" class="btn btn-primary" data-bs-toggle="tab">
-                                        <i class="bi bi-people"></i> Buka Manajemen
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Backup Database</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Backup dan restore data sistem</p>
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backupModal">
-                                        <i class="bi bi-database"></i> Backup Sekarang
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Log Sistem</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Pantau aktivitas sistem</p>
-                                    <a href="#system-logs" class="btn btn-primary" data-bs-toggle="tab">
-                                        <i class="bi bi-journal-text"></i> Lihat Log
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Pengaturan Sistem</h5>
-                                </div>
-                                <div class="card-body">
-                                    <form id="systemSettingsForm">
-                                        <div class="mb-3">
-                                            <label for="systemName" class="form-label">Nama Sistem</label>
-                                            <input type="text" class="form-control" id="systemName" value="ArsipPro">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="maxUploadSize" class="form-label">Ukuran Upload Maksimal (KB)</label>
-                                            <input type="number" class="form-control" id="maxUploadSize" value="500">
-                                        </div>
-                                        <div class="mb-3 form-check">
-                                            <input type="checkbox" class="form-check-input" id="enableValidation" checked>
-                                            <label class="form-check-label" for="enableValidation">Aktifkan Validasi Surat</label>
-                                        </div>
-                                        <div class="mb-3 form-check">
-                                            <input type="checkbox" class="form-check-input" id="enableNotifications" checked>
-                                            <label class="form-check-label" for="enableNotifications">Aktifkan Notifikasi</label>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="adminAccessCode" class="form-label">Kode Akses Admin</label>
-                                            <div class="password-container">
-                                                <input type="password" class="form-control" id="adminAccessCode" value="65614222">
-                                                <i class="bi bi-eye-slash password-toggle" id="toggleAdminCode"></i>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Simpan Pengaturan</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Statistik Sistem</h5>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Total Surat Masuk
-                                            <span class="badge bg-primary rounded-pill">125</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Total Surat Keluar
-                                            <span class="badge bg-primary rounded-pill">87</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Total Dokumen
-                                            <span class="badge bg-primary rounded-pill">42</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Pengguna Terdaftar
-                                            <span class="badge bg-primary rounded-pill">8</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Versi Sistem
-                                            <span class="badge bg-success rounded-pill">v2.1.0</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- User Management Sub-tab -->
-                <div class="tab-pane fade" id="user-management">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Manajemen Pengguna</h2>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahUserModal">
-                            <i class="bi bi-plus-circle"></i> Tambah Pengguna
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Daftar Pengguna</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Nama</th>
-                                            <th>Username</th>
-                                            <th>Email</th>
-                                            <th>Role</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="users-table">
-                                        <!-- Data will be populated by JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- System Logs Sub-tab -->
-                <div class="tab-pane fade" id="system-logs">
-                    <h2 class="mb-4">Log Sistem</h2>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0">Aktivitas Sistem</h5>
-                                <div>
-                                    <button class="btn btn-sm btn-danger me-2" id="clearLogsBtn">
-                                        <i class="bi bi-trash"></i> Hapus Log
-                                    </button>
-                                    <button class="btn btn-sm btn-success" id="exportLogsBtn">
-                                        <i class="bi bi-download"></i> Ekspor Log
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Waktu</th>
-                                            <th>Aktivitas</th>
-                                            <th>Pengguna</th>
-                                            <th>IP Address</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="systemLogsTable">
-                                        <!-- Data will be populated by JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Profil Tab -->
-                <div class="tab-pane fade" id="profil">
-                    <h2 class="mb-4">Profil Pengguna</h2>
-                    
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Profil" width="150" height="150">
-                                    <h5 class="card-title">Admin Utama</h5>
-                                    <p class="text-muted">Administrator</p>
-                                    <button class="btn btn-primary btn-sm">
-                                        <i class="bi bi-pencil"></i> Ubah Foto
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="card mt-4">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Informasi Akun</h5>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Bergabung sejak
-                                            <span>15 Jan 2023</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Terakhir login
-                                            <span>15 Jun 2023 08:12</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Status
-                                            <span class="badge bg-success">Aktif</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Edit Profil</h5>
-                                </div>
-                                <div class="card-body">
-                                    <form id="profileForm">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="profileName" class="form-label">Nama Lengkap</label>
-                                                    <input type="text" class="form-control" id="profileName" value="Admin Utama">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="profileUsername" class="form-label">Username</label>
-                                                    <input type="text" class="form-control" id="profileUsername" value="admin" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="profileEmail" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="profileEmail" value="admin@example.com">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="profilePhone" class="form-label">Nomor Telepon</label>
-                                            <input type="tel" class="form-control" id="profilePhone" value="081234567890">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="profileAddress" class="form-label">Alamat</label>
-                                            <textarea class="form-control" id="profileAddress" rows="3">Jl. Contoh No. 123, Kota, Indonesia</textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                                    </form>
-                                </div>
-                            </div>
-                            
-                            <div class="card mt-4">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Ubah Password</h5>
-                                </div>
-                                <div class="card-body">
-                                    <form id="passwordForm">
-                                        <div class="mb-3">
-                                            <label for="currentPassword" class="form-label">Password Saat Ini</label>
-                                            <input type="password" class="form-control" id="currentPassword" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="newPassword" class="form-label">Password Baru</label>
-                                            <input type="password" class="form-control" id="newPassword" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="confirmPassword" class="form-label">Konfirmasi Password Baru</label>
-                                            <input type="password" class="form-control" id="confirmPassword" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Ubah Password</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pengaturan Tab -->
-                <div class="tab-pane fade" id="pengaturan">
-                    <h2 class="mb-4">Pengaturan Aplikasi</h2>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Preferensi Sistem</h5>
-                        </div>
-                        <div class="card-body">
-                            <form id="appSettingsForm">
-                                <div class="mb-3">
-                                    <label for="appLanguage" class="form-label">Bahasa</label>
-                                    <select class="form-select" id="appLanguage">
-                                        <option value="id">Bahasa Indonesia</option>
-                                        <option value="en">English</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="appTheme" class="form-label">Tema</label>
-                                    <select class="form-select" id="appTheme">
-                                        <option value="light">Light</option>
-                                        <option value="dark">Dark</option>
-                                        <option value="system">Sesuai Sistem</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="notifEmail" checked>
-                                    <label class="form-check-label" for="notifEmail">Notifikasi via Email</label>
-                                </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="notifBrowser" checked>
-                                    <label class="form-check-label" for="notifBrowser">Notifikasi Browser</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Simpan Pengaturan</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Bantuan Tab -->
                 <div class="tab-pane fade" id="bantuan">
                     <h2 class="mb-4">Bantuan & Panduan</h2>
@@ -1218,28 +1025,10 @@
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOne">
                                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            Cara Menambahkan Surat Masuk
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#helpAccordion">
-                                        <div class="accordion-body">
-                                            <ol>
-                                                <li>Pergi ke menu <strong>Surat Masuk</strong></li>
-                                                <li>Klik tombol <strong>Tambah Surat Masuk</strong></li>
-                                                <li>Isi formulir dengan informasi surat yang lengkap</li>
-                                                <li>Unggah file surat (format PDF, maksimal 500KB)</li>
-                                                <li>Klik tombol <strong>Simpan</strong> untuk menyimpan data</li>
-                                            </ol>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingTwo">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                             Cara Mencari Dokumen
                                         </button>
                                     </h2>
-                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#helpAccordion">
+                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#helpAccordion">
                                         <div class="accordion-body">
                                             <ol>
                                                 <li>Pergi ke menu <strong>Pencarian</strong></li>
@@ -1252,19 +1041,18 @@
                                     </div>
                                 </div>
                                 <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                            Cara Memvalidasi Surat
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Cara Menghubungi Admin
                                         </button>
                                     </h2>
-                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#helpAccordion">
+                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#helpAccordion">
                                         <div class="accordion-body">
                                             <ol>
-                                                <li>Pergi ke menu <strong>Validasi Surat</strong></li>
-                                                <li>Pilih jenis surat (masuk/keluar)</li>
-                                                <li>Masukkan nomor surat, tanggal, nama pengirim/penerima, dan perihal</li>
-                                                <li>Klik tombol <strong>Validasi Surat</strong></li>
-                                                <li>Sistem akan menampilkan hasil validasi dan informasi keaslian surat</li>
+                                                <li>Klik tombol WhatsApp di pojok kanan bawah layar</li>
+                                                <li>Anda akan diarahkan ke aplikasi WhatsApp</li>
+                                                <li>Kirim pesan Anda ke admin</li>
+                                                <li>Admin akan merespon pesan Anda secepat mungkin</li>
                                             </ol>
                                         </div>
                                     </div>
@@ -1280,6 +1068,7 @@
                         <div class="card-body">
                             <p>Jika Anda mengalami masalah atau membutuhkan bantuan lebih lanjut, silakan hubungi tim dukungan kami:</p>
                             <ul>
+                                <li><strong>WhatsApp:</strong> <a href="https://wa.me/6285647709114" target="_blank">0856-4770-9114</a></li>
                                 <li><strong>Email:</strong> support@arsippro.com</li>
                                 <li><strong>Telepon:</strong> (0338) 123456</li>
                                 <li><strong>Alamat:</strong> Jl. Raya Situbondo No. 123, Jawa Timur</li>
@@ -1346,9 +1135,9 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="fileSuratMasuk" class="form-label">File Surat (PDF, maks 500KB)</label>
-                            <input type="file" class="form-control" id="fileSuratMasuk" accept=".pdf" required>
-                            <div class="form-text">Ukuran file maksimal 500KB. Format file harus PDF.</div>
+                            <label for="fileSuratMasuk" class="form-label">File Surat (PDF/DOCX/JPEG, maks 2MB)</label>
+                            <input type="file" class="form-control" id="fileSuratMasuk" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
+                            <div class="form-text">Ukuran file maksimal 2MB. Format file yang didukung: PDF, DOC/DOCX, JPG/JPEG, PNG.</div>
                         </div>
                         <div class="mb-3">
                             <label for="keteranganSuratMasuk" class="form-label">Keterangan</label>
@@ -1405,9 +1194,9 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="fileSuratKeluar" class="form-label">File Surat (PDF, maks 500KB)</label>
-                            <input type="file" class="form-control" id="fileSuratKeluar" accept=".pdf" required>
-                            <div class="form-text">Ukuran file maksimal 500KB. Format file harus PDF.</div>
+                            <label for="fileSuratKeluar" class="form-label">File Surat (PDF/DOCX/JPEG, maks 2MB)</label>
+                            <input type="file" class="form-control" id="fileSuratKeluar" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
+                            <div class="form-text">Ukuran file maksimal 2MB. Format file yang didukung: PDF, DOC/DOCX, JPG/JPEG, PNG.</div>
                         </div>
                         <div class="mb-3">
                             <label for="keteranganSuratKeluar" class="form-label">Keterangan</label>
@@ -1463,9 +1252,9 @@
                             <input type="date" class="form-control" id="tanggalDokumen" required>
                         </div>
                         <div class="mb-3">
-                            <label for="fileDokumen" class="form-label">File Dokumen (PDF, maks 500KB)</label>
-                            <input type="file" class="form-control" id="fileDokumen" accept=".pdf" required>
-                            <div class="form-text">Ukuran file maksimal 500KB. Format file harus PDF.</div>
+                            <label for="fileDokumen" class="form-label">File Dokumen (PDF/DOCX/JPEG, maks 2MB)</label>
+                            <input type="file" class="form-control" id="fileDokumen" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
+                            <div class="form-text">Ukuran file maksimal 2MB. Format file yang didukung: PDF, DOC/DOCX, JPG/JPEG, PNG.</div>
                         </div>
                         <div class="mb-3">
                             <label for="keteranganDokumen" class="form-label">Keterangan</label>
@@ -1481,120 +1270,9 @@
         </div>
     </div>
 
-    <!-- Modal Backup Database -->
-    <div class="modal fade" id="backupModal" tabindex="-1" aria-labelledby="backupModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="backupModalLabel">Backup Database</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="backupType" class="form-label">Jenis Backup</label>
-                        <select class="form-select" id="backupType">
-                            <option value="full">Full Backup (Semua Data)</option>
-                            <option value="surat-masuk">Hanya Surat Masuk</option>
-                            <option value="surat-keluar">Hanya Surat Keluar</option>
-                            <option value="dokumen">Hanya Dokumen</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="backupDate" class="form-label">Rentang Tanggal</label>
-                        <input type="text" class="form-control" id="backupDate" placeholder="Pilih rentang tanggal">
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="includeMedia" checked>
-                        <label class="form-check-label" for="includeMedia">Sertakan File Media</label>
-                    </div>
-                    <div class="alert alert-info">
-                        <i class="bi bi-info-circle"></i> Backup akan disimpan dalam format SQL dan dapat di-restore kapan saja.
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" id="startBackup">Mulai Backup</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Tambah Pengguna -->
-    <div class="modal fade" id="tambahUserModal" tabindex="-1" aria-labelledby="tambahUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="tambahUserModalLabel">Tambah Pengguna</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="userForm">
-                        <div class="mb-3">
-                            <label for="userName" class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="userName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="userUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="userUsername" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="userEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="userEmail" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="userRole" class="form-label">Role</label>
-                            <select class="form-select" id="userRole" required>
-                                <option value="">Pilih Role</option>
-                                <option value="admin">Administrator</option>
-                                <option value="operator">Operator</option>
-                                <option value="user">Pengguna</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="userPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="userPassword" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="userConfirmPassword" class="form-label">Konfirmasi Password</label>
-                            <input type="password" class="form-control" id="userConfirmPassword" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" id="simpanUser">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Login Admin -->
-    <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-labelledby="adminLoginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="adminLoginModalLabel">Akses Admin Panel</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="adminLoginForm">
-                        <div class="mb-3">
-                            <label for="adminCode" class="form-label">Kode Keamanan Admin</label>
-                            <input type="password" class="form-control" id="adminCode" placeholder="Masukkan kode keamanan" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" id="loginAdmin">Masuk</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal View Document -->
     <div class="modal fade" id="viewDocumentModal" tabindex="-1" aria-labelledby="viewDocumentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="viewDocumentModalLabel">Detail Dokumen</h5>
@@ -1616,11 +1294,14 @@
     <script>
         // Data storage for the application
         const appData = {
-            adminAccessCode: "65614222",
-            currentUser: {
+            adminCredentials: {
                 username: "admin",
-                role: "admin",
-                name: "Admin Utama"
+                password: "admin123"
+            },
+            currentUser: {
+                username: "pengunjung",
+                role: "guest",
+                name: "Pengunjung"
             },
             incomingLetters: [
                 {
@@ -1631,7 +1312,8 @@
                     subject: "Undangan Rapat",
                     category: "penting",
                     status: "valid",
-                    file: "sm-2023-001.pdf",
+                    file: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                    fileType: "pdf",
                     notes: ""
                 },
                 {
@@ -1642,7 +1324,8 @@
                     subject: "Penawaran Kerjasama",
                     category: "biasa",
                     status: "valid",
-                    file: "sm-2023-002.pdf",
+                    file: "https://file-examples.com/wp-content/uploads/2017/02/file-sample_100kB.docx",
+                    fileType: "docx",
                     notes: ""
                 },
                 {
@@ -1653,7 +1336,8 @@
                     subject: "Pedoman Baru",
                     category: "penting",
                     status: "process",
-                    file: "sm-2023-003.pdf",
+                    file: "https://file-examples.com/wp-content/uploads/2017/10/file_example_JPG_100kB.jpg",
+                    fileType: "jpg",
                     notes: "Menunggu validasi kepala bagian"
                 }
             ],
@@ -1666,7 +1350,8 @@
                     subject: "Permohonan Data",
                     category: "biasa",
                     status: "sent",
-                    file: "sk-2023-001.pdf",
+                    file: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                    fileType: "pdf",
                     notes: ""
                 },
                 {
@@ -1677,7 +1362,8 @@
                     subject: "Balasan Penawaran",
                     category: "penting",
                     status: "sent",
-                    file: "sk-2023-002.pdf",
+                    file: "https://file-examples.com/wp-content/uploads/2017/02/file-sample_100kB.docx",
+                    fileType: "docx",
                     notes: ""
                 },
                 {
@@ -1688,7 +1374,8 @@
                     subject: "Undangan Rapat",
                     category: "biasa",
                     status: "draft",
-                    file: "sk-2023-003.pdf",
+                    file: "https://file-examples.com/wp-content/uploads/2017/10/file_example_JPG_100kB.jpg",
+                    fileType: "jpg",
                     notes: "Menunggu persetujuan"
                 }
             ],
@@ -1700,7 +1387,8 @@
                     category: "laporan",
                     date: "2023-01-15",
                     size: "2.4 MB",
-                    file: "doc-2023-001.pdf",
+                    file: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                    fileType: "pdf",
                     notes: ""
                 },
                 {
@@ -1710,7 +1398,8 @@
                     category: "surat-keputusan",
                     date: "2023-03-20",
                     size: "1.1 MB",
-                    file: "doc-2023-002.pdf",
+                    file: "https://file-examples.com/wp-content/uploads/2017/02/file-sample_100kB.docx",
+                    fileType: "docx",
                     notes: ""
                 },
                 {
@@ -1720,37 +1409,9 @@
                     category: "notulensi",
                     date: "2023-06-05",
                     size: "0.8 MB",
-                    file: "doc-2023-003.pdf",
+                    file: "https://file-examples.com/wp-content/uploads/2017/10/file_example_JPG_100kB.jpg",
+                    fileType: "jpg",
                     notes: "Rapat bulanan"
-                }
-            ],
-            users: [
-                {
-                    id: 1,
-                    name: "Admin Utama",
-                    username: "admin",
-                    email: "admin@example.com",
-                    role: "admin",
-                    status: "active",
-                    lastLogin: "2023-06-15 08:12:34"
-                },
-                {
-                    id: 2,
-                    name: "Operator 1",
-                    username: "operator1",
-                    email: "operator1@example.com",
-                    role: "operator",
-                    status: "active",
-                    lastLogin: "2023-06-15 09:30:45"
-                },
-                {
-                    id: 3,
-                    name: "Pengguna 1",
-                    username: "user1",
-                    email: "user1@example.com",
-                    role: "user",
-                    status: "active",
-                    lastLogin: "2023-06-14 14:22:10"
                 }
             ],
             systemLogs: [
@@ -1794,15 +1455,7 @@
                     ip: "192.168.1.3",
                     status: "failed"
                 }
-            ],
-            systemSettings: {
-                name: "ArsipPro",
-                maxUploadSize: 500,
-                enableValidation: true,
-                enableNotifications: true,
-                language: "id",
-                theme: "light"
-            }
+            ]
         };
 
         // Initialize the application
@@ -1814,9 +1467,6 @@
             initEventListeners();
             loadDataTables();
             updateDashboardStats();
-            
-            // Check if user is admin
-            checkAdminStatus();
         });
 
         // Initialize sidebar functionality
@@ -1882,20 +1532,6 @@
 
         // Initialize forms
         function initForms() {
-            // Password toggle functionality
-            document.getElementById('toggleAdminCode').addEventListener('click', function() {
-                const input = document.getElementById('adminAccessCode');
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    this.classList.remove('bi-eye-slash');
-                    this.classList.add('bi-eye');
-                } else {
-                    input.type = 'password';
-                    this.classList.remove('bi-eye');
-                    this.classList.add('bi-eye-slash');
-                }
-            });
-
             // Initialize all forms to prevent default submission
             document.querySelectorAll('form').forEach(form => {
                 form.addEventListener('submit', function(e) {
@@ -1969,122 +1605,70 @@
                 documentsTable.appendChild(row);
             });
 
-            // Load users
-            const usersTable = document.getElementById('users-table');
-            usersTable.innerHTML = '';
-            
-            appData.users.forEach(user => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${user.name}</td>
-                    <td>${user.username}</td>
-                    <td>${user.email}</td>
-                    <td><span class="badge bg-${getRoleBadgeClass(user.role)}">${getRoleText(user.role)}</span></td>
-                    <td><span class="badge bg-success">Aktif</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-warning edit-user-btn" data-id="${user.id}"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger delete-user-btn" data-id="${user.id}"><i class="bi bi-trash"></i></button>
-                    </td>
-                `;
-                usersTable.appendChild(row);
-            });
-
             // Load system logs
             const systemLogsTable = document.getElementById('systemLogsTable');
-            systemLogsTable.innerHTML = '';
-            
-            appData.systemLogs.forEach(log => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${log.timestamp}</td>
-                    <td>${log.activity}</td>
-                    <td>${log.user}</td>
-                    <td>${log.ip}</td>
-                    <td><span class="badge bg-${log.status === 'success' ? 'success' : 'danger'}">${log.status === 'success' ? 'Sukses' : 'Gagal'}</span></td>
-                `;
-                systemLogsTable.appendChild(row);
-            });
+            if (systemLogsTable) {
+                systemLogsTable.innerHTML = '';
+                
+                appData.systemLogs.forEach(log => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${log.timestamp}</td>
+                        <td>${log.activity}</td>
+                        <td>${log.user}</td>
+                        <td>${log.ip}</td>
+                        <td><span class="badge bg-${log.status === 'success' ? 'success' : 'danger'}">${log.status === 'success' ? 'Sukses' : 'Gagal'}</span></td>
+                    `;
+                    systemLogsTable.appendChild(row);
+                });
+            }
         }
 
         // Initialize event listeners
         function initEventListeners() {
             // Admin login
-            document.getElementById('admin-link').addEventListener('click', function(e) {
-                if (appData.currentUser.role !== 'admin') {
-                    e.preventDefault();
-                    const adminModal = new bootstrap.Modal(document.getElementById('adminLoginModal'));
-                    adminModal.show();
-                }
-            });
-
-            document.getElementById('loginAdmin').addEventListener('click', function() {
-                const code = document.getElementById('adminCode').value;
+            document.getElementById('adminLoginForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('adminUsername').value;
+                const password = document.getElementById('adminPassword').value;
                 
-                if (code === appData.adminAccessCode) {
+                if (username === appData.adminCredentials.username && password === appData.adminCredentials.password) {
                     // Set user as admin
-                    appData.currentUser.role = 'admin';
+                    appData.currentUser = {
+                        username: "admin",
+                        role: "admin",
+                        name: "Admin Utama"
+                    };
                     
-                    // Hide modal
-                    const adminModal = bootstrap.Modal.getInstance(document.getElementById('adminLoginModal'));
-                    adminModal.hide();
-                    
-                    // Reset form
-                    document.getElementById('adminLoginForm').reset();
-                    
-                    // Show admin panel tab
-                    document.getElementById('admin-link').style.display = 'block';
-                    const adminTab = new bootstrap.Tab(document.getElementById('admin-link'));
-                    adminTab.show();
+                    // Show admin content
+                    document.getElementById('adminContent').style.display = 'block';
+                    document.getElementById('adminLoginForm').style.display = 'none';
                     
                     // Add to system logs
-                    addSystemLog('Akses Admin Panel', appData.currentUser.username, 'success');
+                    addSystemLog('Login Admin', appData.currentUser.username, 'success');
                     
                     // Show success message
                     showToast('Login admin berhasil!', 'success');
-                } else {
-                    showToast('Kode keamanan salah!', 'error');
-                    addSystemLog('Percobaan Akses Admin Panel Gagal', 'unknown', 'failed');
                     
-                    // Reset form fields
-                    document.getElementById('adminCode').value = '';
+                    // Load admin data tables
+                    loadDataTables();
+                } else {
+                    showToast('Username atau password salah!', 'error');
+                    addSystemLog('Percobaan Login Admin Gagal', username, 'failed');
                 }
             });
 
-            // Logout
-            document.getElementById('logout-btn').addEventListener('click', function() {
-                showConfirmDialog(
-                    'Konfirmasi Logout', 
-                    'Apakah Anda yakin ingin keluar dari sistem?', 
-                    'warning',
-                    function() {
-                        showLoading();
-                        setTimeout(() => {
-                            // Redirect to login page
-                            window.location.href = 'login.html';
-                        }, 1000);
-                    }
-                );
-            });
-
             // File upload validation
-            document.getElementById('fileSuratMasuk').addEventListener('change', validateFileUpload);
-            document.getElementById('fileSuratKeluar').addEventListener('change', validateFileUpload);
-            document.getElementById('fileDokumen').addEventListener('change', validateFileUpload);
+            document.getElementById('fileSuratMasuk')?.addEventListener('change', validateFileUpload);
+            document.getElementById('fileSuratKeluar')?.addEventListener('change', validateFileUpload);
+            document.getElementById('fileDokumen')?.addEventListener('change', validateFileUpload);
 
             // Form submissions
-            document.getElementById('simpanSuratMasuk').addEventListener('click', saveIncomingLetter);
-            document.getElementById('simpanSuratKeluar').addEventListener('click', saveOutgoingLetter);
-            document.getElementById('simpanDokumen').addEventListener('click', saveDocument);
-            document.getElementById('simpanUser').addEventListener('click', saveUser);
-            document.getElementById('startBackup').addEventListener('click', startBackup);
-            document.getElementById('validationForm').addEventListener('submit', validateLetter);
-            document.getElementById('systemSettingsForm').addEventListener('submit', saveSystemSettings);
-            document.getElementById('searchForm').addEventListener('submit', searchDocuments);
-            document.getElementById('profileForm').addEventListener('submit', updateProfile);
-            document.getElementById('passwordForm').addEventListener('submit', changePassword);
-            document.getElementById('appSettingsForm').addEventListener('submit', saveAppSettings);
-            document.getElementById('clearLogsBtn').addEventListener('click', clearSystemLogs);
-            document.getElementById('exportLogsBtn').addEventListener('click', exportSystemLogs);
+            document.getElementById('simpanSuratMasuk')?.addEventListener('click', saveIncomingLetter);
+            document.getElementById('simpanSuratKeluar')?.addEventListener('click', saveOutgoingLetter);
+            document.getElementById('simpanDokumen')?.addEventListener('click', saveDocument);
+            document.getElementById('validationForm')?.addEventListener('submit', validateLetter);
+            document.getElementById('searchForm')?.addEventListener('submit', searchDocuments);
 
             // View buttons
             document.addEventListener('click', function(e) {
@@ -2115,30 +1699,18 @@
                     const docId = button.getAttribute('data-id');
                     deleteDocument(docType, docId);
                 }
-                
-                if (e.target.closest('.edit-user-btn')) {
-                    const button = e.target.closest('.edit-user-btn');
-                    const userId = button.getAttribute('data-id');
-                    editUser(userId);
-                }
-                
-                if (e.target.closest('.delete-user-btn')) {
-                    const button = e.target.closest('.delete-user-btn');
-                    const userId = button.getAttribute('data-id');
-                    deleteUser(userId);
-                }
             });
 
             // Search functionality
-            document.getElementById('searchIncomingLetters').addEventListener('input', function() {
+            document.getElementById('searchIncomingLetters')?.addEventListener('input', function() {
                 filterTable('incoming-letters-table', this.value.toLowerCase());
             });
 
-            document.getElementById('searchOutgoingLetters').addEventListener('input', function() {
+            document.getElementById('searchOutgoingLetters')?.addEventListener('input', function() {
                 filterTable('outgoing-letters-table', this.value.toLowerCase());
             });
 
-            document.getElementById('searchDocuments').addEventListener('input', function() {
+            document.getElementById('searchDocuments')?.addEventListener('input', function() {
                 filterTable('documents-table', this.value.toLowerCase());
             });
 
@@ -2149,6 +1721,8 @@
         // Filter table rows based on search input
         function filterTable(tableId, searchText) {
             const table = document.getElementById(tableId);
+            if (!table) return;
+            
             const rows = table.getElementsByTagName('tr');
             
             for (let i = 0; i < rows.length; i++) {
@@ -2177,6 +1751,8 @@
                     const filter = this.getAttribute('data-filter');
                     const tableId = this.closest('.dropdown-menu').getAttribute('aria-labelledby').replace('filter', '').toLowerCase();
                     const tableBody = document.getElementById(`${tableId}-table`);
+                    if (!tableBody) return;
+                    
                     const rows = tableBody.getElementsByTagName('tr');
                     
                     for (let i = 0; i < rows.length; i++) {
@@ -2231,7 +1807,9 @@
                         <p>${documentData.notes || 'Tidak ada keterangan'}</p>
                     </div>
                     <div class="mt-3">
-                        <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(documentData.file)}&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
+                        <div class="document-preview">
+                            ${getDocumentPreviewContent(documentData)}
+                        </div>
                     </div>
                 `;
             } else if (docType === 'surat-keluar') {
@@ -2255,7 +1833,9 @@
                         <p>${documentData.notes || 'Tidak ada keterangan'}</p>
                     </div>
                     <div class="mt-3">
-                        <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(documentData.file)}&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
+                        <div class="document-preview">
+                            ${getDocumentPreviewContent(documentData)}
+                        </div>
                     </div>
                 `;
             } else if (docType === 'dokumen') {
@@ -2278,7 +1858,9 @@
                         <p>${documentData.notes || 'Tidak ada keterangan'}</p>
                     </div>
                     <div class="mt-3">
-                        <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(documentData.file)}&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
+                        <div class="document-preview">
+                            ${getDocumentPreviewContent(documentData)}
+                        </div>
                     </div>
                 `;
             }
@@ -2290,6 +1872,35 @@
             
             const viewModal = new bootstrap.Modal(document.getElementById('viewDocumentModal'));
             viewModal.show();
+        }
+
+        // Get document preview content based on file type
+        function getDocumentPreviewContent(documentData) {
+            const fileType = documentData.fileType;
+            
+            if (fileType === 'pdf') {
+                return `<iframe src="${documentData.file}"></iframe>`;
+            } else if (fileType === 'doc' || fileType === 'docx') {
+                return `
+                    <div class="unsupported-format">
+                        <div class="text-center">
+                            <i class="bi bi-file-earmark-word" style="font-size: 3rem; color: #2b579a;"></i>
+                            <p class="mt-2">Dokumen Word tidak dapat dipratinjau. Silakan unduh untuk melihat.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (fileType === 'jpg' || fileType === 'jpeg' || fileType === 'png') {
+                return `<img src="${documentData.file}" alt="${documentData.number || documentData.code}">`;
+            } else {
+                return `
+                    <div class="unsupported-format">
+                        <div class="text-center">
+                            <i class="bi bi-file-earmark" style="font-size: 3rem;"></i>
+                            <p class="mt-2">Format file tidak didukung untuk pratinjau. Silakan unduh untuk melihat.</p>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
         // Download document
@@ -2304,45 +1915,55 @@
                 documentData = appData.documents.find(doc => doc.id == docId);
             }
             
-            // In a real app, this would initiate a file download
+            // Simulate download
+            const a = document.createElement('a');
+            a.href = documentData.file;
+            a.download = `${documentData.number || documentData.code}.${documentData.fileType}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
             showToast(`Mengunduh ${documentData.number || documentData.code}`, 'success');
             addSystemLog(`Mengunduh ${docType === 'dokumen' ? 'Dokumen' : 'Surat'} ${documentData.number || documentData.code}`, appData.currentUser.username, 'success');
         }
 
         // Edit document
         function editDocument(docType, docId) {
+            if (appData.currentUser.role !== 'admin') {
+                showToast('Hanya admin yang dapat mengedit dokumen', 'error');
+                return;
+            }
+            
             showToast('Fitur edit akan segera tersedia', 'info');
         }
 
         // Delete document
         function deleteDocument(docType, docId) {
+            if (appData.currentUser.role !== 'admin') {
+                showToast('Hanya admin yang dapat menghapus dokumen', 'error');
+                return;
+            }
+            
             showConfirmDialog(
                 'Konfirmasi Hapus', 
                 `Apakah Anda yakin ingin menghapus ${docType === 'dokumen' ? 'dokumen' : 'surat'} ini?`, 
                 'error',
                 function() {
                     // In a real app, this would delete the document from the server
+                    if (docType === 'surat-masuk') {
+                        appData.incomingLetters = appData.incomingLetters.filter(letter => letter.id != docId);
+                    } else if (docType === 'surat-keluar') {
+                        appData.outgoingLetters = appData.outgoingLetters.filter(letter => letter.id != docId);
+                    } else if (docType === 'dokumen') {
+                        appData.documents = appData.documents.filter(doc => doc.id != docId);
+                    }
+                    
                     showToast(`${docType === 'dokumen' ? 'Dokumen' : 'Surat'} berhasil dihapus`, 'success');
                     addSystemLog(`Menghapus ${docType === 'dokumen' ? 'Dokumen' : 'Surat'}`, appData.currentUser.username, 'success');
-                }
-            );
-        }
-
-        // Edit user
-        function editUser(userId) {
-            showToast('Fitur edit pengguna akan segera tersedia', 'info');
-        }
-
-        // Delete user
-        function deleteUser(userId) {
-            showConfirmDialog(
-                'Konfirmasi Hapus', 
-                'Apakah Anda yakin ingin menghapus pengguna ini?', 
-                'error',
-                function() {
-                    // In a real app, this would delete the user from the server
-                    showToast('Pengguna berhasil dihapus', 'success');
-                    addSystemLog('Menghapus Pengguna', appData.currentUser.username, 'success');
+                    
+                    // Reload data tables
+                    loadDataTables();
+                    updateDashboardStats();
                 }
             );
         }
@@ -2359,30 +1980,26 @@
             document.getElementById('validation-rate').textContent = validationRate + '%';
         }
 
-        // Check admin status
-        function checkAdminStatus() {
-            // In a real app, this would check the user's role from the backend
-            const isAdmin = appData.currentUser.role === 'admin';
-            if (isAdmin) {
-                document.getElementById('admin-link').style.display = 'block';
-            }
-        }
-
         // Validate file upload
         function validateFileUpload(e) {
             const file = e.target.files[0];
-            const maxSize = appData.systemSettings.maxUploadSize * 1024; // Convert KB to bytes
+            const maxSize = 2 * 1024 * 1024; // 2MB in bytes
             
             if (file && file.size > maxSize) {
-                showToast(`Ukuran file melebihi ${appData.systemSettings.maxUploadSize}KB. Silakan pilih file yang lebih kecil.`, 'error');
+                showToast('Ukuran file melebihi 2MB. Silakan pilih file yang lebih kecil.', 'error');
                 e.target.value = '';
             }
         }
 
         // Save incoming letter
         function saveIncomingLetter() {
+            if (appData.currentUser.role !== 'admin') {
+                showToast('Hanya admin yang dapat menambahkan surat masuk', 'error');
+                return;
+            }
+            
             const form = document.getElementById('suratMasukForm');
-            const requiredFields = ['noSuratMasuk', 'tanggalSuratMasuk', 'pengirimSuratMasuk', 'perihalSuratMasuk'];
+            const requiredFields = ['noSuratMasuk', 'tanggalSuratMasuk', 'pengirimSuratMasuk', 'perihalSuratMasuk', 'fileSuratMasuk'];
             
             for (const field of requiredFields) {
                 if (!document.getElementById(field).value) {
@@ -2394,6 +2011,10 @@
             showLoading();
             
             setTimeout(() => {
+                const fileInput = document.getElementById('fileSuratMasuk');
+                const fileName = fileInput.files[0].name;
+                const fileExt = fileName.split('.').pop().toLowerCase();
+                
                 const newLetter = {
                     id: appData.incomingLetters.length + 1,
                     number: document.getElementById('noSuratMasuk').value,
@@ -2402,7 +2023,8 @@
                     subject: document.getElementById('perihalSuratMasuk').value,
                     category: document.getElementById('kategoriSuratMasuk').value,
                     status: "process",
-                    file: "new-file.pdf",
+                    file: `https://example.com/uploads/${fileName}`,
+                    fileType: fileExt,
                     notes: document.getElementById('keteranganSuratMasuk').value
                 };
                 
@@ -2425,8 +2047,13 @@
 
         // Save outgoing letter
         function saveOutgoingLetter() {
+            if (appData.currentUser.role !== 'admin') {
+                showToast('Hanya admin yang dapat menambahkan surat keluar', 'error');
+                return;
+            }
+            
             const form = document.getElementById('suratKeluarForm');
-            const requiredFields = ['noSuratKeluar', 'tanggalSuratKeluar', 'tujuanSuratKeluar', 'perihalSuratKeluar'];
+            const requiredFields = ['noSuratKeluar', 'tanggalSuratKeluar', 'tujuanSuratKeluar', 'perihalSuratKeluar', 'fileSuratKeluar'];
             
             for (const field of requiredFields) {
                 if (!document.getElementById(field).value) {
@@ -2438,6 +2065,10 @@
             showLoading();
             
             setTimeout(() => {
+                const fileInput = document.getElementById('fileSuratKeluar');
+                const fileName = fileInput.files[0].name;
+                const fileExt = fileName.split('.').pop().toLowerCase();
+                
                 const newLetter = {
                     id: appData.outgoingLetters.length + 1,
                     number: document.getElementById('noSuratKeluar').value,
@@ -2446,7 +2077,8 @@
                     subject: document.getElementById('perihalSuratKeluar').value,
                     category: document.getElementById('kategoriSuratKeluar').value,
                     status: "draft",
-                    file: "new-file.pdf",
+                    file: `https://example.com/uploads/${fileName}`,
+                    fileType: fileExt,
                     notes: document.getElementById('keteranganSuratKeluar').value
                 };
                 
@@ -2469,8 +2101,13 @@
 
         // Save document
         function saveDocument() {
+            if (appData.currentUser.role !== 'admin') {
+                showToast('Hanya admin yang dapat menambahkan dokumen', 'error');
+                return;
+            }
+            
             const form = document.getElementById('dokumenForm');
-            const requiredFields = ['namaDokumen', 'kodeDokumen', 'kategoriDokumen', 'tanggalDokumen'];
+            const requiredFields = ['namaDokumen', 'kodeDokumen', 'kategoriDokumen', 'tanggalDokumen', 'fileDokumen'];
             
             for (const field of requiredFields) {
                 if (!document.getElementById(field).value) {
@@ -2482,14 +2119,20 @@
             showLoading();
             
             setTimeout(() => {
+                const fileInput = document.getElementById('fileDokumen');
+                const fileName = fileInput.files[0].name;
+                const fileExt = fileName.split('.').pop().toLowerCase();
+                const fileSize = (fileInput.files[0].size / (1024 * 1024)).toFixed(1) + ' MB';
+                
                 const newDoc = {
                     id: appData.documents.length + 1,
                     code: document.getElementById('kodeDokumen').value,
                     name: document.getElementById('namaDokumen').value,
                     category: document.getElementById('kategoriDokumen').value,
                     date: document.getElementById('tanggalDokumen').value,
-                    size: "1.5 MB", // This would be calculated from the file
-                    file: "new-doc.pdf",
+                    size: fileSize,
+                    file: `https://example.com/uploads/${fileName}`,
+                    fileType: fileExt,
                     notes: document.getElementById('keteranganDokumen').value
                 };
                 
@@ -2510,80 +2153,14 @@
             }, 1500);
         }
 
-        // Save user
-        function saveUser() {
-            const form = document.getElementById('userForm');
-            const requiredFields = ['userName', 'userUsername', 'userEmail', 'userRole', 'userPassword', 'userConfirmPassword'];
-            
-            for (const field of requiredFields) {
-                if (!document.getElementById(field).value) {
-                    showToast(`Harap isi ${document.getElementById(field).labels[0].textContent}`, 'error');
-                    return;
-                }
-            }
-            
-            const password = document.getElementById('userPassword').value;
-            const confirmPassword = document.getElementById('userConfirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                showToast('Password dan konfirmasi password tidak cocok!', 'error');
-                return;
-            }
-            
-            showLoading();
-            
-            setTimeout(() => {
-                const newUser = {
-                    id: appData.users.length + 1,
-                    name: document.getElementById('userName').value,
-                    username: document.getElementById('userUsername').value,
-                    email: document.getElementById('userEmail').value,
-                    role: document.getElementById('userRole').value,
-                    status: "active",
-                    lastLogin: new Date().toISOString()
-                };
-                
-                appData.users.push(newUser);
-                addSystemLog('Menambahkan Pengguna Baru', appData.currentUser.username, 'success');
-                
-                hideLoading();
-                showToast('Pengguna baru berhasil ditambahkan!', 'success');
-                const modal = bootstrap.Modal.getInstance(document.getElementById('tambahUserModal'));
-                modal.hide();
-                
-                // Reset form
-                form.reset();
-                
-                // Update tables
-                loadDataTables();
-            }, 1500);
-        }
-
-        // Start backup
-        function startBackup() {
-            showLoading();
-            
-            setTimeout(() => {
-                const backupType = document.getElementById('backupType').value;
-                const includeMedia = document.getElementById('includeMedia').checked;
-                
-                addSystemLog(`Backup Database (${backupType})`, appData.currentUser.username, 'success');
-                
-                hideLoading();
-                showToast(`Backup database (${backupType}) berhasil dilakukan!`, 'success');
-                const modal = bootstrap.Modal.getInstance(document.getElementById('backupModal'));
-                modal.hide();
-                
-                // Reset form
-                document.getElementById('backupType').value = 'full';
-                document.getElementById('backupDate').value = '';
-                document.getElementById('includeMedia').checked = true;
-            }, 2000);
-        }
-
         // Validate letter
         function validateLetter(e) {
             e.preventDefault();
+            
+            if (appData.currentUser.role !== 'admin') {
+                showToast('Hanya admin yang dapat memvalidasi surat', 'error');
+                return;
+            }
             
             const requiredFields = ['validationType', 'validationNumber', 'validationDate', 'validationName', 'validationSubject'];
             
@@ -2641,33 +2218,6 @@
             }, 1000);
         }
 
-        // Save system settings
-        function saveSystemSettings(e) {
-            e.preventDefault();
-            
-            const newAccessCode = document.getElementById('adminAccessCode').value;
-            
-            if (!newAccessCode) {
-                showToast('Harap isi Kode Akses Admin', 'error');
-                return;
-            }
-            
-            showLoading();
-            
-            setTimeout(() => {
-                // Update settings
-                appData.adminAccessCode = newAccessCode;
-                appData.systemSettings.maxUploadSize = document.getElementById('maxUploadSize').value;
-                appData.systemSettings.enableValidation = document.getElementById('enableValidation').checked;
-                appData.systemSettings.enableNotifications = document.getElementById('enableNotifications').checked;
-                
-                addSystemLog('Mengubah Pengaturan Sistem', appData.currentUser.username, 'success');
-                
-                hideLoading();
-                showToast('Pengaturan sistem berhasil disimpan!', 'success');
-            }, 1000);
-        }
-
         // Search documents
         function searchDocuments(e) {
             e.preventDefault();
@@ -2707,7 +2257,8 @@
                             date: letter.date,
                             name: letter.sender,
                             subject: letter.subject,
-                            status: letter.status
+                            status: letter.status,
+                            id: letter.id
                         }))
                     );
                 }
@@ -2731,7 +2282,8 @@
                             date: letter.date,
                             name: letter.recipient,
                             subject: letter.subject,
-                            status: letter.status
+                            status: letter.status,
+                            id: letter.id
                         }))
                     );
                 }
@@ -2753,7 +2305,8 @@
                             date: doc.date,
                             name: doc.name,
                             subject: doc.category,
-                            status: 'valid'
+                            status: 'valid',
+                            id: doc.id
                         }))
                     );
                 }
@@ -2783,8 +2336,8 @@
                             <td>${item.subject}</td>
                             <td><span class="badge bg-${getStatusBadgeClass(item.status)}">${getStatusText(item.status)}</span></td>
                             <td>
-                                <button class="btn btn-sm btn-primary view-doc-btn" data-type="${item.type.toLowerCase().replace(' ', '-')}" data-id="${item.number}"><i class="bi bi-eye"></i></button>
-                                ${item.type === 'Dokumen' ? '<button class="btn btn-sm btn-success download-doc-btn" data-id="${item.number}"><i class="bi bi-download"></i></button>' : ''}
+                                <button class="btn btn-sm btn-primary view-doc-btn" data-type="${item.type.toLowerCase().replace(' ', '-')}" data-id="${item.id}"><i class="bi bi-eye"></i></button>
+                                ${item.type === 'Dokumen' ? `<button class="btn btn-sm btn-success download-doc-btn" data-type="dokumen" data-id="${item.id}"><i class="bi bi-download"></i></button>` : ''}
                             </td>
                         `;
                         resultsBody.appendChild(row);
@@ -2795,122 +2348,6 @@
                 document.getElementById('searchResults').style.display = 'block';
                 addSystemLog('Melakukan Pencarian Dokumen', appData.currentUser.username, 'success');
                 hideLoading();
-            }, 1000);
-        }
-
-        // Update profile
-        function updateProfile(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('profileName').value;
-            const email = document.getElementById('profileEmail').value;
-            
-            if (!name || !email) {
-                showToast('Harap isi semua field yang wajib diisi', 'error');
-                return;
-            }
-            
-            showLoading();
-            
-            setTimeout(() => {
-                // In a real app, this would update the profile on the server
-                appData.currentUser.name = name;
-                appData.currentUser.email = email;
-                
-                addSystemLog('Memperbarui Profil', appData.currentUser.username, 'success');
-                
-                hideLoading();
-                showToast('Profil berhasil diperbarui!', 'success');
-            }, 1000);
-        }
-
-        // Change password
-        function changePassword(e) {
-            e.preventDefault();
-            
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (!currentPassword || !newPassword || !confirmPassword) {
-                showToast('Harap isi semua field password', 'error');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                showToast('Password baru dan konfirmasi password tidak cocok!', 'error');
-                return;
-            }
-            
-            showLoading();
-            
-            setTimeout(() => {
-                // In a real app, this would verify current password and update on the server
-                addSystemLog('Mengubah Password', appData.currentUser.username, 'success');
-                
-                hideLoading();
-                showToast('Password berhasil diubah!', 'success');
-                document.getElementById('passwordForm').reset();
-            }, 1000);
-        }
-
-        // Save app settings
-        function saveAppSettings(e) {
-            e.preventDefault();
-            
-            showLoading();
-            
-            setTimeout(() => {
-                // In a real app, this would save settings to the server
-                appData.systemSettings.language = document.getElementById('appLanguage').value;
-                appData.systemSettings.theme = document.getElementById('appTheme').value;
-                
-                addSystemLog('Mengubah Pengaturan Aplikasi', appData.currentUser.username, 'success');
-                
-                hideLoading();
-                showToast('Pengaturan aplikasi berhasil disimpan!', 'success');
-            }, 1000);
-        }
-
-        // Clear system logs
-        function clearSystemLogs() {
-            showConfirmDialog(
-                'Konfirmasi Hapus Log', 
-                'Apakah Anda yakin ingin menghapus semua log sistem?', 
-                'warning',
-                function() {
-                    showLoading();
-                    
-                    setTimeout(() => {
-                        appData.systemLogs = [];
-                        document.getElementById('systemLogsTable').innerHTML = `
-                            <tr>
-                                <td colspan="5" class="text-center py-4">
-                                    <div class="alert alert-info">
-                                        <i class="bi bi-info-circle"></i> Tidak ada log sistem yang tersedia.
-                                    </div>
-                                </td>
-                            </tr>
-                        `;
-                        
-                        addSystemLog('Menghapus Semua Log Sistem', appData.currentUser.username, 'success');
-                        hideLoading();
-                        showToast('Semua log sistem telah dihapus!', 'success');
-                    }, 1000);
-                }
-            );
-        }
-
-        // Export system logs
-        function exportSystemLogs() {
-            showLoading();
-            
-            setTimeout(() => {
-                // In a real app, this would generate and download a file
-                addSystemLog('Mengekspor Log Sistem', appData.currentUser.username, 'success');
-                
-                hideLoading();
-                showToast('Log sistem berhasil diekspor!', 'success');
             }, 1000);
         }
 
@@ -3099,34 +2536,6 @@
                     return 'Biasa';
                 default:
                     return category;
-            }
-        }
-
-        // Get role badge class
-        function getRoleBadgeClass(role) {
-            switch(role) {
-                case 'admin':
-                    return 'danger';
-                case 'operator':
-                    return 'warning';
-                case 'user':
-                    return 'info';
-                default:
-                    return 'secondary';
-            }
-        }
-
-        // Get role text
-        function getRoleText(role) {
-            switch(role) {
-                case 'admin':
-                    return 'Administrator';
-                case 'operator':
-                    return 'Operator';
-                case 'user':
-                    return 'Pengguna';
-                default:
-                    return role;
             }
         }
 
