@@ -340,7 +340,7 @@
                         <div class="dropdown">
                             <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="https://via.placeholder.com/40" alt="User" width="32" height="32" class="rounded-circle me-2">
-                                <strong>Pengguna</strong>
+                                <strong>Admin</strong>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
                                 <li><a class="dropdown-item" href="#profil" data-bs-toggle="tab">Profil</a></li>
@@ -1105,10 +1105,10 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0">Aktivitas Sistem</h5>
                                 <div>
-                                    <button class="btn btn-sm btn-danger me-2">
+                                    <button class="btn btn-sm btn-danger me-2" id="clearLogsBtn">
                                         <i class="bi bi-trash"></i> Hapus Log
                                     </button>
-                                    <button class="btn btn-sm btn-success">
+                                    <button class="btn btn-sm btn-success" id="exportLogsBtn">
                                         <i class="bi bi-download"></i> Ekspor Log
                                     </button>
                                 </div>
@@ -1126,7 +1126,7 @@
                                             <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="systemLogsTable">
                                         <tr>
                                             <td>2023-06-15 08:12:34</td>
                                             <td>Login ke sistem</td>
@@ -1191,7 +1191,7 @@
                             <div class="card">
                                 <div class="card-body text-center">
                                     <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Profil" width="150" height="150">
-                                    <h5 class="card-title">Nama Pengguna</h5>
+                                    <h5 class="card-title">Admin Utama</h5>
                                     <p class="text-muted">Administrator</p>
                                     <button class="btn btn-primary btn-sm">
                                         <i class="bi bi-pencil"></i> Ubah Foto
@@ -1227,12 +1227,12 @@
                                     <h5 class="card-title mb-0">Edit Profil</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form id="profileForm">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="profileName" class="form-label">Nama Lengkap</label>
-                                                    <input type="text" class="form-control" id="profileName" value="Nama Pengguna">
+                                                    <input type="text" class="form-control" id="profileName" value="Admin Utama">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -1264,18 +1264,18 @@
                                     <h5 class="card-title mb-0">Ubah Password</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form id="passwordForm">
                                         <div class="mb-3">
                                             <label for="currentPassword" class="form-label">Password Saat Ini</label>
-                                            <input type="password" class="form-control" id="currentPassword">
+                                            <input type="password" class="form-control" id="currentPassword" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="newPassword" class="form-label">Password Baru</label>
-                                            <input type="password" class="form-control" id="newPassword">
+                                            <input type="password" class="form-control" id="newPassword" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="confirmPassword" class="form-label">Konfirmasi Password Baru</label>
-                                            <input type="password" class="form-control" id="confirmPassword">
+                                            <input type="password" class="form-control" id="confirmPassword" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Ubah Password</button>
                                     </form>
@@ -1294,7 +1294,7 @@
                             <h5 class="card-title mb-0">Preferensi Sistem</h5>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form id="appSettingsForm">
                                 <div class="mb-3">
                                     <label for="appLanguage" class="form-label">Bahasa</label>
                                     <select class="form-select" id="appLanguage">
@@ -1725,6 +1725,11 @@
         // Data storage for the application
         const appData = {
             adminAccessCode: "65614222",
+            currentUser: {
+                username: "admin",
+                role: "admin",
+                name: "Admin Utama"
+            },
             incomingLetters: [
                 {
                     id: 1,
@@ -1997,6 +2002,13 @@
                     this.classList.add('bi-eye-slash');
                 }
             });
+
+            // Initialize all forms to prevent default submission
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                });
+            });
         }
 
         // Initialize event listeners
@@ -2018,6 +2030,9 @@
                     const adminModal = bootstrap.Modal.getInstance(document.getElementById('adminLoginModal'));
                     adminModal.hide();
                     
+                    // Reset form
+                    document.getElementById('adminLoginForm').reset();
+                    
                     // Show admin panel tab
                     document.getElementById('admin-link').style.display = 'block';
                     const adminTab = new bootstrap.Tab(document.getElementById('admin-link'));
@@ -2025,9 +2040,16 @@
                     
                     // Add to system logs
                     addSystemLog('Akses Admin Panel', 'admin', 'success');
+                    
+                    // Show success message
+                    alert('Login admin berhasil!');
                 } else {
                     alert('Login gagal! Username, password, atau kode keamanan salah.');
                     addSystemLog('Percobaan Akses Admin Panel Gagal', username || 'unknown', 'failed');
+                    
+                    // Reset form fields
+                    document.getElementById('adminPassword').value = '';
+                    document.getElementById('adminCode').value = '';
                 }
             });
 
@@ -2056,9 +2078,17 @@
             document.getElementById('validationForm').addEventListener('submit', validateLetter);
             document.getElementById('systemSettingsForm').addEventListener('submit', saveSystemSettings);
             document.getElementById('searchForm').addEventListener('submit', searchDocuments);
+            document.getElementById('profileForm').addEventListener('submit', updateProfile);
+            document.getElementById('passwordForm').addEventListener('submit', changePassword);
+            document.getElementById('appSettingsForm').addEventListener('submit', saveAppSettings);
+            document.getElementById('clearLogsBtn').addEventListener('click', clearSystemLogs);
+            document.getElementById('exportLogsBtn').addEventListener('click', exportSystemLogs);
 
             // Filter functionality
             setupFilters();
+
+            // View buttons
+            setupViewButtons();
         }
 
         // Update dashboard statistics
@@ -2076,7 +2106,7 @@
         // Check admin status
         function checkAdminStatus() {
             // In a real app, this would check the user's role from the backend
-            const isAdmin = true; // For demo purposes, assume user is admin
+            const isAdmin = appData.currentUser.role === 'admin';
             if (isAdmin) {
                 document.getElementById('admin-link').style.display = 'block';
             }
@@ -2112,12 +2142,15 @@
                 };
                 
                 appData.incomingLetters.push(newLetter);
-                addSystemLog('Menambahkan Surat Masuk', 'user', 'success');
+                addSystemLog('Menambahkan Surat Masuk', appData.currentUser.username, 'success');
                 
                 hideLoading();
                 alert('Surat masuk berhasil disimpan!');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('tambahSuratMasukModal'));
                 modal.hide();
+                
+                // Reset form
+                document.getElementById('suratMasukForm').reset();
                 
                 // Update dashboard
                 updateDashboardStats();
@@ -2143,12 +2176,15 @@
                 };
                 
                 appData.outgoingLetters.push(newLetter);
-                addSystemLog('Menambahkan Surat Keluar', 'user', 'success');
+                addSystemLog('Menambahkan Surat Keluar', appData.currentUser.username, 'success');
                 
                 hideLoading();
                 alert('Surat keluar berhasil disimpan!');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('tambahSuratKeluarModal'));
                 modal.hide();
+                
+                // Reset form
+                document.getElementById('suratKeluarForm').reset();
                 
                 // Update dashboard
                 updateDashboardStats();
@@ -2173,12 +2209,15 @@
                 };
                 
                 appData.documents.push(newDoc);
-                addSystemLog('Menambahkan Dokumen', 'user', 'success');
+                addSystemLog('Menambahkan Dokumen', appData.currentUser.username, 'success');
                 
                 hideLoading();
                 alert('Dokumen berhasil disimpan!');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('tambahDokumenModal'));
                 modal.hide();
+                
+                // Reset form
+                document.getElementById('dokumenForm').reset();
                 
                 // Update dashboard
                 updateDashboardStats();
@@ -2210,12 +2249,15 @@
                 };
                 
                 appData.users.push(newUser);
-                addSystemLog('Menambahkan Pengguna Baru', 'admin', 'success');
+                addSystemLog('Menambahkan Pengguna Baru', appData.currentUser.username, 'success');
                 
                 hideLoading();
                 alert('Pengguna baru berhasil ditambahkan!');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('tambahUserModal'));
                 modal.hide();
+                
+                // Reset form
+                document.getElementById('userForm').reset();
             }, 1500);
         }
 
@@ -2227,12 +2269,17 @@
                 const backupType = document.getElementById('backupType').value;
                 const includeMedia = document.getElementById('includeMedia').checked;
                 
-                addSystemLog(`Backup Database (${backupType})`, 'admin', 'success');
+                addSystemLog(`Backup Database (${backupType})`, appData.currentUser.username, 'success');
                 
                 hideLoading();
                 alert(`Backup database (${backupType}) berhasil dilakukan!`);
                 const modal = bootstrap.Modal.getInstance(document.getElementById('backupModal'));
                 modal.hide();
+                
+                // Reset form
+                document.getElementById('backupType').value = 'full';
+                document.getElementById('backupDate').value = '';
+                document.getElementById('includeMedia').checked = true;
             }, 2000);
         }
 
@@ -2288,7 +2335,7 @@
                 }
                 
                 resultCard.style.display = 'block';
-                addSystemLog('Validasi Surat', 'user', isValid ? 'success' : 'failed');
+                addSystemLog('Validasi Surat', appData.currentUser.username, isValid ? 'success' : 'failed');
                 hideLoading();
             }, 1000);
         }
@@ -2308,7 +2355,7 @@
                 appData.systemSettings.enableValidation = document.getElementById('enableValidation').checked;
                 appData.systemSettings.enableNotifications = document.getElementById('enableNotifications').checked;
                 
-                addSystemLog('Mengubah Pengaturan Sistem', 'admin', 'success');
+                addSystemLog('Mengubah Pengaturan Sistem', appData.currentUser.username, 'success');
                 
                 hideLoading();
                 alert('Pengaturan sistem berhasil disimpan!');
@@ -2425,8 +2472,8 @@
                             <td>${item.subject}</td>
                             <td><span class="badge bg-${getStatusBadgeClass(item.status)}">${getStatusText(item.status)}</span></td>
                             <td>
-                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                                ${item.type === 'Dokumen' ? '<button class="btn btn-sm btn-success"><i class="bi bi-download"></i></button>' : ''}
+                                <button class="btn btn-sm btn-primary view-doc-btn" data-type="${item.type.toLowerCase().replace(' ', '-')}" data-id="${item.number}"><i class="bi bi-eye"></i></button>
+                                ${item.type === 'Dokumen' ? '<button class="btn btn-sm btn-success download-doc-btn" data-id="${item.number}"><i class="bi bi-download"></i></button>' : ''}
                             </td>
                         `;
                         resultsBody.appendChild(row);
@@ -2435,7 +2482,7 @@
                 
                 document.getElementById('searchInitialMessage').style.display = 'none';
                 document.getElementById('searchResults').style.display = 'block';
-                addSystemLog('Melakukan Pencarian Dokumen', 'user', 'success');
+                addSystemLog('Melakukan Pencarian Dokumen', appData.currentUser.username, 'success');
                 hideLoading();
             }, 1000);
         }
@@ -2447,12 +2494,149 @@
                 item.addEventListener('click', function(e) {
                     e.preventDefault();
                     const filter = this.getAttribute('data-filter');
+                    const tableId = this.closest('.dropdown-menu').getAttribute('aria-labelledby').replace('filter', '').toLowerCase();
+                    const tableBody = document.getElementById(`${tableId}-table`);
                     
                     // In a real app, this would filter the data from the server
                     // For demo, we'll just show an alert
-                    alert(`Filter diterapkan: ${filter}`);
+                    alert(`Filter "${filter}" diterapkan pada tabel ${tableId}`);
                 });
             });
+        }
+
+        // Setup view buttons
+        function setupViewButtons() {
+            // View document buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.view-doc-btn')) {
+                    const button = e.target.closest('.view-doc-btn');
+                    const docType = button.getAttribute('data-type');
+                    const docId = button.getAttribute('data-id');
+                    
+                    alert(`Melihat dokumen ${docId} (${docType})`);
+                }
+                
+                if (e.target.closest('.download-doc-btn')) {
+                    const button = e.target.closest('.download-doc-btn');
+                    const docId = button.getAttribute('data-id');
+                    
+                    alert(`Mengunduh dokumen ${docId}`);
+                }
+                
+                if (e.target.closest('.btn-warning')) {
+                    const button = e.target.closest('.btn-warning');
+                    const row = button.closest('tr');
+                    const cells = row.querySelectorAll('td');
+                    
+                    alert(`Mengedit data: ${cells[0].textContent}`);
+                }
+                
+                if (e.target.closest('.btn-danger')) {
+                    const button = e.target.closest('.btn-danger');
+                    const row = button.closest('tr');
+                    const cells = row.querySelectorAll('td');
+                    
+                    if (confirm(`Apakah Anda yakin ingin menghapus ${cells[0].textContent}?`)) {
+                        alert(`Data ${cells[0].textContent} telah dihapus`);
+                    }
+                }
+            });
+        }
+
+        // Update profile
+        function updateProfile(e) {
+            e.preventDefault();
+            showLoading();
+            
+            setTimeout(() => {
+                // In a real app, this would update the profile on the server
+                appData.currentUser.name = document.getElementById('profileName').value;
+                appData.currentUser.email = document.getElementById('profileEmail').value;
+                
+                addSystemLog('Memperbarui Profil', appData.currentUser.username, 'success');
+                
+                hideLoading();
+                alert('Profil berhasil diperbarui!');
+            }, 1000);
+        }
+
+        // Change password
+        function changePassword(e) {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword !== confirmPassword) {
+                alert('Password baru dan konfirmasi password tidak cocok!');
+                return;
+            }
+            
+            showLoading();
+            
+            setTimeout(() => {
+                // In a real app, this would verify current password and update on the server
+                addSystemLog('Mengubah Password', appData.currentUser.username, 'success');
+                
+                hideLoading();
+                alert('Password berhasil diubah!');
+                document.getElementById('passwordForm').reset();
+            }, 1000);
+        }
+
+        // Save app settings
+        function saveAppSettings(e) {
+            e.preventDefault();
+            showLoading();
+            
+            setTimeout(() => {
+                // In a real app, this would save settings to the server
+                appData.systemSettings.language = document.getElementById('appLanguage').value;
+                appData.systemSettings.theme = document.getElementById('appTheme').value;
+                
+                addSystemLog('Mengubah Pengaturan Aplikasi', appData.currentUser.username, 'success');
+                
+                hideLoading();
+                alert('Pengaturan aplikasi berhasil disimpan!');
+            }, 1000);
+        }
+
+        // Clear system logs
+        function clearSystemLogs() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua log sistem?')) {
+                showLoading();
+                
+                setTimeout(() => {
+                    appData.systemLogs = [];
+                    document.getElementById('systemLogsTable').innerHTML = `
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle"></i> Tidak ada log sistem yang tersedia.
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    
+                    addSystemLog('Menghapus Semua Log Sistem', appData.currentUser.username, 'success');
+                    hideLoading();
+                    alert('Semua log sistem telah dihapus!');
+                }, 1000);
+            }
+        }
+
+        // Export system logs
+        function exportSystemLogs() {
+            showLoading();
+            
+            setTimeout(() => {
+                // In a real app, this would generate and download a file
+                addSystemLog('Mengekspor Log Sistem', appData.currentUser.username, 'success');
+                
+                hideLoading();
+                alert('Log sistem berhasil diekspor!');
+            }, 1000);
         }
 
         // Add system log
@@ -2467,6 +2651,26 @@
             };
             
             appData.systemLogs.unshift(newLog); // Add to beginning of array
+            
+            // Update logs table if on system logs tab
+            if (document.getElementById('systemLogsTable')) {
+                const tableBody = document.getElementById('systemLogsTable');
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${newLog.timestamp}</td>
+                    <td>${newLog.activity}</td>
+                    <td>${newLog.user}</td>
+                    <td>${newLog.ip}</td>
+                    <td><span class="badge bg-${status === 'success' ? 'success' : 'danger'}">${status === 'success' ? 'Sukses' : 'Gagal'}</span></td>
+                `;
+                
+                // If the table has the "no data" row, remove it
+                if (tableBody.querySelector('.alert')) {
+                    tableBody.innerHTML = '';
+                }
+                
+                tableBody.prepend(newRow);
+            }
         }
 
         // Show loading indicator
