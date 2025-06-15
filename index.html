@@ -262,6 +262,55 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #2980b9;
         }
+
+        /* Toast notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        /* Custom file upload button */
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #e9ecef;
+        }
+
+        /* Improved dropdown menu */
+        .dropdown-menu {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: none;
+        }
+
+        /* Enhanced pagination */
+        .pagination .page-item.active .page-link {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        /* Better form controls */
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+
+        /* Responsive tables */
+        @media (max-width: 576px) {
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
     </style>
 </head>
 <body>
@@ -272,6 +321,9 @@
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
+
+    <!-- Toast notification container -->
+    <div class="toast-container" id="toastContainer"></div>
     
     <div class="d-flex">
         <!-- Sidebar -->
@@ -490,42 +542,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="incoming-letters-table">
-                                        <tr>
-                                            <td>SM/2023/001</td>
-                                            <td>10 Jun 2023</td>
-                                            <td>Dinas Pendidikan</td>
-                                            <td>Undangan Rapat</td>
-                                            <td><span class="badge bg-success">Valid</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>SM/2023/002</td>
-                                            <td>12 Jun 2023</td>
-                                            <td>PT. Sejahtera</td>
-                                            <td>Penawaran Kerjasama</td>
-                                            <td><span class="badge bg-success">Valid</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>SM/2023/003</td>
-                                            <td>14 Jun 2023</td>
-                                            <td>Kementerian Kesehatan</td>
-                                            <td>Pedoman Baru</td>
-                                            <td><span class="badge bg-warning">Proses Validasi</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
+                                        <!-- Data will be populated by JavaScript -->
                                     </tbody>
                                 </table>
                             </div>
@@ -591,42 +608,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="outgoing-letters-table">
-                                        <tr>
-                                            <td>SK/2023/001</td>
-                                            <td>05 Jun 2023</td>
-                                            <td>Dinas Pendidikan</td>
-                                            <td>Permohonan Data</td>
-                                            <td><span class="badge bg-success">Terkirim</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>SK/2023/002</td>
-                                            <td>08 Jun 2023</td>
-                                            <td>PT. Maju Jaya</td>
-                                            <td>Balasan Penawaran</td>
-                                            <td><span class="badge bg-success">Terkirim</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>SK/2023/003</td>
-                                            <td>13 Jun 2023</td>
-                                            <td>Kantor Kecamatan</td>
-                                            <td>Undangan Rapat</td>
-                                            <td><span class="badge bg-warning">Draft</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
+                                        <!-- Data will be populated by JavaScript -->
                                     </tbody>
                                 </table>
                             </div>
@@ -694,42 +676,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="documents-table">
-                                        <tr>
-                                            <td>DOC/2023/001</td>
-                                            <td>Laporan Tahunan 2022</td>
-                                            <td>Laporan</td>
-                                            <td>15 Jan 2023</td>
-                                            <td>2.4 MB</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                                                <button class="btn btn-sm btn-success"><i class="bi bi-download"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>DOC/2023/002</td>
-                                            <td>SK Pengangkatan Pegawai</td>
-                                            <td>Surat Keputusan</td>
-                                            <td>20 Mar 2023</td>
-                                            <td>1.1 MB</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                                                <button class="btn btn-sm btn-success"><i class="bi bi-download"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>DOC/2023/003</td>
-                                            <td>Notulensi Rapat Direksi</td>
-                                            <td>Notulensi</td>
-                                            <td>05 Jun 2023</td>
-                                            <td>0.8 MB</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                                                <button class="btn btn-sm btn-success"><i class="bi bi-download"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
+                                        <!-- Data will be populated by JavaScript -->
                                     </tbody>
                                 </table>
                             </div>
@@ -1055,40 +1002,8 @@
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Admin Utama</td>
-                                            <td>admin</td>
-                                            <td>admin@example.com</td>
-                                            <td><span class="badge bg-danger">Administrator</span></td>
-                                            <td><span class="badge bg-success">Aktif</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Operator 1</td>
-                                            <td>operator1</td>
-                                            <td>operator1@example.com</td>
-                                            <td><span class="badge bg-warning">Operator</span></td>
-                                            <td><span class="badge bg-success">Aktif</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Pengguna 1</td>
-                                            <td>user1</td>
-                                            <td>user1@example.com</td>
-                                            <td><span class="badge bg-info">Pengguna</span></td>
-                                            <td><span class="badge bg-success">Aktif</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
+                                    <tbody id="users-table">
+                                        <!-- Data will be populated by JavaScript -->
                                     </tbody>
                                 </table>
                             </div>
@@ -1127,41 +1042,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="systemLogsTable">
-                                        <tr>
-                                            <td>2023-06-15 08:12:34</td>
-                                            <td>Login ke sistem</td>
-                                            <td>admin</td>
-                                            <td>192.168.1.1</td>
-                                            <td><span class="badge bg-success">Sukses</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2023-06-15 08:15:22</td>
-                                            <td>Upload surat masuk</td>
-                                            <td>admin</td>
-                                            <td>192.168.1.1</td>
-                                            <td><span class="badge bg-success">Sukses</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2023-06-15 09:30:45</td>
-                                            <td>Login ke sistem</td>
-                                            <td>operator1</td>
-                                            <td>192.168.1.2</td>
-                                            <td><span class="badge bg-success">Sukses</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2023-06-15 10:12:18</td>
-                                            <td>Validasi surat keluar</td>
-                                            <td>operator1</td>
-                                            <td>192.168.1.2</td>
-                                            <td><span class="badge bg-success">Sukses</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2023-06-15 11:05:33</td>
-                                            <td>Login gagal</td>
-                                            <td>unknown</td>
-                                            <td>192.168.1.3</td>
-                                            <td><span class="badge bg-danger">Gagal</span></td>
-                                        </tr>
+                                        <!-- Data will be populated by JavaScript -->
                                     </tbody>
                                 </table>
                             </div>
@@ -1698,22 +1579,33 @@
                 <div class="modal-body">
                     <form id="adminLoginForm">
                         <div class="mb-3">
-                            <label for="adminUsername" class="form-label">Username Admin</label>
-                            <input type="text" class="form-control" id="adminUsername" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="adminPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="adminPassword" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="adminCode" class="form-label">Kode Keamanan</label>
-                            <input type="password" class="form-control" id="adminCode" required>
+                            <label for="adminCode" class="form-label">Kode Keamanan Admin</label>
+                            <input type="password" class="form-control" id="adminCode" placeholder="Masukkan kode keamanan" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                     <button type="button" class="btn btn-primary" id="loginAdmin">Masuk</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal View Document -->
+    <div class="modal fade" id="viewDocumentModal" tabindex="-1" aria-labelledby="viewDocumentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewDocumentModalLabel">Detail Dokumen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="documentModalBody">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" id="downloadDocumentBtn">Unduh</button>
                 </div>
             </div>
         </div>
@@ -1920,6 +1812,7 @@
             initCharts();
             initForms();
             initEventListeners();
+            loadDataTables();
             updateDashboardStats();
             
             // Check if user is admin
@@ -2011,21 +1904,126 @@
             });
         }
 
+        // Load data tables
+        function loadDataTables() {
+            // Load incoming letters
+            const incomingLettersTable = document.getElementById('incoming-letters-table');
+            incomingLettersTable.innerHTML = '';
+            
+            appData.incomingLetters.forEach(letter => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${letter.number}</td>
+                    <td>${formatDate(letter.date)}</td>
+                    <td>${letter.sender}</td>
+                    <td>${letter.subject}</td>
+                    <td><span class="badge bg-${getStatusBadgeClass(letter.status)}">${getStatusText(letter.status)}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary view-doc-btn" data-type="surat-masuk" data-id="${letter.id}"><i class="bi bi-eye"></i></button>
+                        <button class="btn btn-sm btn-warning edit-doc-btn" data-type="surat-masuk" data-id="${letter.id}"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-danger delete-doc-btn" data-type="surat-masuk" data-id="${letter.id}"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                incomingLettersTable.appendChild(row);
+            });
+
+            // Load outgoing letters
+            const outgoingLettersTable = document.getElementById('outgoing-letters-table');
+            outgoingLettersTable.innerHTML = '';
+            
+            appData.outgoingLetters.forEach(letter => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${letter.number}</td>
+                    <td>${formatDate(letter.date)}</td>
+                    <td>${letter.recipient}</td>
+                    <td>${letter.subject}</td>
+                    <td><span class="badge bg-${getStatusBadgeClass(letter.status)}">${getStatusText(letter.status)}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary view-doc-btn" data-type="surat-keluar" data-id="${letter.id}"><i class="bi bi-eye"></i></button>
+                        <button class="btn btn-sm btn-warning edit-doc-btn" data-type="surat-keluar" data-id="${letter.id}"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-danger delete-doc-btn" data-type="surat-keluar" data-id="${letter.id}"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                outgoingLettersTable.appendChild(row);
+            });
+
+            // Load documents
+            const documentsTable = document.getElementById('documents-table');
+            documentsTable.innerHTML = '';
+            
+            appData.documents.forEach(doc => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${doc.code}</td>
+                    <td>${doc.name}</td>
+                    <td>${getCategoryText(doc.category)}</td>
+                    <td>${formatDate(doc.date)}</td>
+                    <td>${doc.size}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary view-doc-btn" data-type="dokumen" data-id="${doc.id}"><i class="bi bi-eye"></i></button>
+                        <button class="btn btn-sm btn-success download-doc-btn" data-type="dokumen" data-id="${doc.id}"><i class="bi bi-download"></i></button>
+                        <button class="btn btn-sm btn-danger delete-doc-btn" data-type="dokumen" data-id="${doc.id}"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                documentsTable.appendChild(row);
+            });
+
+            // Load users
+            const usersTable = document.getElementById('users-table');
+            usersTable.innerHTML = '';
+            
+            appData.users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td><span class="badge bg-${getRoleBadgeClass(user.role)}">${getRoleText(user.role)}</span></td>
+                    <td><span class="badge bg-success">Aktif</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-warning edit-user-btn" data-id="${user.id}"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-danger delete-user-btn" data-id="${user.id}"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                usersTable.appendChild(row);
+            });
+
+            // Load system logs
+            const systemLogsTable = document.getElementById('systemLogsTable');
+            systemLogsTable.innerHTML = '';
+            
+            appData.systemLogs.forEach(log => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${log.timestamp}</td>
+                    <td>${log.activity}</td>
+                    <td>${log.user}</td>
+                    <td>${log.ip}</td>
+                    <td><span class="badge bg-${log.status === 'success' ? 'success' : 'danger'}">${log.status === 'success' ? 'Sukses' : 'Gagal'}</span></td>
+                `;
+                systemLogsTable.appendChild(row);
+            });
+        }
+
         // Initialize event listeners
         function initEventListeners() {
             // Admin login
             document.getElementById('admin-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                const adminModal = new bootstrap.Modal(document.getElementById('adminLoginModal'));
-                adminModal.show();
+                if (appData.currentUser.role !== 'admin') {
+                    e.preventDefault();
+                    const adminModal = new bootstrap.Modal(document.getElementById('adminLoginModal'));
+                    adminModal.show();
+                }
             });
 
             document.getElementById('loginAdmin').addEventListener('click', function() {
-                const username = document.getElementById('adminUsername').value;
-                const password = document.getElementById('adminPassword').value;
                 const code = document.getElementById('adminCode').value;
                 
-                if (username === 'admin' && password === 'admin123' && code === appData.adminAccessCode) {
+                if (code === appData.adminAccessCode) {
+                    // Set user as admin
+                    appData.currentUser.role = 'admin';
+                    
                     // Hide modal
                     const adminModal = bootstrap.Modal.getInstance(document.getElementById('adminLoginModal'));
                     adminModal.hide();
@@ -2039,29 +2037,33 @@
                     adminTab.show();
                     
                     // Add to system logs
-                    addSystemLog('Akses Admin Panel', 'admin', 'success');
+                    addSystemLog('Akses Admin Panel', appData.currentUser.username, 'success');
                     
                     // Show success message
-                    alert('Login admin berhasil!');
+                    showToast('Login admin berhasil!', 'success');
                 } else {
-                    alert('Login gagal! Username, password, atau kode keamanan salah.');
-                    addSystemLog('Percobaan Akses Admin Panel Gagal', username || 'unknown', 'failed');
+                    showToast('Kode keamanan salah!', 'error');
+                    addSystemLog('Percobaan Akses Admin Panel Gagal', 'unknown', 'failed');
                     
                     // Reset form fields
-                    document.getElementById('adminPassword').value = '';
                     document.getElementById('adminCode').value = '';
                 }
             });
 
             // Logout
             document.getElementById('logout-btn').addEventListener('click', function() {
-                if (confirm('Apakah Anda yakin ingin keluar?')) {
-                    showLoading();
-                    setTimeout(() => {
-                        // Redirect to login page
-                        window.location.href = 'login.html';
-                    }, 1000);
-                }
+                showConfirmDialog(
+                    'Konfirmasi Logout', 
+                    'Apakah Anda yakin ingin keluar dari sistem?', 
+                    'warning',
+                    function() {
+                        showLoading();
+                        setTimeout(() => {
+                            // Redirect to login page
+                            window.location.href = 'login.html';
+                        }, 1000);
+                    }
+                );
             });
 
             // File upload validation
@@ -2084,11 +2086,265 @@
             document.getElementById('clearLogsBtn').addEventListener('click', clearSystemLogs);
             document.getElementById('exportLogsBtn').addEventListener('click', exportSystemLogs);
 
+            // View buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.view-doc-btn')) {
+                    const button = e.target.closest('.view-doc-btn');
+                    const docType = button.getAttribute('data-type');
+                    const docId = button.getAttribute('data-id');
+                    viewDocument(docType, docId);
+                }
+                
+                if (e.target.closest('.download-doc-btn')) {
+                    const button = e.target.closest('.download-doc-btn');
+                    const docType = button.getAttribute('data-type');
+                    const docId = button.getAttribute('data-id');
+                    downloadDocument(docType, docId);
+                }
+                
+                if (e.target.closest('.edit-doc-btn')) {
+                    const button = e.target.closest('.edit-doc-btn');
+                    const docType = button.getAttribute('data-type');
+                    const docId = button.getAttribute('data-id');
+                    editDocument(docType, docId);
+                }
+                
+                if (e.target.closest('.delete-doc-btn')) {
+                    const button = e.target.closest('.delete-doc-btn');
+                    const docType = button.getAttribute('data-type');
+                    const docId = button.getAttribute('data-id');
+                    deleteDocument(docType, docId);
+                }
+                
+                if (e.target.closest('.edit-user-btn')) {
+                    const button = e.target.closest('.edit-user-btn');
+                    const userId = button.getAttribute('data-id');
+                    editUser(userId);
+                }
+                
+                if (e.target.closest('.delete-user-btn')) {
+                    const button = e.target.closest('.delete-user-btn');
+                    const userId = button.getAttribute('data-id');
+                    deleteUser(userId);
+                }
+            });
+
+            // Search functionality
+            document.getElementById('searchIncomingLetters').addEventListener('input', function() {
+                filterTable('incoming-letters-table', this.value.toLowerCase());
+            });
+
+            document.getElementById('searchOutgoingLetters').addEventListener('input', function() {
+                filterTable('outgoing-letters-table', this.value.toLowerCase());
+            });
+
+            document.getElementById('searchDocuments').addEventListener('input', function() {
+                filterTable('documents-table', this.value.toLowerCase());
+            });
+
             // Filter functionality
             setupFilters();
+        }
 
-            // View buttons
-            setupViewButtons();
+        // Filter table rows based on search input
+        function filterTable(tableId, searchText) {
+            const table = document.getElementById(tableId);
+            const rows = table.getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const cells = row.getElementsByTagName('td');
+                let found = false;
+                
+                for (let j = 0; j < cells.length; j++) {
+                    const cell = cells[j];
+                    if (cell.textContent.toLowerCase().indexOf(searchText) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+                
+                row.style.display = found ? '' : 'none';
+            }
+        }
+
+        // Setup filters
+        function setupFilters() {
+            // Incoming letters filter
+            document.querySelectorAll('[data-filter]').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const filter = this.getAttribute('data-filter');
+                    const tableId = this.closest('.dropdown-menu').getAttribute('aria-labelledby').replace('filter', '').toLowerCase();
+                    const tableBody = document.getElementById(`${tableId}-table`);
+                    const rows = tableBody.getElementsByTagName('tr');
+                    
+                    for (let i = 0; i < rows.length; i++) {
+                        const row = rows[i];
+                        const statusCell = row.querySelector('td:nth-child(5)');
+                        
+                        if (filter === 'all') {
+                            row.style.display = '';
+                        } else {
+                            const statusText = statusCell.textContent.toLowerCase();
+                            const shouldShow = 
+                                (filter === 'valid' && statusText.includes('valid')) ||
+                                (filter === 'process' && statusText.includes('proses')) ||
+                                (filter === 'invalid' && statusText.includes('tidak valid')) ||
+                                (filter === 'sent' && statusText.includes('terkirim')) ||
+                                (filter === 'draft' && statusText.includes('draft')) ||
+                                (filter === 'canceled' && statusText.includes('dibatalkan'));
+                            
+                            row.style.display = shouldShow ? '' : 'none';
+                        }
+                    }
+                    
+                    showToast(`Filter "${getFilterText(filter)}" diterapkan`, 'success');
+                });
+            });
+        }
+
+        // View document
+        function viewDocument(docType, docId) {
+            let documentData;
+            let title = '';
+            let content = '';
+            
+            if (docType === 'surat-masuk') {
+                documentData = appData.incomingLetters.find(letter => letter.id == docId);
+                title = `Detail Surat Masuk - ${documentData.number}`;
+                content = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Nomor Surat:</strong> ${documentData.number}</p>
+                            <p><strong>Tanggal:</strong> ${formatDate(documentData.date)}</p>
+                            <p><strong>Pengirim:</strong> ${documentData.sender}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Perihal:</strong> ${documentData.subject}</p>
+                            <p><strong>Kategori:</strong> ${getCategoryText(documentData.category)}</p>
+                            <p><strong>Status:</strong> <span class="badge bg-${getStatusBadgeClass(documentData.status)}">${getStatusText(documentData.status)}</span></p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <p><strong>Keterangan:</strong></p>
+                        <p>${documentData.notes || 'Tidak ada keterangan'}</p>
+                    </div>
+                    <div class="mt-3">
+                        <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(documentData.file)}&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
+                    </div>
+                `;
+            } else if (docType === 'surat-keluar') {
+                documentData = appData.outgoingLetters.find(letter => letter.id == docId);
+                title = `Detail Surat Keluar - ${documentData.number}`;
+                content = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Nomor Surat:</strong> ${documentData.number}</p>
+                            <p><strong>Tanggal:</strong> ${formatDate(documentData.date)}</p>
+                            <p><strong>Tujuan:</strong> ${documentData.recipient}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Perihal:</strong> ${documentData.subject}</p>
+                            <p><strong>Kategori:</strong> ${getCategoryText(documentData.category)}</p>
+                            <p><strong>Status:</strong> <span class="badge bg-${getStatusBadgeClass(documentData.status)}">${getStatusText(documentData.status)}</span></p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <p><strong>Keterangan:</strong></p>
+                        <p>${documentData.notes || 'Tidak ada keterangan'}</p>
+                    </div>
+                    <div class="mt-3">
+                        <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(documentData.file)}&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
+                    </div>
+                `;
+            } else if (docType === 'dokumen') {
+                documentData = appData.documents.find(doc => doc.id == docId);
+                title = `Detail Dokumen - ${documentData.code}`;
+                content = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Kode Dokumen:</strong> ${documentData.code}</p>
+                            <p><strong>Nama Dokumen:</strong> ${documentData.name}</p>
+                            <p><strong>Tanggal Upload:</strong> ${formatDate(documentData.date)}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Kategori:</strong> ${getCategoryText(documentData.category)}</p>
+                            <p><strong>Ukuran:</strong> ${documentData.size}</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <p><strong>Keterangan:</strong></p>
+                        <p>${documentData.notes || 'Tidak ada keterangan'}</p>
+                    </div>
+                    <div class="mt-3">
+                        <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(documentData.file)}&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('viewDocumentModalLabel').textContent = title;
+            document.getElementById('documentModalBody').innerHTML = content;
+            document.getElementById('downloadDocumentBtn').setAttribute('data-type', docType);
+            document.getElementById('downloadDocumentBtn').setAttribute('data-id', docId);
+            
+            const viewModal = new bootstrap.Modal(document.getElementById('viewDocumentModal'));
+            viewModal.show();
+        }
+
+        // Download document
+        function downloadDocument(docType, docId) {
+            let documentData;
+            
+            if (docType === 'surat-masuk') {
+                documentData = appData.incomingLetters.find(letter => letter.id == docId);
+            } else if (docType === 'surat-keluar') {
+                documentData = appData.outgoingLetters.find(letter => letter.id == docId);
+            } else if (docType === 'dokumen') {
+                documentData = appData.documents.find(doc => doc.id == docId);
+            }
+            
+            // In a real app, this would initiate a file download
+            showToast(`Mengunduh ${documentData.number || documentData.code}`, 'success');
+            addSystemLog(`Mengunduh ${docType === 'dokumen' ? 'Dokumen' : 'Surat'} ${documentData.number || documentData.code}`, appData.currentUser.username, 'success');
+        }
+
+        // Edit document
+        function editDocument(docType, docId) {
+            showToast('Fitur edit akan segera tersedia', 'info');
+        }
+
+        // Delete document
+        function deleteDocument(docType, docId) {
+            showConfirmDialog(
+                'Konfirmasi Hapus', 
+                `Apakah Anda yakin ingin menghapus ${docType === 'dokumen' ? 'dokumen' : 'surat'} ini?`, 
+                'error',
+                function() {
+                    // In a real app, this would delete the document from the server
+                    showToast(`${docType === 'dokumen' ? 'Dokumen' : 'Surat'} berhasil dihapus`, 'success');
+                    addSystemLog(`Menghapus ${docType === 'dokumen' ? 'Dokumen' : 'Surat'}`, appData.currentUser.username, 'success');
+                }
+            );
+        }
+
+        // Edit user
+        function editUser(userId) {
+            showToast('Fitur edit pengguna akan segera tersedia', 'info');
+        }
+
+        // Delete user
+        function deleteUser(userId) {
+            showConfirmDialog(
+                'Konfirmasi Hapus', 
+                'Apakah Anda yakin ingin menghapus pengguna ini?', 
+                'error',
+                function() {
+                    // In a real app, this would delete the user from the server
+                    showToast('Pengguna berhasil dihapus', 'success');
+                    addSystemLog('Menghapus Pengguna', appData.currentUser.username, 'success');
+                }
+            );
         }
 
         // Update dashboard statistics
@@ -2118,17 +2374,26 @@
             const maxSize = appData.systemSettings.maxUploadSize * 1024; // Convert KB to bytes
             
             if (file && file.size > maxSize) {
-                alert(`Ukuran file melebihi ${appData.systemSettings.maxUploadSize}KB. Silakan pilih file yang lebih kecil.`);
+                showToast(`Ukuran file melebihi ${appData.systemSettings.maxUploadSize}KB. Silakan pilih file yang lebih kecil.`, 'error');
                 e.target.value = '';
             }
         }
 
         // Save incoming letter
         function saveIncomingLetter() {
+            const form = document.getElementById('suratMasukForm');
+            const requiredFields = ['noSuratMasuk', 'tanggalSuratMasuk', 'pengirimSuratMasuk', 'perihalSuratMasuk'];
+            
+            for (const field of requiredFields) {
+                if (!document.getElementById(field).value) {
+                    showToast(`Harap isi ${document.getElementById(field).labels[0].textContent}`, 'error');
+                    return;
+                }
+            }
+            
             showLoading();
             
             setTimeout(() => {
-                // In a real app, this would send data to the server
                 const newLetter = {
                     id: appData.incomingLetters.length + 1,
                     number: document.getElementById('noSuratMasuk').value,
@@ -2145,24 +2410,34 @@
                 addSystemLog('Menambahkan Surat Masuk', appData.currentUser.username, 'success');
                 
                 hideLoading();
-                alert('Surat masuk berhasil disimpan!');
+                showToast('Surat masuk berhasil disimpan!', 'success');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('tambahSuratMasukModal'));
                 modal.hide();
                 
                 // Reset form
-                document.getElementById('suratMasukForm').reset();
+                form.reset();
                 
-                // Update dashboard
+                // Update tables and dashboard
+                loadDataTables();
                 updateDashboardStats();
             }, 1500);
         }
 
         // Save outgoing letter
         function saveOutgoingLetter() {
+            const form = document.getElementById('suratKeluarForm');
+            const requiredFields = ['noSuratKeluar', 'tanggalSuratKeluar', 'tujuanSuratKeluar', 'perihalSuratKeluar'];
+            
+            for (const field of requiredFields) {
+                if (!document.getElementById(field).value) {
+                    showToast(`Harap isi ${document.getElementById(field).labels[0].textContent}`, 'error');
+                    return;
+                }
+            }
+            
             showLoading();
             
             setTimeout(() => {
-                // In a real app, this would send data to the server
                 const newLetter = {
                     id: appData.outgoingLetters.length + 1,
                     number: document.getElementById('noSuratKeluar').value,
@@ -2179,24 +2454,34 @@
                 addSystemLog('Menambahkan Surat Keluar', appData.currentUser.username, 'success');
                 
                 hideLoading();
-                alert('Surat keluar berhasil disimpan!');
+                showToast('Surat keluar berhasil disimpan!', 'success');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('tambahSuratKeluarModal'));
                 modal.hide();
                 
                 // Reset form
-                document.getElementById('suratKeluarForm').reset();
+                form.reset();
                 
-                // Update dashboard
+                // Update tables and dashboard
+                loadDataTables();
                 updateDashboardStats();
             }, 1500);
         }
 
         // Save document
         function saveDocument() {
+            const form = document.getElementById('dokumenForm');
+            const requiredFields = ['namaDokumen', 'kodeDokumen', 'kategoriDokumen', 'tanggalDokumen'];
+            
+            for (const field of requiredFields) {
+                if (!document.getElementById(field).value) {
+                    showToast(`Harap isi ${document.getElementById(field).labels[0].textContent}`, 'error');
+                    return;
+                }
+            }
+            
             showLoading();
             
             setTimeout(() => {
-                // In a real app, this would send data to the server
                 const newDoc = {
                     id: appData.documents.length + 1,
                     code: document.getElementById('kodeDokumen').value,
@@ -2212,32 +2497,42 @@
                 addSystemLog('Menambahkan Dokumen', appData.currentUser.username, 'success');
                 
                 hideLoading();
-                alert('Dokumen berhasil disimpan!');
+                showToast('Dokumen berhasil disimpan!', 'success');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('tambahDokumenModal'));
                 modal.hide();
                 
                 // Reset form
-                document.getElementById('dokumenForm').reset();
+                form.reset();
                 
-                // Update dashboard
+                // Update tables and dashboard
+                loadDataTables();
                 updateDashboardStats();
             }, 1500);
         }
 
         // Save user
         function saveUser() {
+            const form = document.getElementById('userForm');
+            const requiredFields = ['userName', 'userUsername', 'userEmail', 'userRole', 'userPassword', 'userConfirmPassword'];
+            
+            for (const field of requiredFields) {
+                if (!document.getElementById(field).value) {
+                    showToast(`Harap isi ${document.getElementById(field).labels[0].textContent}`, 'error');
+                    return;
+                }
+            }
+            
             const password = document.getElementById('userPassword').value;
             const confirmPassword = document.getElementById('userConfirmPassword').value;
             
             if (password !== confirmPassword) {
-                alert('Password dan konfirmasi password tidak cocok!');
+                showToast('Password dan konfirmasi password tidak cocok!', 'error');
                 return;
             }
             
             showLoading();
             
             setTimeout(() => {
-                // In a real app, this would send data to the server
                 const newUser = {
                     id: appData.users.length + 1,
                     name: document.getElementById('userName').value,
@@ -2252,12 +2547,15 @@
                 addSystemLog('Menambahkan Pengguna Baru', appData.currentUser.username, 'success');
                 
                 hideLoading();
-                alert('Pengguna baru berhasil ditambahkan!');
+                showToast('Pengguna baru berhasil ditambahkan!', 'success');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('tambahUserModal'));
                 modal.hide();
                 
                 // Reset form
-                document.getElementById('userForm').reset();
+                form.reset();
+                
+                // Update tables
+                loadDataTables();
             }, 1500);
         }
 
@@ -2272,7 +2570,7 @@
                 addSystemLog(`Backup Database (${backupType})`, appData.currentUser.username, 'success');
                 
                 hideLoading();
-                alert(`Backup database (${backupType}) berhasil dilakukan!`);
+                showToast(`Backup database (${backupType}) berhasil dilakukan!`, 'success');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('backupModal'));
                 modal.hide();
                 
@@ -2287,6 +2585,15 @@
         function validateLetter(e) {
             e.preventDefault();
             
+            const requiredFields = ['validationType', 'validationNumber', 'validationDate', 'validationName', 'validationSubject'];
+            
+            for (const field of requiredFields) {
+                if (!document.getElementById(field).value) {
+                    showToast(`Harap isi ${document.getElementById(field).labels[0].textContent}`, 'error');
+                    return;
+                }
+            }
+            
             showLoading();
             
             setTimeout(() => {
@@ -2295,12 +2602,6 @@
                 const validationDate = document.getElementById('validationDate').value;
                 const validationName = document.getElementById('validationName').value;
                 const validationSubject = document.getElementById('validationSubject').value;
-                
-                if (!validationType || !validationNumber || !validationDate || !validationName || !validationSubject) {
-                    hideLoading();
-                    alert('Harap lengkapi semua field!');
-                    return;
-                }
                 
                 // Simulate validation
                 const isValid = Math.random() > 0.3; // 70% chance of being valid
@@ -2344,11 +2645,16 @@
         function saveSystemSettings(e) {
             e.preventDefault();
             
+            const newAccessCode = document.getElementById('adminAccessCode').value;
+            
+            if (!newAccessCode) {
+                showToast('Harap isi Kode Akses Admin', 'error');
+                return;
+            }
+            
             showLoading();
             
             setTimeout(() => {
-                const newAccessCode = document.getElementById('adminAccessCode').value;
-                
                 // Update settings
                 appData.adminAccessCode = newAccessCode;
                 appData.systemSettings.maxUploadSize = document.getElementById('maxUploadSize').value;
@@ -2358,7 +2664,7 @@
                 addSystemLog('Mengubah Pengaturan Sistem', appData.currentUser.username, 'success');
                 
                 hideLoading();
-                alert('Pengaturan sistem berhasil disimpan!');
+                showToast('Pengaturan sistem berhasil disimpan!', 'success');
             }, 1000);
         }
 
@@ -2366,15 +2672,20 @@
         function searchDocuments(e) {
             e.preventDefault();
             
+            const keyword = document.getElementById('searchKeyword').value.toLowerCase();
+            const type = document.getElementById('searchType').value;
+            const category = document.getElementById('searchCategory').value;
+            const sender = document.getElementById('searchSender').value.toLowerCase();
+            const subject = document.getElementById('searchSubject').value.toLowerCase();
+            
+            if (!keyword && !type && !category && !sender && !subject) {
+                showToast('Harap masukkan minimal satu kriteria pencarian', 'info');
+                return;
+            }
+            
             showLoading();
             
             setTimeout(() => {
-                const keyword = document.getElementById('searchKeyword').value.toLowerCase();
-                const type = document.getElementById('searchType').value;
-                const category = document.getElementById('searchCategory').value;
-                const sender = document.getElementById('searchSender').value.toLowerCase();
-                const subject = document.getElementById('searchSubject').value.toLowerCase();
-                
                 let results = [];
                 
                 // Search in incoming letters
@@ -2487,76 +2798,29 @@
             }, 1000);
         }
 
-        // Setup filters
-        function setupFilters() {
-            // Incoming letters filter
-            document.querySelectorAll('[data-filter]').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const filter = this.getAttribute('data-filter');
-                    const tableId = this.closest('.dropdown-menu').getAttribute('aria-labelledby').replace('filter', '').toLowerCase();
-                    const tableBody = document.getElementById(`${tableId}-table`);
-                    
-                    // In a real app, this would filter the data from the server
-                    // For demo, we'll just show an alert
-                    alert(`Filter "${filter}" diterapkan pada tabel ${tableId}`);
-                });
-            });
-        }
-
-        // Setup view buttons
-        function setupViewButtons() {
-            // View document buttons
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.view-doc-btn')) {
-                    const button = e.target.closest('.view-doc-btn');
-                    const docType = button.getAttribute('data-type');
-                    const docId = button.getAttribute('data-id');
-                    
-                    alert(`Melihat dokumen ${docId} (${docType})`);
-                }
-                
-                if (e.target.closest('.download-doc-btn')) {
-                    const button = e.target.closest('.download-doc-btn');
-                    const docId = button.getAttribute('data-id');
-                    
-                    alert(`Mengunduh dokumen ${docId}`);
-                }
-                
-                if (e.target.closest('.btn-warning')) {
-                    const button = e.target.closest('.btn-warning');
-                    const row = button.closest('tr');
-                    const cells = row.querySelectorAll('td');
-                    
-                    alert(`Mengedit data: ${cells[0].textContent}`);
-                }
-                
-                if (e.target.closest('.btn-danger')) {
-                    const button = e.target.closest('.btn-danger');
-                    const row = button.closest('tr');
-                    const cells = row.querySelectorAll('td');
-                    
-                    if (confirm(`Apakah Anda yakin ingin menghapus ${cells[0].textContent}?`)) {
-                        alert(`Data ${cells[0].textContent} telah dihapus`);
-                    }
-                }
-            });
-        }
-
         // Update profile
         function updateProfile(e) {
             e.preventDefault();
+            
+            const name = document.getElementById('profileName').value;
+            const email = document.getElementById('profileEmail').value;
+            
+            if (!name || !email) {
+                showToast('Harap isi semua field yang wajib diisi', 'error');
+                return;
+            }
+            
             showLoading();
             
             setTimeout(() => {
                 // In a real app, this would update the profile on the server
-                appData.currentUser.name = document.getElementById('profileName').value;
-                appData.currentUser.email = document.getElementById('profileEmail').value;
+                appData.currentUser.name = name;
+                appData.currentUser.email = email;
                 
                 addSystemLog('Memperbarui Profil', appData.currentUser.username, 'success');
                 
                 hideLoading();
-                alert('Profil berhasil diperbarui!');
+                showToast('Profil berhasil diperbarui!', 'success');
             }, 1000);
         }
 
@@ -2568,8 +2832,13 @@
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
             
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showToast('Harap isi semua field password', 'error');
+                return;
+            }
+            
             if (newPassword !== confirmPassword) {
-                alert('Password baru dan konfirmasi password tidak cocok!');
+                showToast('Password baru dan konfirmasi password tidak cocok!', 'error');
                 return;
             }
             
@@ -2580,7 +2849,7 @@
                 addSystemLog('Mengubah Password', appData.currentUser.username, 'success');
                 
                 hideLoading();
-                alert('Password berhasil diubah!');
+                showToast('Password berhasil diubah!', 'success');
                 document.getElementById('passwordForm').reset();
             }, 1000);
         }
@@ -2588,6 +2857,7 @@
         // Save app settings
         function saveAppSettings(e) {
             e.preventDefault();
+            
             showLoading();
             
             setTimeout(() => {
@@ -2598,32 +2868,37 @@
                 addSystemLog('Mengubah Pengaturan Aplikasi', appData.currentUser.username, 'success');
                 
                 hideLoading();
-                alert('Pengaturan aplikasi berhasil disimpan!');
+                showToast('Pengaturan aplikasi berhasil disimpan!', 'success');
             }, 1000);
         }
 
         // Clear system logs
         function clearSystemLogs() {
-            if (confirm('Apakah Anda yakin ingin menghapus semua log sistem?')) {
-                showLoading();
-                
-                setTimeout(() => {
-                    appData.systemLogs = [];
-                    document.getElementById('systemLogsTable').innerHTML = `
-                        <tr>
-                            <td colspan="5" class="text-center py-4">
-                                <div class="alert alert-info">
-                                    <i class="bi bi-info-circle"></i> Tidak ada log sistem yang tersedia.
-                                </div>
-                            </td>
-                        </tr>
-                    `;
+            showConfirmDialog(
+                'Konfirmasi Hapus Log', 
+                'Apakah Anda yakin ingin menghapus semua log sistem?', 
+                'warning',
+                function() {
+                    showLoading();
                     
-                    addSystemLog('Menghapus Semua Log Sistem', appData.currentUser.username, 'success');
-                    hideLoading();
-                    alert('Semua log sistem telah dihapus!');
-                }, 1000);
-            }
+                    setTimeout(() => {
+                        appData.systemLogs = [];
+                        document.getElementById('systemLogsTable').innerHTML = `
+                            <tr>
+                                <td colspan="5" class="text-center py-4">
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle"></i> Tidak ada log sistem yang tersedia.
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                        
+                        addSystemLog('Menghapus Semua Log Sistem', appData.currentUser.username, 'success');
+                        hideLoading();
+                        showToast('Semua log sistem telah dihapus!', 'success');
+                    }, 1000);
+                }
+            );
         }
 
         // Export system logs
@@ -2635,7 +2910,7 @@
                 addSystemLog('Mengekspor Log Sistem', appData.currentUser.username, 'success');
                 
                 hideLoading();
-                alert('Log sistem berhasil diekspor!');
+                showToast('Log sistem berhasil diekspor!', 'success');
             }, 1000);
         }
 
@@ -2643,7 +2918,7 @@
         function addSystemLog(activity, user, status) {
             const newLog = {
                 id: appData.systemLogs.length + 1,
-                timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                timestamp: new Date().toLocaleString('id-ID'),
                 activity: activity,
                 user: user,
                 ip: "192.168.1.1", // This would be the actual IP in a real app
@@ -2683,6 +2958,77 @@
         function hideLoading() {
             document.getElementById('loadingOverlay').style.display = 'none';
             document.getElementById('loadingSpinner').style.display = 'none';
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast show align-items-center text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} border-0`;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi ${type === 'success' ? 'bi-check-circle' : type === 'error' ? 'bi-exclamation-triangle' : 'bi-info-circle'} me-2"></i>
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Auto remove toast after 5 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 5000);
+        }
+
+        // Show confirmation dialog
+        function showConfirmDialog(title, message, type, confirmCallback) {
+            const dialog = document.createElement('div');
+            dialog.className = 'modal fade';
+            dialog.id = 'confirmDialog';
+            dialog.tabIndex = '-1';
+            dialog.setAttribute('aria-hidden', 'true');
+            
+            dialog.innerHTML = `
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-${type === 'warning' ? 'warning' : 'danger'} text-white">
+                            <h5 class="modal-title">${title}</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>${message}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="button" class="btn btn-${type === 'warning' ? 'warning' : 'danger'}" id="confirmButton">Ya, Lanjutkan</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(dialog);
+            
+            const modal = new bootstrap.Modal(dialog);
+            modal.show();
+            
+            document.getElementById('confirmButton').addEventListener('click', function() {
+                confirmCallback();
+                modal.hide();
+            });
+            
+            dialog.addEventListener('hidden.bs.modal', function() {
+                dialog.remove();
+            });
         }
 
         // Format date
@@ -2731,6 +3077,88 @@
                     return 'Gagal';
                 default:
                     return status;
+            }
+        }
+
+        // Get category text
+        function getCategoryText(category) {
+            switch(category) {
+                case 'laporan':
+                    return 'Laporan';
+                case 'surat-keputusan':
+                    return 'Surat Keputusan';
+                case 'notulensi':
+                    return 'Notulensi';
+                case 'kontrak':
+                    return 'Kontrak';
+                case 'penting':
+                    return 'Penting';
+                case 'rahasia':
+                    return 'Rahasia';
+                case 'biasa':
+                    return 'Biasa';
+                default:
+                    return category;
+            }
+        }
+
+        // Get role badge class
+        function getRoleBadgeClass(role) {
+            switch(role) {
+                case 'admin':
+                    return 'danger';
+                case 'operator':
+                    return 'warning';
+                case 'user':
+                    return 'info';
+                default:
+                    return 'secondary';
+            }
+        }
+
+        // Get role text
+        function getRoleText(role) {
+            switch(role) {
+                case 'admin':
+                    return 'Administrator';
+                case 'operator':
+                    return 'Operator';
+                case 'user':
+                    return 'Pengguna';
+                default:
+                    return role;
+            }
+        }
+
+        // Get filter text
+        function getFilterText(filter) {
+            switch(filter) {
+                case 'all':
+                    return 'Semua';
+                case 'valid':
+                    return 'Valid';
+                case 'process':
+                    return 'Proses Validasi';
+                case 'invalid':
+                    return 'Tidak Valid';
+                case 'sent':
+                    return 'Terkirim';
+                case 'draft':
+                    return 'Draft';
+                case 'canceled':
+                    return 'Dibatalkan';
+                case 'report':
+                    return 'Laporan';
+                case 'decision':
+                    return 'Surat Keputusan';
+                case 'minutes':
+                    return 'Notulensi';
+                case 'contract':
+                    return 'Kontrak';
+                case 'other':
+                    return 'Lainnya';
+                default:
+                    return filter;
             }
         }
     </script>
