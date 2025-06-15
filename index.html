@@ -18,6 +18,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f7fa;
+            overflow-x: hidden;
         }
         
         .navbar-brand img {
@@ -32,6 +33,8 @@
             position: fixed;
             padding-top: 20px;
             transition: all 0.3s;
+            width: 250px;
+            z-index: 1000;
         }
         
         .sidebar .nav-link {
@@ -39,6 +42,7 @@
             margin-bottom: 5px;
             border-radius: 5px;
             padding: 10px 15px;
+            transition: all 0.2s;
         }
         
         .sidebar .nav-link:hover {
@@ -53,12 +57,16 @@
         
         .sidebar .nav-link i {
             margin-right: 10px;
+            width: 20px;
+            text-align: center;
         }
         
         .main-content {
             margin-left: 250px;
             padding: 20px;
             transition: all 0.3s;
+            min-height: 100vh;
+            position: relative;
         }
         
         .card {
@@ -66,22 +74,26 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
         }
         
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
         .card-header {
             background-color: var(--primary-color);
             color: white;
             border-radius: 10px 10px 0 0 !important;
+            padding: 15px 20px;
         }
         
         .btn-primary {
             background-color: var(--secondary-color);
             border: none;
+            padding: 8px 16px;
         }
         
         .btn-primary:hover {
@@ -91,6 +103,7 @@
         .btn-danger {
             background-color: var(--accent-color);
             border: none;
+            padding: 8px 16px;
         }
         
         .stat-card {
@@ -102,11 +115,13 @@
             font-size: 2.5rem;
             font-weight: bold;
             color: var(--secondary-color);
+            margin-bottom: 5px;
         }
         
         .stat-card .label {
             font-size: 1rem;
             color: var(--dark-color);
+            font-weight: 500;
         }
         
         .search-box {
@@ -117,18 +132,21 @@
         .search-box input {
             padding-left: 40px;
             border-radius: 20px;
+            height: 45px;
         }
         
         .search-box i {
             position: absolute;
             left: 15px;
-            top: 10px;
+            top: 12px;
             color: #7f8c8d;
+            font-size: 18px;
         }
         
         .table-responsive {
             border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
         }
         
         .table thead {
@@ -147,6 +165,7 @@
         .logo-text {
             font-weight: bold;
             font-size: 1.2rem;
+            color: white;
         }
         
         .footer {
@@ -154,7 +173,42 @@
             color: white;
             padding: 15px 0;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 40px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .loading-spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+            display: none;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .password-container {
+            position: relative;
         }
         
         @media (max-width: 768px) {
@@ -173,20 +227,62 @@
             .main-content.active {
                 margin-left: 250px;
             }
+            
+            .stat-card .number {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
     </style>
 </head>
 <body>
+    <!-- Loading overlay -->
+    <div class="overlay" id="loadingOverlay"></div>
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="d-flex justify-content-center mb-4">
-                <img src="logo.png" alt="ArsipPro Logo" class="img-fluid">
+                <img src="https://raw.githubusercontent.com/pergunu/arsippro/refs/heads/main/assets/images/logo.png" alt="ArsipPro Logo" class="img-fluid">
                 <span class="logo-text">ArsipPro</span>
             </div>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="#dashboard" data-bs-toggle="tab">
+                    <a class="nav-link active" href="#dashboard" data-bs-toggle="tab">
                         <i class="bi bi-speedometer2"></i> Dashboard
                     </a>
                 </li>
@@ -264,25 +360,25 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="card stat-card">
-                                <div class="number">125</div>
+                                <div class="number" id="incoming-letters-count">125</div>
                                 <div class="label">Surat Masuk</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="card stat-card">
-                                <div class="number">87</div>
+                                <div class="number" id="outgoing-letters-count">87</div>
                                 <div class="label">Surat Keluar</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="card stat-card">
-                                <div class="number">42</div>
+                                <div class="number" id="documents-count">42</div>
                                 <div class="label">Dokumen Arsip</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="card stat-card">
-                                <div class="number">98%</div>
+                                <div class="number" id="validation-rate">98%</div>
                                 <div class="label">Validasi Surat</div>
                             </div>
                         </div>
@@ -305,30 +401,30 @@
                                                     <th>Status</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="recent-activities">
                                                 <tr>
                                                     <td>15 Jun 2023</td>
                                                     <td>Upload Surat Masuk</td>
                                                     <td>Admin</td>
-                                                    <td><span class="badge badge-success">Selesai</span></td>
+                                                    <td><span class="badge bg-success">Selesai</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td>14 Jun 2023</td>
                                                     <td>Validasi Surat Keluar</td>
                                                     <td>Operator</td>
-                                                    <td><span class="badge badge-success">Selesai</span></td>
+                                                    <td><span class="badge bg-success">Selesai</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td>13 Jun 2023</td>
                                                     <td>Pencarian Dokumen</td>
                                                     <td>Pengguna</td>
-                                                    <td><span class="badge badge-success">Selesai</span></td>
+                                                    <td><span class="badge bg-success">Selesai</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td>12 Jun 2023</td>
                                                     <td>Backup Database</td>
                                                     <td>Admin</td>
-                                                    <td><span class="badge badge-warning">Proses</span></td>
+                                                    <td><span class="badge bg-warning">Proses</span></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -360,12 +456,25 @@
 
                     <div class="search-box">
                         <i class="bi bi-search"></i>
-                        <input type="text" class="form-control" placeholder="Cari surat masuk...">
+                        <input type="text" class="form-control" id="searchIncomingLetters" placeholder="Cari surat masuk...">
                     </div>
 
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Daftar Surat Masuk</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Daftar Surat Masuk</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterIncomingLetters" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-funnel"></i> Filter
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterIncomingLetters">
+                                        <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="valid">Valid</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="process">Proses Validasi</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="invalid">Tidak Valid</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -380,7 +489,7 @@
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="incoming-letters-table">
                                         <tr>
                                             <td>SM/2023/001</td>
                                             <td>10 Jun 2023</td>
@@ -448,12 +557,25 @@
 
                     <div class="search-box">
                         <i class="bi bi-search"></i>
-                        <input type="text" class="form-control" placeholder="Cari surat keluar...">
+                        <input type="text" class="form-control" id="searchOutgoingLetters" placeholder="Cari surat keluar...">
                     </div>
 
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Daftar Surat Keluar</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Daftar Surat Keluar</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterOutgoingLetters" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-funnel"></i> Filter
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterOutgoingLetters">
+                                        <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="sent">Terkirim</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="draft">Draft</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="canceled">Dibatalkan</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -468,7 +590,7 @@
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="outgoing-letters-table">
                                         <tr>
                                             <td>SK/2023/001</td>
                                             <td>05 Jun 2023</td>
@@ -536,12 +658,27 @@
 
                     <div class="search-box">
                         <i class="bi bi-search"></i>
-                        <input type="text" class="form-control" placeholder="Cari dokumen...">
+                        <input type="text" class="form-control" id="searchDocuments" placeholder="Cari dokumen...">
                     </div>
 
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Daftar Arsip Dokumen</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Daftar Arsip Dokumen</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterDocuments" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-funnel"></i> Filter
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDocuments">
+                                        <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="report">Laporan</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="decision">Surat Keputusan</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="minutes">Notulensi</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="contract">Kontrak</a></li>
+                                        <li><a class="dropdown-item" href="#" data-filter="other">Lainnya</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -556,7 +693,7 @@
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="documents-table">
                                         <tr>
                                             <td>DOC/2023/001</td>
                                             <td>Laporan Tahunan 2022</td>
@@ -619,7 +756,7 @@
                     
                     <div class="card mb-4">
                         <div class="card-body">
-                            <form>
+                            <form id="searchForm">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -674,6 +811,9 @@
                                     <button type="submit" class="btn btn-primary">
                                         <i class="bi bi-search"></i> Cari Dokumen
                                     </button>
+                                    <button type="reset" class="btn btn-secondary ms-2">
+                                        <i class="bi bi-arrow-counterclockwise"></i> Reset
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -684,8 +824,28 @@
                             <h5 class="card-title mb-0">Hasil Pencarian</h5>
                         </div>
                         <div class="card-body">
-                            <div class="alert alert-info">
+                            <div class="alert alert-info" id="searchInitialMessage">
                                 <i class="bi bi-info-circle"></i> Masukkan kriteria pencarian untuk menampilkan hasil.
+                            </div>
+                            <div id="searchResults" style="display: none;">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Jenis</th>
+                                                <th>Nomor/Kode</th>
+                                                <th>Tanggal</th>
+                                                <th>Pengirim/Penerima</th>
+                                                <th>Perihal</th>
+                                                <th>Status</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="searchResultsBody">
+                                            <!-- Hasil pencarian akan ditampilkan di sini -->
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -806,7 +966,7 @@
                                     <h5 class="card-title mb-0">Pengaturan Sistem</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form id="systemSettingsForm">
                                         <div class="mb-3">
                                             <label for="systemName" class="form-label">Nama Sistem</label>
                                             <input type="text" class="form-control" id="systemName" value="ArsipPro">
@@ -822,6 +982,13 @@
                                         <div class="mb-3 form-check">
                                             <input type="checkbox" class="form-check-input" id="enableNotifications" checked>
                                             <label class="form-check-label" for="enableNotifications">Aktifkan Notifikasi</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="adminAccessCode" class="form-label">Kode Akses Admin</label>
+                                            <div class="password-container">
+                                                <input type="password" class="form-control" id="adminAccessCode" value="65614222">
+                                                <i class="bi bi-eye-slash password-toggle" id="toggleAdminCode"></i>
+                                            </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Simpan Pengaturan</button>
                                     </form>
@@ -1555,64 +1722,541 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Toggle sidebar untuk tampilan mobile
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('main-content').classList.toggle('active');
+        // Data storage for the application
+        const appData = {
+            adminAccessCode: "65614222",
+            incomingLetters: [
+                {
+                    id: 1,
+                    number: "SM/2023/001",
+                    date: "2023-06-10",
+                    sender: "Dinas Pendidikan",
+                    subject: "Undangan Rapat",
+                    category: "penting",
+                    status: "valid",
+                    file: "sm-2023-001.pdf",
+                    notes: ""
+                },
+                {
+                    id: 2,
+                    number: "SM/2023/002",
+                    date: "2023-06-12",
+                    sender: "PT. Sejahtera",
+                    subject: "Penawaran Kerjasama",
+                    category: "biasa",
+                    status: "valid",
+                    file: "sm-2023-002.pdf",
+                    notes: ""
+                },
+                {
+                    id: 3,
+                    number: "SM/2023/003",
+                    date: "2023-06-14",
+                    sender: "Kementerian Kesehatan",
+                    subject: "Pedoman Baru",
+                    category: "penting",
+                    status: "process",
+                    file: "sm-2023-003.pdf",
+                    notes: "Menunggu validasi kepala bagian"
+                }
+            ],
+            outgoingLetters: [
+                {
+                    id: 1,
+                    number: "SK/2023/001",
+                    date: "2023-06-05",
+                    recipient: "Dinas Pendidikan",
+                    subject: "Permohonan Data",
+                    category: "biasa",
+                    status: "sent",
+                    file: "sk-2023-001.pdf",
+                    notes: ""
+                },
+                {
+                    id: 2,
+                    number: "SK/2023/002",
+                    date: "2023-06-08",
+                    recipient: "PT. Maju Jaya",
+                    subject: "Balasan Penawaran",
+                    category: "penting",
+                    status: "sent",
+                    file: "sk-2023-002.pdf",
+                    notes: ""
+                },
+                {
+                    id: 3,
+                    number: "SK/2023/003",
+                    date: "2023-06-13",
+                    recipient: "Kantor Kecamatan",
+                    subject: "Undangan Rapat",
+                    category: "biasa",
+                    status: "draft",
+                    file: "sk-2023-003.pdf",
+                    notes: "Menunggu persetujuan"
+                }
+            ],
+            documents: [
+                {
+                    id: 1,
+                    code: "DOC/2023/001",
+                    name: "Laporan Tahunan 2022",
+                    category: "laporan",
+                    date: "2023-01-15",
+                    size: "2.4 MB",
+                    file: "doc-2023-001.pdf",
+                    notes: ""
+                },
+                {
+                    id: 2,
+                    code: "DOC/2023/002",
+                    name: "SK Pengangkatan Pegawai",
+                    category: "surat-keputusan",
+                    date: "2023-03-20",
+                    size: "1.1 MB",
+                    file: "doc-2023-002.pdf",
+                    notes: ""
+                },
+                {
+                    id: 3,
+                    code: "DOC/2023/003",
+                    name: "Notulensi Rapat Direksi",
+                    category: "notulensi",
+                    date: "2023-06-05",
+                    size: "0.8 MB",
+                    file: "doc-2023-003.pdf",
+                    notes: "Rapat bulanan"
+                }
+            ],
+            users: [
+                {
+                    id: 1,
+                    name: "Admin Utama",
+                    username: "admin",
+                    email: "admin@example.com",
+                    role: "admin",
+                    status: "active",
+                    lastLogin: "2023-06-15 08:12:34"
+                },
+                {
+                    id: 2,
+                    name: "Operator 1",
+                    username: "operator1",
+                    email: "operator1@example.com",
+                    role: "operator",
+                    status: "active",
+                    lastLogin: "2023-06-15 09:30:45"
+                },
+                {
+                    id: 3,
+                    name: "Pengguna 1",
+                    username: "user1",
+                    email: "user1@example.com",
+                    role: "user",
+                    status: "active",
+                    lastLogin: "2023-06-14 14:22:10"
+                }
+            ],
+            systemLogs: [
+                {
+                    id: 1,
+                    timestamp: "2023-06-15 08:12:34",
+                    activity: "Login ke sistem",
+                    user: "admin",
+                    ip: "192.168.1.1",
+                    status: "success"
+                },
+                {
+                    id: 2,
+                    timestamp: "2023-06-15 08:15:22",
+                    activity: "Upload surat masuk",
+                    user: "admin",
+                    ip: "192.168.1.1",
+                    status: "success"
+                },
+                {
+                    id: 3,
+                    timestamp: "2023-06-15 09:30:45",
+                    activity: "Login ke sistem",
+                    user: "operator1",
+                    ip: "192.168.1.2",
+                    status: "success"
+                },
+                {
+                    id: 4,
+                    timestamp: "2023-06-15 10:12:18",
+                    activity: "Validasi surat keluar",
+                    user: "operator1",
+                    ip: "192.168.1.2",
+                    status: "success"
+                },
+                {
+                    id: 5,
+                    timestamp: "2023-06-15 11:05:33",
+                    activity: "Login gagal",
+                    user: "unknown",
+                    ip: "192.168.1.3",
+                    status: "failed"
+                }
+            ],
+            systemSettings: {
+                name: "ArsipPro",
+                maxUploadSize: 500,
+                enableValidation: true,
+                enableNotifications: true,
+                language: "id",
+                theme: "light"
+            }
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize components
+            initSidebar();
+            initCharts();
+            initForms();
+            initEventListeners();
+            updateDashboardStats();
+            
+            // Check if user is admin
+            checkAdminStatus();
         });
 
-        // Inisialisasi chart
-        const ctx = document.getElementById('chartSurat').getContext('2d');
-        const chartSurat = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
-                datasets: [
-                    {
-                        label: 'Surat Masuk',
-                        data: [12, 19, 15, 20, 18, 25],
-                        backgroundColor: 'rgba(52, 152, 219, 0.7)',
-                        borderColor: 'rgba(52, 152, 219, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Surat Keluar',
-                        data: [8, 12, 10, 15, 14, 20],
-                        backgroundColor: 'rgba(231, 76, 60, 0.7)',
-                        borderColor: 'rgba(231, 76, 60, 1)',
-                        borderWidth: 1
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
+        // Initialize sidebar functionality
+        function initSidebar() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                mainContent.classList.toggle('active');
+            });
+            
+            // Highlight active tab
+            const navLinks = document.querySelectorAll('.sidebar .nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        // Initialize charts
+        function initCharts() {
+            const ctx = document.getElementById('chartSurat').getContext('2d');
+            const chartSurat = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+                    datasets: [
+                        {
+                            label: 'Surat Masuk',
+                            data: [12, 19, 15, 20, 18, 25],
+                            backgroundColor: 'rgba(52, 152, 219, 0.7)',
+                            borderColor: 'rgba(52, 152, 219, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Surat Keluar',
+                            data: [8, 12, 10, 15, 14, 20],
+                            backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                            borderColor: 'rgba(231, 76, 60, 1)',
+                            borderWidth: 1
+                        }
+                    ]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
-        // Validasi form surat
-        document.getElementById('validationForm').addEventListener('submit', function(e) {
+        // Initialize forms
+        function initForms() {
+            // Password toggle functionality
+            document.getElementById('toggleAdminCode').addEventListener('click', function() {
+                const input = document.getElementById('adminAccessCode');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.remove('bi-eye-slash');
+                    this.classList.add('bi-eye');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('bi-eye');
+                    this.classList.add('bi-eye-slash');
+                }
+            });
+        }
+
+        // Initialize event listeners
+        function initEventListeners() {
+            // Admin login
+            document.getElementById('admin-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                const adminModal = new bootstrap.Modal(document.getElementById('adminLoginModal'));
+                adminModal.show();
+            });
+
+            document.getElementById('loginAdmin').addEventListener('click', function() {
+                const username = document.getElementById('adminUsername').value;
+                const password = document.getElementById('adminPassword').value;
+                const code = document.getElementById('adminCode').value;
+                
+                if (username === 'admin' && password === 'admin123' && code === appData.adminAccessCode) {
+                    // Hide modal
+                    const adminModal = bootstrap.Modal.getInstance(document.getElementById('adminLoginModal'));
+                    adminModal.hide();
+                    
+                    // Show admin panel tab
+                    document.getElementById('admin-link').style.display = 'block';
+                    const adminTab = new bootstrap.Tab(document.getElementById('admin-link'));
+                    adminTab.show();
+                    
+                    // Add to system logs
+                    addSystemLog('Akses Admin Panel', 'admin', 'success');
+                } else {
+                    alert('Login gagal! Username, password, atau kode keamanan salah.');
+                    addSystemLog('Percobaan Akses Admin Panel Gagal', username || 'unknown', 'failed');
+                }
+            });
+
+            // Logout
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                if (confirm('Apakah Anda yakin ingin keluar?')) {
+                    showLoading();
+                    setTimeout(() => {
+                        // Redirect to login page
+                        window.location.href = 'login.html';
+                    }, 1000);
+                }
+            });
+
+            // File upload validation
+            document.getElementById('fileSuratMasuk').addEventListener('change', validateFileUpload);
+            document.getElementById('fileSuratKeluar').addEventListener('change', validateFileUpload);
+            document.getElementById('fileDokumen').addEventListener('change', validateFileUpload);
+
+            // Form submissions
+            document.getElementById('simpanSuratMasuk').addEventListener('click', saveIncomingLetter);
+            document.getElementById('simpanSuratKeluar').addEventListener('click', saveOutgoingLetter);
+            document.getElementById('simpanDokumen').addEventListener('click', saveDocument);
+            document.getElementById('simpanUser').addEventListener('click', saveUser);
+            document.getElementById('startBackup').addEventListener('click', startBackup);
+            document.getElementById('validationForm').addEventListener('submit', validateLetter);
+            document.getElementById('systemSettingsForm').addEventListener('submit', saveSystemSettings);
+            document.getElementById('searchForm').addEventListener('submit', searchDocuments);
+
+            // Filter functionality
+            setupFilters();
+        }
+
+        // Update dashboard statistics
+        function updateDashboardStats() {
+            document.getElementById('incoming-letters-count').textContent = appData.incomingLetters.length;
+            document.getElementById('outgoing-letters-count').textContent = appData.outgoingLetters.length;
+            document.getElementById('documents-count').textContent = appData.documents.length;
+            
+            // Calculate validation rate
+            const validatedLetters = appData.incomingLetters.filter(letter => letter.status === 'valid').length;
+            const validationRate = Math.round((validatedLetters / appData.incomingLetters.length) * 100);
+            document.getElementById('validation-rate').textContent = validationRate + '%';
+        }
+
+        // Check admin status
+        function checkAdminStatus() {
+            // In a real app, this would check the user's role from the backend
+            const isAdmin = true; // For demo purposes, assume user is admin
+            if (isAdmin) {
+                document.getElementById('admin-link').style.display = 'block';
+            }
+        }
+
+        // Validate file upload
+        function validateFileUpload(e) {
+            const file = e.target.files[0];
+            const maxSize = appData.systemSettings.maxUploadSize * 1024; // Convert KB to bytes
+            
+            if (file && file.size > maxSize) {
+                alert(`Ukuran file melebihi ${appData.systemSettings.maxUploadSize}KB. Silakan pilih file yang lebih kecil.`);
+                e.target.value = '';
+            }
+        }
+
+        // Save incoming letter
+        function saveIncomingLetter() {
+            showLoading();
+            
+            setTimeout(() => {
+                // In a real app, this would send data to the server
+                const newLetter = {
+                    id: appData.incomingLetters.length + 1,
+                    number: document.getElementById('noSuratMasuk').value,
+                    date: document.getElementById('tanggalSuratMasuk').value,
+                    sender: document.getElementById('pengirimSuratMasuk').value,
+                    subject: document.getElementById('perihalSuratMasuk').value,
+                    category: document.getElementById('kategoriSuratMasuk').value,
+                    status: "process",
+                    file: "new-file.pdf",
+                    notes: document.getElementById('keteranganSuratMasuk').value
+                };
+                
+                appData.incomingLetters.push(newLetter);
+                addSystemLog('Menambahkan Surat Masuk', 'user', 'success');
+                
+                hideLoading();
+                alert('Surat masuk berhasil disimpan!');
+                const modal = bootstrap.Modal.getInstance(document.getElementById('tambahSuratMasukModal'));
+                modal.hide();
+                
+                // Update dashboard
+                updateDashboardStats();
+            }, 1500);
+        }
+
+        // Save outgoing letter
+        function saveOutgoingLetter() {
+            showLoading();
+            
+            setTimeout(() => {
+                // In a real app, this would send data to the server
+                const newLetter = {
+                    id: appData.outgoingLetters.length + 1,
+                    number: document.getElementById('noSuratKeluar').value,
+                    date: document.getElementById('tanggalSuratKeluar').value,
+                    recipient: document.getElementById('tujuanSuratKeluar').value,
+                    subject: document.getElementById('perihalSuratKeluar').value,
+                    category: document.getElementById('kategoriSuratKeluar').value,
+                    status: "draft",
+                    file: "new-file.pdf",
+                    notes: document.getElementById('keteranganSuratKeluar').value
+                };
+                
+                appData.outgoingLetters.push(newLetter);
+                addSystemLog('Menambahkan Surat Keluar', 'user', 'success');
+                
+                hideLoading();
+                alert('Surat keluar berhasil disimpan!');
+                const modal = bootstrap.Modal.getInstance(document.getElementById('tambahSuratKeluarModal'));
+                modal.hide();
+                
+                // Update dashboard
+                updateDashboardStats();
+            }, 1500);
+        }
+
+        // Save document
+        function saveDocument() {
+            showLoading();
+            
+            setTimeout(() => {
+                // In a real app, this would send data to the server
+                const newDoc = {
+                    id: appData.documents.length + 1,
+                    code: document.getElementById('kodeDokumen').value,
+                    name: document.getElementById('namaDokumen').value,
+                    category: document.getElementById('kategoriDokumen').value,
+                    date: document.getElementById('tanggalDokumen').value,
+                    size: "1.5 MB", // This would be calculated from the file
+                    file: "new-doc.pdf",
+                    notes: document.getElementById('keteranganDokumen').value
+                };
+                
+                appData.documents.push(newDoc);
+                addSystemLog('Menambahkan Dokumen', 'user', 'success');
+                
+                hideLoading();
+                alert('Dokumen berhasil disimpan!');
+                const modal = bootstrap.Modal.getInstance(document.getElementById('tambahDokumenModal'));
+                modal.hide();
+                
+                // Update dashboard
+                updateDashboardStats();
+            }, 1500);
+        }
+
+        // Save user
+        function saveUser() {
+            const password = document.getElementById('userPassword').value;
+            const confirmPassword = document.getElementById('userConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Password dan konfirmasi password tidak cocok!');
+                return;
+            }
+            
+            showLoading();
+            
+            setTimeout(() => {
+                // In a real app, this would send data to the server
+                const newUser = {
+                    id: appData.users.length + 1,
+                    name: document.getElementById('userName').value,
+                    username: document.getElementById('userUsername').value,
+                    email: document.getElementById('userEmail').value,
+                    role: document.getElementById('userRole').value,
+                    status: "active",
+                    lastLogin: new Date().toISOString()
+                };
+                
+                appData.users.push(newUser);
+                addSystemLog('Menambahkan Pengguna Baru', 'admin', 'success');
+                
+                hideLoading();
+                alert('Pengguna baru berhasil ditambahkan!');
+                const modal = bootstrap.Modal.getInstance(document.getElementById('tambahUserModal'));
+                modal.hide();
+            }, 1500);
+        }
+
+        // Start backup
+        function startBackup() {
+            showLoading();
+            
+            setTimeout(() => {
+                const backupType = document.getElementById('backupType').value;
+                const includeMedia = document.getElementById('includeMedia').checked;
+                
+                addSystemLog(`Backup Database (${backupType})`, 'admin', 'success');
+                
+                hideLoading();
+                alert(`Backup database (${backupType}) berhasil dilakukan!`);
+                const modal = bootstrap.Modal.getInstance(document.getElementById('backupModal'));
+                modal.hide();
+            }, 2000);
+        }
+
+        // Validate letter
+        function validateLetter(e) {
             e.preventDefault();
             
-            // Simulasi validasi
-            const validationType = document.getElementById('validationType').value;
-            const validationNumber = document.getElementById('validationNumber').value;
-            const validationDate = document.getElementById('validationDate').value;
-            const validationName = document.getElementById('validationName').value;
-            const validationSubject = document.getElementById('validationSubject').value;
+            showLoading();
             
-            if (validationType && validationNumber && validationDate && validationName && validationSubject) {
-                // Simulasi hasil validasi
-                const isValid = Math.random() > 0.3; // 70% kemungkinan valid
+            setTimeout(() => {
+                const validationType = document.getElementById('validationType').value;
+                const validationNumber = document.getElementById('validationNumber').value;
+                const validationDate = document.getElementById('validationDate').value;
+                const validationName = document.getElementById('validationName').value;
+                const validationSubject = document.getElementById('validationSubject').value;
+                
+                if (!validationType || !validationNumber || !validationDate || !validationName || !validationSubject) {
+                    hideLoading();
+                    alert('Harap lengkapi semua field!');
+                    return;
+                }
+                
+                // Simulate validation
+                const isValid = Math.random() > 0.3; // 70% chance of being valid
                 const resultCard = document.getElementById('validationResultCard');
                 const resultContent = document.getElementById('validationResult');
                 
@@ -1644,112 +2288,247 @@
                 }
                 
                 resultCard.style.display = 'block';
-            }
-        });
+                addSystemLog('Validasi Surat', 'user', isValid ? 'success' : 'failed');
+                hideLoading();
+            }, 1000);
+        }
 
-        // Simulasi login admin
-        document.getElementById('admin-link').addEventListener('click', function(e) {
+        // Save system settings
+        function saveSystemSettings(e) {
             e.preventDefault();
-            const adminModal = new bootstrap.Modal(document.getElementById('adminLoginModal'));
-            adminModal.show();
-        });
-
-        document.getElementById('loginAdmin').addEventListener('click', function() {
-            const username = document.getElementById('adminUsername').value;
-            const password = document.getElementById('adminPassword').value;
-            const code = document.getElementById('adminCode').value;
             
-            // Simulasi login admin
-            if (username === 'admin' && password === 'admin123' && code === 'cendhanu') {
-                // Sembunyikan modal
-                const adminModal = bootstrap.Modal.getInstance(document.getElementById('adminLoginModal'));
-                adminModal.hide();
+            showLoading();
+            
+            setTimeout(() => {
+                const newAccessCode = document.getElementById('adminAccessCode').value;
                 
-                // Tampilkan tab admin panel
-                document.getElementById('admin-link').style.display = 'block';
-                const adminTab = new bootstrap.Tab(document.getElementById('admin-link'));
-                adminTab.show();
-            } else {
-                alert('Login gagal! Username, password, atau kode keamanan salah.');
-            }
-        });
+                // Update settings
+                appData.adminAccessCode = newAccessCode;
+                appData.systemSettings.maxUploadSize = document.getElementById('maxUploadSize').value;
+                appData.systemSettings.enableValidation = document.getElementById('enableValidation').checked;
+                appData.systemSettings.enableNotifications = document.getElementById('enableNotifications').checked;
+                
+                addSystemLog('Mengubah Pengaturan Sistem', 'admin', 'success');
+                
+                hideLoading();
+                alert('Pengaturan sistem berhasil disimpan!');
+            }, 1000);
+        }
 
-        // Logout
-        document.getElementById('logout-btn').addEventListener('click', function() {
-            if (confirm('Apakah Anda yakin ingin keluar?')) {
-                // Redirect ke halaman login
-                window.location.href = 'login.html';
-            }
-        });
-
-        // Validasi ukuran file upload
-        document.getElementById('fileSuratMasuk').addEventListener('change', function() {
-            const file = this.files[0];
-            if (file && file.size > 500 * 1024) { // 500KB
-                alert('Ukuran file melebihi 500KB. Silakan pilih file yang lebih kecil.');
-                this.value = '';
-            }
-        });
-
-        document.getElementById('fileSuratKeluar').addEventListener('change', function() {
-            const file = this.files[0];
-            if (file && file.size > 500 * 1024) { // 500KB
-                alert('Ukuran file melebihi 500KB. Silakan pilih file yang lebih kecil.');
-                this.value = '';
-            }
-        });
-
-        document.getElementById('fileDokumen').addEventListener('change', function() {
-            const file = this.files[0];
-            if (file && file.size > 500 * 1024) { // 500KB
-                alert('Ukuran file melebihi 500KB. Silakan pilih file yang lebih kecil.');
-                this.value = '';
-            }
-        });
-
-        // Simpan data form
-        document.getElementById('simpanSuratMasuk').addEventListener('click', function() {
-            alert('Surat masuk berhasil disimpan!');
-            const modal = bootstrap.Modal.getInstance(document.getElementById('tambahSuratMasukModal'));
-            modal.hide();
-        });
-
-        document.getElementById('simpanSuratKeluar').addEventListener('click', function() {
-            alert('Surat keluar berhasil disimpan!');
-            const modal = bootstrap.Modal.getInstance(document.getElementById('tambahSuratKeluarModal'));
-            modal.hide();
-        });
-
-        document.getElementById('simpanDokumen').addEventListener('click', function() {
-            alert('Dokumen berhasil disimpan!');
-            const modal = bootstrap.Modal.getInstance(document.getElementById('tambahDokumenModal'));
-            modal.hide();
-        });
-
-        document.getElementById('simpanUser').addEventListener('click', function() {
-            const password = document.getElementById('userPassword').value;
-            const confirmPassword = document.getElementById('userConfirmPassword').value;
+        // Search documents
+        function searchDocuments(e) {
+            e.preventDefault();
             
-            if (password === confirmPassword) {
-                alert('Pengguna baru berhasil ditambahkan!');
-                const modal = bootstrap.Modal.getInstance(document.getElementById('tambahUserModal'));
-                modal.hide();
-            } else {
-                alert('Password dan konfirmasi password tidak cocok!');
+            showLoading();
+            
+            setTimeout(() => {
+                const keyword = document.getElementById('searchKeyword').value.toLowerCase();
+                const type = document.getElementById('searchType').value;
+                const category = document.getElementById('searchCategory').value;
+                const sender = document.getElementById('searchSender').value.toLowerCase();
+                const subject = document.getElementById('searchSubject').value.toLowerCase();
+                
+                let results = [];
+                
+                // Search in incoming letters
+                if (!type || type === 'surat-masuk') {
+                    results = results.concat(
+                        appData.incomingLetters.filter(letter => {
+                            return (
+                                (letter.number.toLowerCase().includes(keyword) ||
+                                letter.sender.toLowerCase().includes(keyword) ||
+                                letter.subject.toLowerCase().includes(keyword) ||
+                                letter.notes.toLowerCase().includes(keyword)) &&
+                                (!category || letter.category === category) &&
+                                (!sender || letter.sender.toLowerCase().includes(sender)) &&
+                                (!subject || letter.subject.toLowerCase().includes(subject))
+                            );
+                        }).map(letter => ({
+                            type: 'Surat Masuk',
+                            number: letter.number,
+                            date: letter.date,
+                            name: letter.sender,
+                            subject: letter.subject,
+                            status: letter.status
+                        }))
+                    );
+                }
+                
+                // Search in outgoing letters
+                if (!type || type === 'surat-keluar') {
+                    results = results.concat(
+                        appData.outgoingLetters.filter(letter => {
+                            return (
+                                (letter.number.toLowerCase().includes(keyword) ||
+                                letter.recipient.toLowerCase().includes(keyword) ||
+                                letter.subject.toLowerCase().includes(keyword) ||
+                                letter.notes.toLowerCase().includes(keyword)) &&
+                                (!category || letter.category === category) &&
+                                (!sender || letter.recipient.toLowerCase().includes(sender)) &&
+                                (!subject || letter.subject.toLowerCase().includes(subject))
+                            );
+                        }).map(letter => ({
+                            type: 'Surat Keluar',
+                            number: letter.number,
+                            date: letter.date,
+                            name: letter.recipient,
+                            subject: letter.subject,
+                            status: letter.status
+                        }))
+                    );
+                }
+                
+                // Search in documents
+                if (!type || type === 'dokumen') {
+                    results = results.concat(
+                        appData.documents.filter(doc => {
+                            return (
+                                (doc.code.toLowerCase().includes(keyword) ||
+                                doc.name.toLowerCase().includes(keyword) ||
+                                doc.notes.toLowerCase().includes(keyword)) &&
+                                (!category || doc.category === category) &&
+                                (!subject || doc.name.toLowerCase().includes(subject))
+                            );
+                        }).map(doc => ({
+                            type: 'Dokumen',
+                            number: doc.code,
+                            date: doc.date,
+                            name: doc.name,
+                            subject: doc.category,
+                            status: 'valid'
+                        }))
+                    );
+                }
+                
+                // Display results
+                const resultsBody = document.getElementById('searchResultsBody');
+                resultsBody.innerHTML = '';
+                
+                if (results.length === 0) {
+                    resultsBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle"></i> Tidak ditemukan dokumen yang sesuai dengan kriteria pencarian.
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    results.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.type}</td>
+                            <td>${item.number}</td>
+                            <td>${formatDate(item.date)}</td>
+                            <td>${item.name}</td>
+                            <td>${item.subject}</td>
+                            <td><span class="badge bg-${getStatusBadgeClass(item.status)}">${getStatusText(item.status)}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
+                                ${item.type === 'Dokumen' ? '<button class="btn btn-sm btn-success"><i class="bi bi-download"></i></button>' : ''}
+                            </td>
+                        `;
+                        resultsBody.appendChild(row);
+                    });
+                }
+                
+                document.getElementById('searchInitialMessage').style.display = 'none';
+                document.getElementById('searchResults').style.display = 'block';
+                addSystemLog('Melakukan Pencarian Dokumen', 'user', 'success');
+                hideLoading();
+            }, 1000);
+        }
+
+        // Setup filters
+        function setupFilters() {
+            // Incoming letters filter
+            document.querySelectorAll('[data-filter]').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // In a real app, this would filter the data from the server
+                    // For demo, we'll just show an alert
+                    alert(`Filter diterapkan: ${filter}`);
+                });
+            });
+        }
+
+        // Add system log
+        function addSystemLog(activity, user, status) {
+            const newLog = {
+                id: appData.systemLogs.length + 1,
+                timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                activity: activity,
+                user: user,
+                ip: "192.168.1.1", // This would be the actual IP in a real app
+                status: status
+            };
+            
+            appData.systemLogs.unshift(newLog); // Add to beginning of array
+        }
+
+        // Show loading indicator
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'block';
+            document.getElementById('loadingSpinner').style.display = 'block';
+        }
+
+        // Hide loading indicator
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        // Get status badge class
+        function getStatusBadgeClass(status) {
+            switch(status) {
+                case 'valid':
+                case 'sent':
+                case 'success':
+                    return 'success';
+                case 'process':
+                case 'draft':
+                    return 'warning';
+                case 'invalid':
+                case 'canceled':
+                case 'failed':
+                    return 'danger';
+                default:
+                    return 'secondary';
             }
-        });
+        }
 
-        document.getElementById('startBackup').addEventListener('click', function() {
-            alert('Backup database berhasil dilakukan!');
-            const modal = bootstrap.Modal.getInstance(document.getElementById('backupModal'));
-            modal.hide();
-        });
-
-        // Aktifkan tooltip
-        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
+        // Get status text
+        function getStatusText(status) {
+            switch(status) {
+                case 'valid':
+                    return 'Valid';
+                case 'process':
+                    return 'Proses Validasi';
+                case 'invalid':
+                    return 'Tidak Valid';
+                case 'sent':
+                    return 'Terkirim';
+                case 'draft':
+                    return 'Draft';
+                case 'canceled':
+                    return 'Dibatalkan';
+                case 'success':
+                    return 'Sukses';
+                case 'failed':
+                    return 'Gagal';
+                default:
+                    return status;
+            }
+        }
     </script>
 </body>
 </html>
