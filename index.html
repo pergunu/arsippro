@@ -6,6 +6,7 @@
     <title>ArsipPro - Sistem Kearsipan Digital</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -13,170 +14,315 @@
             --accent-color: #e74c3c;
             --light-color: #ecf0f1;
             --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --info-color: #1abc9c;
+            --sidebar-width: 280px;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
             overflow-x: hidden;
+            color: #333;
         }
         
         .navbar-brand img {
-            height: 30px;
-            margin-right: 8px;
+            height: 40px;
+            margin-right: 10px;
         }
         
         .sidebar {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), #1a252f);
             color: white;
             height: 100vh;
             position: fixed;
             padding-top: 20px;
-            transition: all 0.3s;
-            width: 250px;
+            transition: all 0.3s ease;
+            width: var(--sidebar-width);
             z-index: 1000;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+            border-right: 1px solid rgba(255,255,255,0.1);
         }
         
         .sidebar .nav-link {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             margin-bottom: 5px;
-            border-radius: 5px;
-            padding: 10px 15px;
-            transition: all 0.2s;
+            border-radius: 8px;
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
         }
         
         .sidebar .nav-link:hover {
             background-color: rgba(255, 255, 255, 0.1);
             color: white;
+            transform: translateX(5px);
         }
         
         .sidebar .nav-link.active {
-            background-color: var(--secondary-color);
+            background: linear-gradient(90deg, var(--secondary-color), #2980b9);
             color: white;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
         }
         
         .sidebar .nav-link i {
-            margin-right: 10px;
-            width: 20px;
+            margin-right: 12px;
+            width: 24px;
             text-align: center;
+            font-size: 1.1rem;
         }
         
         .main-content {
-            margin-left: 250px;
-            padding: 20px;
-            transition: all 0.3s;
+            margin-left: var(--sidebar-width);
+            padding: 25px;
+            transition: all 0.3s ease;
             min-height: 100vh;
             position: relative;
+            background-color: #f8fafc;
         }
         
         .card {
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
             transition: transform 0.3s, box-shadow 0.3s;
             overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
         }
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
         
         .card-header {
-            background-color: var(--primary-color);
+            background: linear-gradient(90deg, var(--primary-color), #34495e);
             color: white;
-            border-radius: 10px 10px 0 0 !important;
-            padding: 15px 20px;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 16px 25px;
+            border-bottom: none;
+            font-weight: 600;
         }
         
         .btn-primary {
             background-color: var(--secondary-color);
             border: none;
-            padding: 8px 16px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
         }
         
         .btn-primary:hover {
             background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
         }
         
         .btn-danger {
-            background-color: var(--accent-color);
+            background-color: var(--danger-color);
             border: none;
-            padding: 8px 16px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(231, 76, 60, 0.2);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(243, 156, 18, 0.2);
+        }
+        
+        .btn-warning:hover {
+            background-color: #d35400;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(243, 156, 18, 0.3);
+        }
+        
+        .btn-info {
+            background-color: var(--info-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(26, 188, 156, 0.2);
+        }
+        
+        .btn-info:hover {
+            background-color: #16a085;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(26, 188, 156, 0.3);
         }
         
         .stat-card {
             text-align: center;
-            padding: 20px;
+            padding: 25px;
+            border-radius: 12px;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         
         .stat-card .number {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: bold;
             color: var(--secondary-color);
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            line-height: 1;
         }
         
         .stat-card .label {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--dark-color);
-            font-weight: 500;
+            font-weight: 600;
         }
         
         .search-box {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .search-box input {
-            padding-left: 40px;
-            border-radius: 20px;
-            height: 45px;
+            padding-left: 45px;
+            border-radius: 25px;
+            height: 50px;
+            border: 1px solid #e0e6ed;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
         }
         
         .search-box i {
             position: absolute;
-            left: 15px;
-            top: 12px;
+            left: 20px;
+            top: 15px;
             color: #7f8c8d;
-            font-size: 18px;
+            font-size: 20px;
         }
         
         .table-responsive {
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            background-color: white;
+        }
+        
+        .table {
+            margin-bottom: 0;
         }
         
         .table thead {
-            background-color: var(--primary-color);
+            background: linear-gradient(90deg, var(--primary-color), #34495e);
             color: white;
         }
         
+        .table th {
+            padding: 15px;
+            font-weight: 600;
+            border-bottom: none;
+        }
+        
+        .table td {
+            padding: 12px 15px;
+            vertical-align: middle;
+            border-top: 1px solid #f1f5f9;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .badge {
+            padding: 6px 10px;
+            font-weight: 500;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        
         .badge-success {
-            background-color: #2ecc71;
+            background-color: var(--success-color);
         }
         
         .badge-warning {
-            background-color: #f39c12;
+            background-color: var(--warning-color);
+        }
+        
+        .badge-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .badge-info {
+            background-color: var(--info-color);
+        }
+        
+        .badge-primary {
+            background-color: var(--secondary-color);
         }
         
         .logo-text {
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: white;
+            letter-spacing: 1px;
         }
         
         .footer {
-            background-color: var(--primary-color);
+            background: linear-gradient(90deg, var(--primary-color), #34495e);
             color: white;
-            padding: 15px 0;
+            padding: 20px 0;
             text-align: center;
             margin-top: 40px;
             position: relative;
             bottom: 0;
             width: 100%;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer p {
+            margin-bottom: 0;
         }
         
         .overlay {
@@ -188,6 +334,7 @@
             background-color: rgba(0,0,0,0.5);
             z-index: 999;
             display: none;
+            backdrop-filter: blur(5px);
         }
         
         .loading-spinner {
@@ -201,10 +348,11 @@
         
         .password-toggle {
             position: absolute;
-            right: 10px;
-            top: 10px;
+            right: 15px;
+            top: 15px;
             cursor: pointer;
             color: #7f8c8d;
+            font-size: 18px;
         }
         
         .password-container {
@@ -213,10 +361,12 @@
         
         .document-preview {
             width: 100%;
-            height: 500px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-top: 15px;
+            height: 600px;
+            border: 1px solid #e0e6ed;
+            border-radius: 10px;
+            margin-top: 20px;
+            background-color: #f8fafc;
+            overflow: hidden;
         }
         
         .document-preview iframe {
@@ -230,6 +380,7 @@
             max-height: 100%;
             display: block;
             margin: 0 auto;
+            object-fit: contain;
         }
         
         .document-preview .unsupported-format {
@@ -239,75 +390,195 @@
             height: 100%;
             color: #666;
             font-size: 1.2rem;
+            flex-direction: column;
+        }
+        
+        .document-preview .unsupported-format i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
         }
         
         .whatsapp-chat {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             z-index: 999;
         }
         
         .whatsapp-chat .btn-whatsapp {
             background-color: #25D366;
             color: white;
-            border-radius: 50px;
-            padding: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
-            font-size: 28px;
+            width: 70px;
+            height: 70px;
+            font-size: 32px;
             transition: all 0.3s;
+            border: none;
         }
         
         .whatsapp-chat .btn-whatsapp:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
         }
         
-        @media (max-width: 768px) {
-            .sidebar {
-                margin-left: -250px;
-            }
-            
-            .sidebar.active {
-                margin-left: 0;
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
-            .main-content.active {
-                margin-left: 250px;
-            }
-            
-            .stat-card .number {
-                font-size: 2rem;
-            }
-            
-            .document-preview {
-                height: 300px;
-            }
+        .toast-container {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1100;
+        }
+        
+        .toast {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .toast-body {
+            padding: 15px 20px;
+            font-weight: 500;
+        }
+        
+        .custom-file-upload {
+            border: 1px solid #e0e6ed;
+            display: inline-block;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            color: #495057;
+            transition: all 0.3s;
+        }
+        
+        .custom-file-upload:hover {
+            background-color: #e9ecef;
+            border-color: #d1d7e0;
+        }
+        
+        .dropdown-menu {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border: none;
+            border-radius: 10px;
+            padding: 10px 0;
+        }
+        
+        .dropdown-item {
+            padding: 8px 20px;
+            transition: all 0.2s;
+        }
+        
+        .dropdown-item:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--secondary-color);
+        }
+        
+        .pagination .page-item.active .page-link {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+        }
+        
+        .page-link {
+            border-radius: 8px !important;
+            margin: 0 5px;
+            border: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #e0e6ed;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .accordion-button {
+            font-weight: 600;
+            padding: 15px 20px;
+            border-radius: 8px !important;
+            background-color: #f8fafc;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--secondary-color);
+            box-shadow: none;
+        }
+        
+        .accordion-body {
+            padding: 20px;
+        }
+        
+        .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            background: linear-gradient(90deg, var(--primary-color), #34495e);
+            color: white;
+            border-bottom: none;
+            padding: 20px 25px;
+        }
+        
+        .modal-title {
+            font-weight: 600;
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .modal-footer {
+            border-top: none;
+            padding: 20px 25px;
+            background-color: #f8fafc;
+        }
+        
+        .btn-close {
+            filter: invert(1);
         }
         
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .fade-in {
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
         }
         
         /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
         }
         
         ::-webkit-scrollbar-track {
@@ -323,54 +594,140 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #2980b9;
         }
-
-        /* Toast notification */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1100;
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .sidebar {
+                margin-left: calc(-1 * var(--sidebar-width));
+            }
+            
+            .sidebar.active {
+                margin-left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.active {
+                margin-left: var(--sidebar-width);
+            }
+            
+            .stat-card .number {
+                font-size: 2.2rem;
+            }
+            
+            .document-preview {
+                height: 400px;
+            }
         }
-
-        /* Custom file upload button */
-        .custom-file-upload {
-            border: 1px solid #ccc;
-            display: inline-block;
-            padding: 6px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-            background-color: #f8f9fa;
-            color: #495057;
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .card-header {
+                padding: 15px 20px;
+            }
+            
+            .stat-card {
+                padding: 20px 15px;
+            }
+            
+            .stat-card .number {
+                font-size: 2rem;
+            }
+            
+            .stat-card .label {
+                font-size: 1rem;
+            }
+            
+            .table th, .table td {
+                padding: 10px 12px;
+            }
+            
+            .whatsapp-chat {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .whatsapp-chat .btn-whatsapp {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
         }
-
-        .custom-file-upload:hover {
-            background-color: #e9ecef;
-        }
-
-        /* Improved dropdown menu */
-        .dropdown-menu {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: none;
-        }
-
-        /* Enhanced pagination */
-        .pagination .page-item.active .page-link {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-        }
-
-        /* Better form controls */
-        .form-control:focus, .form-select:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
-        }
-
-        /* Responsive tables */
+        
         @media (max-width: 576px) {
+            .main-content {
+                padding: 15px 10px;
+            }
+            
+            .sidebar {
+                width: 250px;
+            }
+            
+            .stat-card .number {
+                font-size: 1.8rem;
+            }
+            
+            .document-preview {
+                height: 300px;
+            }
+            
             .table-responsive {
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
             }
+            
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .whatsapp-chat {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .whatsapp-chat .btn-whatsapp {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+        
+        /* Custom utility classes */
+        .text-gradient {
+            background: linear-gradient(90deg, var(--secondary-color), #2980b9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .bg-gradient-primary {
+            background: linear-gradient(90deg, var(--secondary-color), #2980b9);
+        }
+        
+        .shadow-sm {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .shadow-md {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .shadow-lg {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .rounded-xl {
+            border-radius: 15px;
+        }
+        
+        .transition {
+            transition: all 0.3s ease;
         }
     </style>
 </head>
@@ -378,7 +735,7 @@
     <!-- Loading overlay -->
     <div class="overlay" id="loadingOverlay"></div>
     <div class="loading-spinner" id="loadingSpinner">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <div class="spinner-border text-primary" style="width: 3.5rem; height: 3.5rem;" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
@@ -388,7 +745,7 @@
     
     <!-- WhatsApp Chat Button -->
     <div class="whatsapp-chat">
-        <a href="https://wa.me/6285647709114" class="btn-whatsapp" target="_blank">
+        <a href="https://wa.me/6285647709114?text=Assalamualaikum%20mas%20Admin,%20saya%20mau%20tanya%20sesuatu%20nih..." class="btn-whatsapp" target="_blank">
             <i class="bi bi-whatsapp"></i>
         </a>
     </div>
@@ -397,7 +754,7 @@
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="d-flex justify-content-center mb-4">
-                <img src="https://via.placeholder.com/150x50?text=ArsipPro" alt="ArsipPro Logo" class="img-fluid">
+                <img src="https://raw.githubusercontent.com/pergunu/arsippro/refs/heads/main/assets/images/logo-aplikasi.png" alt="ArsipPro Logo" class="img-fluid" style="height: 60px;">
             </div>
             <ul class="nav flex-column">
                 <li class="nav-item">
@@ -425,19 +782,19 @@
 
         <!-- Main Content -->
         <div class="main-content" id="main-content">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mb-4">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white rounded-3 shadow-sm mb-4">
                 <div class="container-fluid">
                     <button class="btn btn-primary me-2" id="sidebarToggle">
                         <i class="bi bi-list"></i>
                     </button>
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center ms-auto">
                         <div class="dropdown">
                             <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://via.placeholder.com/40" alt="User" width="32" height="32" class="rounded-circle me-2">
+                                <img src="https://raw.githubusercontent.com/pergunu/arsippro/refs/heads/main/assets/images/icon-pengunjung.png" alt="User" width="40" height="40" class="rounded-circle me-2">
                                 <strong>Pengunjung</strong>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-                                <li><a class="dropdown-item" href="#bantuan" data-bs-toggle="tab">Bantuan</a></li>
+                                <li><a class="dropdown-item" href="#bantuan" data-bs-toggle="tab"><i class="bi bi-question-circle me-2"></i>Bantuan</a></li>
                             </ul>
                         </div>
                     </div>
@@ -447,7 +804,7 @@
             <div class="tab-content">
                 <!-- Dashboard Tab -->
                 <div class="tab-pane fade show active" id="dashboard">
-                    <h2 class="mb-4">Dashboard</h2>
+                    <h2 class="mb-4 text-gradient">Dashboard</h2>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="card stat-card">
@@ -538,7 +895,7 @@
 
                 <!-- Pencarian Tab -->
                 <div class="tab-pane fade" id="pencarian">
-                    <h2 class="mb-4">Pencarian Dokumen</h2>
+                    <h2 class="mb-4 text-gradient">Pencarian Dokumen</h2>
                     
                     <div class="card mb-4">
                         <div class="card-body">
@@ -651,7 +1008,10 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="adminPassword" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="adminPassword" placeholder="Masukkan password admin" required>
+                                    <div class="password-container">
+                                        <input type="password" class="form-control" id="adminPassword" placeholder="Masukkan password admin" required>
+                                        <i class="bi bi-eye-slash password-toggle" id="togglePassword"></i>
+                                    </div>
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary">
@@ -665,39 +1025,39 @@
                     <div id="adminContent" style="display: none;">
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="card">
+                                <div class="card h-100">
                                     <div class="card-header">
                                         <h5 class="card-title mb-0">Manajemen Surat Masuk</h5>
                                     </div>
-                                    <div class="card-body">
-                                        <p>Kelola surat masuk yang diterima</p>
-                                        <a href="#surat-masuk-admin" class="btn btn-primary" data-bs-toggle="tab">
+                                    <div class="card-body d-flex flex-column">
+                                        <p class="flex-grow-1">Kelola surat masuk yang diterima oleh sistem</p>
+                                        <a href="#surat-masuk-admin" class="btn btn-primary align-self-start" data-bs-toggle="tab">
                                             <i class="bi bi-envelope-open"></i> Kelola Surat Masuk
                                         </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="card">
+                                <div class="card h-100">
                                     <div class="card-header">
                                         <h5 class="card-title mb-0">Manajemen Surat Keluar</h5>
                                     </div>
-                                    <div class="card-body">
-                                        <p>Kelola surat keluar yang dikirim</p>
-                                        <a href="#surat-keluar-admin" class="btn btn-primary" data-bs-toggle="tab">
+                                    <div class="card-body d-flex flex-column">
+                                        <p class="flex-grow-1">Kelola surat keluar yang dikirim oleh sistem</p>
+                                        <a href="#surat-keluar-admin" class="btn btn-primary align-self-start" data-bs-toggle="tab">
                                             <i class="bi bi-envelope"></i> Kelola Surat Keluar
                                         </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="card">
+                                <div class="card h-100">
                                     <div class="card-header">
                                         <h5 class="card-title mb-0">Manajemen Arsip</h5>
                                     </div>
-                                    <div class="card-body">
-                                        <p>Kelola dokumen arsip</p>
-                                        <a href="#arsip-admin" class="btn btn-primary" data-bs-toggle="tab">
+                                    <div class="card-body d-flex flex-column">
+                                        <p class="flex-grow-1">Kelola dokumen arsip dan dokumen penting lainnya</p>
+                                        <a href="#arsip-admin" class="btn btn-primary align-self-start" data-bs-toggle="tab">
                                             <i class="bi bi-archive"></i> Kelola Arsip
                                         </a>
                                     </div>
@@ -707,20 +1067,20 @@
 
                         <div class="row mt-4">
                             <div class="col-md-6">
-                                <div class="card">
+                                <div class="card h-100">
                                     <div class="card-header">
                                         <h5 class="card-title mb-0">Validasi Surat</h5>
                                     </div>
-                                    <div class="card-body">
-                                        <p>Validasi keaslian surat masuk dan keluar</p>
-                                        <a href="#validasi-admin" class="btn btn-primary" data-bs-toggle="tab">
+                                    <div class="card-body d-flex flex-column">
+                                        <p class="flex-grow-1">Validasi keaslian surat masuk dan keluar</p>
+                                        <a href="#validasi-admin" class="btn btn-primary align-self-start" data-bs-toggle="tab">
                                             <i class="bi bi-check-circle"></i> Validasi Surat
                                         </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="card">
+                                <div class="card h-100">
                                     <div class="card-header">
                                         <h5 class="card-title mb-0">Statistik Sistem</h5>
                                     </div>
@@ -753,7 +1113,7 @@
                 <!-- Surat Masuk Admin Sub-tab -->
                 <div class="tab-pane fade" id="surat-masuk-admin">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Manajemen Surat Masuk</h2>
+                        <h2 class="text-gradient">Manajemen Surat Masuk</h2>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahSuratMasukModal">
                             <i class="bi bi-plus-circle"></i> Tambah Surat Masuk
                         </button>
@@ -819,7 +1179,7 @@
                 <!-- Surat Keluar Admin Sub-tab -->
                 <div class="tab-pane fade" id="surat-keluar-admin">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Manajemen Surat Keluar</h2>
+                        <h2 class="text-gradient">Manajemen Surat Keluar</h2>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahSuratKeluarModal">
                             <i class="bi bi-plus-circle"></i> Tambah Surat Keluar
                         </button>
@@ -885,7 +1245,7 @@
                 <!-- Arsip Dokumen Admin Sub-tab -->
                 <div class="tab-pane fade" id="arsip-admin">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Manajemen Arsip Dokumen</h2>
+                        <h2 class="text-gradient">Manajemen Arsip Dokumen</h2>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahDokumenModal">
                             <i class="bi bi-plus-circle"></i> Tambah Dokumen
                         </button>
@@ -952,7 +1312,7 @@
 
                 <!-- Validasi Surat Admin Sub-tab -->
                 <div class="tab-pane fade" id="validasi-admin">
-                    <h2 class="mb-4">Validasi Surat</h2>
+                    <h2 class="mb-4 text-gradient">Validasi Surat</h2>
                     
                     <div class="card mb-4">
                         <div class="card-body">
@@ -1014,7 +1374,7 @@
 
                 <!-- Bantuan Tab -->
                 <div class="tab-pane fade" id="bantuan">
-                    <h2 class="mb-4">Bantuan & Panduan</h2>
+                    <h2 class="mb-4 text-gradient">Bantuan & Panduan</h2>
                     
                     <div class="card mb-4">
                         <div class="card-header">
@@ -1025,7 +1385,7 @@
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOne">
                                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            Cara Mencari Dokumen
+                                            <i class="bi bi-search me-2"></i>Cara Mencari Dokumen
                                         </button>
                                     </h2>
                                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#helpAccordion">
@@ -1043,7 +1403,7 @@
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingTwo">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Cara Menghubungi Admin
+                                            <i class="bi bi-whatsapp me-2"></i>Cara Menghubungi Admin
                                         </button>
                                     </h2>
                                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#helpAccordion">
@@ -1053,6 +1413,24 @@
                                                 <li>Anda akan diarahkan ke aplikasi WhatsApp</li>
                                                 <li>Kirim pesan Anda ke admin</li>
                                                 <li>Admin akan merespon pesan Anda secepat mungkin</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            <i class="bi bi-file-earmark-text me-2"></i>Cara Melihat Dokumen
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#helpAccordion">
+                                        <div class="accordion-body">
+                                            <ol>
+                                                <li>Temukan dokumen yang ingin dilihat melalui menu pencarian</li>
+                                                <li>Klik tombol <i class="bi bi-eye"></i> untuk melihat pratinjau dokumen</li>
+                                                <li>Untuk dokumen PDF dan gambar akan langsung ditampilkan</li>
+                                                <li>Untuk dokumen Word akan muncul pesan untuk mengunduh terlebih dahulu</li>
+                                                <li>Klik tombol <i class="bi bi-download"></i> untuk mengunduh dokumen</li>
                                             </ol>
                                         </div>
                                     </div>
@@ -1067,13 +1445,25 @@
                         </div>
                         <div class="card-body">
                             <p>Jika Anda mengalami masalah atau membutuhkan bantuan lebih lanjut, silakan hubungi tim dukungan kami:</p>
-                            <ul>
-                                <li><strong>WhatsApp:</strong> <a href="https://wa.me/6285647709114" target="_blank">0856-4770-9114</a></li>
-                                <li><strong>Email:</strong> support@arsippro.com</li>
-                                <li><strong>Telepon:</strong> (0338) 123456</li>
-                                <li><strong>Alamat:</strong> Jl. Raya Situbondo No. 123, Jawa Timur</li>
+                            <ul class="list-group list-group-flush mb-3">
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-whatsapp me-3 text-success" style="font-size: 1.2rem;"></i>
+                                    <strong>WhatsApp:</strong> <a href="https://wa.me/6285647709114" target="_blank" class="ms-2">0856-4770-9114</a>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-envelope me-3 text-primary" style="font-size: 1.2rem;"></i>
+                                    <strong>Email:</strong> <a href="mailto:support@arsippro.com" class="ms-2">support@arsippro.com</a>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-telephone me-3 text-info" style="font-size: 1.2rem;"></i>
+                                    <strong>Telepon:</strong> <span class="ms-2">(0338) 123456</span>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-geo-alt me-3 text-danger" style="font-size: 1.2rem;"></i>
+                                    <strong>Alamat:</strong> <span class="ms-2">Jl. Raya Situbondo No. 123, Jawa Timur</span>
+                                </li>
                             </ul>
-                            <p>Tim dukungan kami siap membantu Anda dari Senin hingga Jumat, pukul 08.00 - 16.00 WIB.</p>
+                            <p class="mb-0">Tim dukungan kami siap membantu Anda dari Senin hingga Jumat, pukul 08.00 - 16.00 WIB.</p>
                         </div>
                     </div>
                 </div>
@@ -1295,8 +1685,8 @@
         // Data storage for the application
         const appData = {
             adminCredentials: {
-                username: "admin",
-                password: "admin123"
+                username: "Admin",
+                password: "65614222"
             },
             currentUser: {
                 username: "pengunjung",
@@ -1640,6 +2030,17 @@
                         name: "Admin Utama"
                     };
                     
+                    // Update user display
+                    const userDropdown = document.querySelector('#dropdownUser strong');
+                    if (userDropdown) {
+                        userDropdown.textContent = appData.currentUser.name;
+                    }
+                    
+                    const userImage = document.querySelector('#dropdownUser img');
+                    if (userImage) {
+                        userImage.src = "https://raw.githubusercontent.com/pergunu/arsippro/refs/heads/main/assets/images/icon-admin.png";
+                    }
+                    
                     // Show admin content
                     document.getElementById('adminContent').style.display = 'block';
                     document.getElementById('adminLoginForm').style.display = 'none';
@@ -1655,6 +2056,22 @@
                 } else {
                     showToast('Username atau password salah!', 'error');
                     addSystemLog('Percobaan Login Admin Gagal', username, 'failed');
+                }
+            });
+
+            // Toggle password visibility
+            document.getElementById('togglePassword')?.addEventListener('click', function() {
+                const passwordInput = document.getElementById('adminPassword');
+                const icon = this;
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
                 }
             });
 
@@ -1699,6 +2116,13 @@
                     const docId = button.getAttribute('data-id');
                     deleteDocument(docType, docId);
                 }
+            });
+
+            // Download document from modal
+            document.getElementById('downloadDocumentBtn')?.addEventListener('click', function() {
+                const docType = this.getAttribute('data-type');
+                const docId = this.getAttribute('data-id');
+                downloadDocument(docType, docId);
             });
 
             // Search functionality
@@ -1769,7 +2193,12 @@
                                 (filter === 'invalid' && statusText.includes('tidak valid')) ||
                                 (filter === 'sent' && statusText.includes('terkirim')) ||
                                 (filter === 'draft' && statusText.includes('draft')) ||
-                                (filter === 'canceled' && statusText.includes('dibatalkan'));
+                                (filter === 'canceled' && statusText.includes('dibatalkan')) ||
+                                (filter === 'report' && statusText.includes('laporan')) ||
+                                (filter === 'decision' && statusText.includes('surat keputusan')) ||
+                                (filter === 'minutes' && statusText.includes('notulensi')) ||
+                                (filter === 'contract' && statusText.includes('kontrak')) ||
+                                (filter === 'other' && statusText.includes('lainnya'));
                             
                             row.style.display = shouldShow ? '' : 'none';
                         }
@@ -1883,10 +2312,8 @@
             } else if (fileType === 'doc' || fileType === 'docx') {
                 return `
                     <div class="unsupported-format">
-                        <div class="text-center">
-                            <i class="bi bi-file-earmark-word" style="font-size: 3rem; color: #2b579a;"></i>
-                            <p class="mt-2">Dokumen Word tidak dapat dipratinjau. Silakan unduh untuk melihat.</p>
-                        </div>
+                        <i class="bi bi-file-earmark-word"></i>
+                        <p>Dokumen Word tidak dapat dipratinjau. Silakan unduh untuk melihat.</p>
                     </div>
                 `;
             } else if (fileType === 'jpg' || fileType === 'jpeg' || fileType === 'png') {
@@ -1894,10 +2321,8 @@
             } else {
                 return `
                     <div class="unsupported-format">
-                        <div class="text-center">
-                            <i class="bi bi-file-earmark" style="font-size: 3rem;"></i>
-                            <p class="mt-2">Format file tidak didukung untuk pratinjau. Silakan unduh untuk melihat.</p>
-                        </div>
+                        <i class="bi bi-file-earmark"></i>
+                        <p>Format file tidak didukung untuk pratinjau. Silakan unduh untuk melihat.</p>
                     </div>
                 `;
             }
