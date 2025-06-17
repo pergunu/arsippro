@@ -1077,6 +1077,8 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
                 <li><a class="dropdown-item" href="#bantuan" data-bs-toggle="tab"><i class="bi bi-question-circle me-2"></i>Bantuan</a></li>
+                <li id="logoutItem" style="display: none;"><hr class="dropdown-divider"></li>
+                <li id="logoutLink" style="display: none;"><a class="dropdown-item" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
             </ul>
         </div>
     </header>
@@ -1993,8 +1995,8 @@
         // Enhanced Data storage for the application
         const appData = {
             adminCredentials: {
-                username: "Admin",
-                password: "65614222"
+                username: "admin",
+                password: "admin123"
             },
             currentUser: {
                 username: "pengunjung",
@@ -2494,6 +2496,12 @@
 
                 // Filter functionality
                 setupFilters();
+
+                // Logout button
+                document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleLogout();
+                });
             } catch (error) {
                 console.error("Event listeners initialization error:", error);
             }
@@ -2536,6 +2544,10 @@
                     document.getElementById('adminContent').style.display = 'block';
                     document.getElementById('adminLoginForm').style.display = 'none';
                     
+                    // Show logout option
+                    document.getElementById('logoutItem').style.display = 'block';
+                    document.getElementById('logoutLink').style.display = 'block';
+                    
                     // Add to system logs
                     addSystemLog('Login Admin', appData.currentUser.username, 'success');
                     
@@ -2558,6 +2570,59 @@
             } catch (error) {
                 console.error("Admin login error:", error);
                 showToast('Terjadi kesalahan saat login', 'error');
+            }
+        }
+
+        // Enhanced logout handler
+        function handleLogout() {
+            try {
+                // Clear session
+                sessionStorage.removeItem('arsipProUser');
+                
+                // Reset current user
+                appData.currentUser = {
+                    username: "pengunjung",
+                    role: "guest",
+                    name: "Pengunjung"
+                };
+                
+                // Update user display
+                const userDropdown = document.querySelector('#dropdownUser span');
+                if (userDropdown) {
+                    userDropdown.textContent = appData.currentUser.name;
+                }
+                
+                const userImage = document.querySelector('#dropdownUser img');
+                if (userImage) {
+                    userImage.src = "https://raw.githubusercontent.com/pergunu/arsippro/refs/heads/main/assets/images/icon-pengunjung.png";
+                }
+                
+                // Hide admin content
+                document.getElementById('adminContent').style.display = 'none';
+                document.getElementById('adminLoginForm').style.display = 'block';
+                
+                // Hide logout option
+                document.getElementById('logoutItem').style.display = 'none';
+                document.getElementById('logoutLink').style.display = 'none';
+                
+                // Add to system logs
+                addSystemLog('Logout Admin', appData.currentUser.username, 'success');
+                
+                // Show success message
+                showToast('Anda telah logout', 'success');
+                
+                // Reload data tables
+                loadDataTables();
+                updateDashboardStats();
+                
+                // Switch to dashboard tab
+                const dashboardTab = document.querySelector('[href="#dashboard"]');
+                if (dashboardTab) {
+                    dashboardTab.click();
+                }
+            } catch (error) {
+                console.error("Logout error:", error);
+                showToast('Terjadi kesalahan saat logout', 'error');
             }
         }
 
@@ -3528,6 +3593,10 @@
                         // Show admin content
                         document.getElementById('adminContent').style.display = 'block';
                         document.getElementById('adminLoginForm').style.display = 'none';
+                        
+                        // Show logout option
+                        document.getElementById('logoutItem').style.display = 'block';
+                        document.getElementById('logoutLink').style.display = 'block';
                         
                         // Load admin data tables
                         loadDataTables();
