@@ -2310,10 +2310,10 @@
                     });
                 }
 
-                // Load system logs
-                const systemLogsTable = document.getElementById('systemLogsTable');
-                if (systemLogsTable) {
-                    systemLogsTable.innerHTML = '';
+                // Load recent activities
+                const recentActivitiesTable = document.getElementById('recent-activities');
+                if (recentActivitiesTable) {
+                    recentActivitiesTable.innerHTML = '';
                     
                     appData.systemLogs.forEach(log => {
                         const row = document.createElement('tr');
@@ -2321,10 +2321,9 @@
                             <td>${log.timestamp}</td>
                             <td>${log.activity}</td>
                             <td>${log.user}</td>
-                            <td>${log.ip}</td>
-                            <td><span class="badge bg-${log.status === 'success' ? 'success' : 'danger'}">${log.status === 'success' ? 'Sukses' : 'Gagal'}</span></td>
+                            <td><span class="badge bg-${log.status === 'success' ? 'success' : 'danger'}">${log.status === 'success' ? 'Selesai' : 'Gagal'}</span></td>
                         `;
-                        systemLogsTable.appendChild(row);
+                        recentActivitiesTable.appendChild(row);
                     });
                 }
             } catch (error) {
