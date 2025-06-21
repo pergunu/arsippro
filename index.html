@@ -1109,19 +1109,19 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card stat-card">
-                            <div class="number" id="incoming-letters-count">125</div>
+                            <div class="number" id="incoming-letters-count">0</div>
                             <div class="label">Surat Masuk</div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card stat-card">
-                            <div class="number" id="documents-count">42</div>
+                            <div class="number" id="documents-count">0</div>
                             <div class="label">Dokumen Arsip</div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card stat-card">
-                            <div class="number" id="validation-rate">98%</div>
+                            <div class="number" id="validation-rate">0%</div>
                             <div class="label">Validasi Surat</div>
                         </div>
                     </div>
@@ -1145,30 +1145,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="recent-activities">
-                                            <tr>
-                                                <td>15 Jun 2023</td>
-                                                <td>Upload Surat Masuk</td>
-                                                <td>Admin</td>
-                                                <td><span class="badge bg-success">Selesai</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>14 Jun 2023</td>
-                                                <td>Validasi Surat</td>
-                                                <td>Operator</td>
-                                                <td><span class="badge bg-success">Selesai</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>13 Jun 2023</td>
-                                                <td>Pencarian Dokumen</td>
-                                                <td>Pengguna</td>
-                                                <td><span class="badge bg-success">Selesai</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>12 Jun 2023</td>
-                                                <td>Backup Database</td>
-                                                <td>Admin</td>
-                                                <td><span class="badge bg-warning">Proses</span></td>
-                                            </tr>
+                                            <!-- Data will be loaded by JavaScript -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -1361,11 +1338,11 @@
                                     <ul class="list-group system-stats">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             Total Surat Masuk
-                                            <span class="badge bg-primary rounded-pill">125</span>
+                                            <span class="badge bg-primary rounded-pill" id="admin-incoming-letters-count">0</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             Total Dokumen
-                                            <span class="badge bg-primary rounded-pill">42</span>
+                                            <span class="badge bg-primary rounded-pill" id="admin-documents-count">0</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             Versi Sistem
@@ -1804,6 +1781,25 @@
         </div>
     </div>
 
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmDeleteMessage">Apakah Anda yakin ingin menghapus dokumen ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Ya, Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Enhanced Data storage for the application
@@ -1828,7 +1824,7 @@
                     status: "valid",
                     file: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                     fileType: "pdf",
-                    notes: "",
+                    notes: "Rapat koordinasi bulanan",
                     createdBy: "admin",
                     createdAt: "2023-06-10T08:12:34"
                 },
@@ -1842,7 +1838,7 @@
                     status: "valid",
                     file: "https://file-examples.com/wp-content/uploads/2017/02/file-sample_100kB.docx",
                     fileType: "docx",
-                    notes: "",
+                    notes: "Penawaran kerjasama untuk proyek tahun depan",
                     createdBy: "admin",
                     createdAt: "2023-06-12T10:15:22"
                 },
@@ -1871,7 +1867,7 @@
                     size: "2.4 MB",
                     file: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                     fileType: "pdf",
-                    notes: "",
+                    notes: "Laporan tahunan kegiatan organisasi",
                     createdBy: "admin",
                     createdAt: "2023-01-15T10:12:34"
                 },
@@ -1884,7 +1880,7 @@
                     size: "1.1 MB",
                     file: "https://file-examples.com/wp-content/uploads/2017/02/file-sample_100kB.docx",
                     fileType: "docx",
-                    notes: "",
+                    notes: "Surat keputusan pengangkatan pegawai baru",
                     createdBy: "admin",
                     createdAt: "2023-03-20T14:15:22"
                 },
@@ -1897,7 +1893,7 @@
                     size: "0.8 MB",
                     file: "https://file-examples.com/wp-content/uploads/2017/10/file_example_JPG_100kB.jpg",
                     fileType: "jpg",
-                    notes: "Rapat bulanan",
+                    notes: "Rapat bulanan direksi",
                     createdBy: "operator1",
                     createdAt: "2023-06-05T16:30:45"
                 }
@@ -1944,6 +1940,12 @@
                     status: "failed"
                 }
             ]
+        };
+
+        // Variables for delete operation
+        let documentToDelete = {
+            type: null,
+            id: null
         };
 
         // Initialize the application with enhanced features
@@ -2139,7 +2141,7 @@
                         const button = e.target.closest('.delete-doc-btn');
                         const docType = button.getAttribute('data-type');
                         const docId = button.getAttribute('data-id');
-                        deleteDocument(docType, docId);
+                        showDeleteConfirmation(docType, docId);
                     }
                 });
 
@@ -2166,6 +2168,13 @@
                 document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
                     e.preventDefault();
                     handleLogout();
+                });
+
+                // Confirm delete button
+                document.getElementById('confirmDeleteBtn')?.addEventListener('click', function() {
+                    deleteDocument(documentToDelete.type, documentToDelete.id);
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('confirmDeleteModal'));
+                    modal.hide();
                 });
             } catch (error) {
                 console.error("Event listeners initialization error:", error);
@@ -2783,8 +2792,8 @@
             }
         }
 
-        // Enhanced delete document
-        function deleteDocument(docType, docId) {
+        // Show delete confirmation dialog
+        function showDeleteConfirmation(docType, docId) {
             try {
                 if (appData.currentUser.role !== 'admin') {
                     showToast('Hanya admin yang dapat menghapus dokumen', 'error');
@@ -2807,26 +2816,56 @@
                     return;
                 }
                 
-                showConfirmDialog(
-                    'Konfirmasi Hapus', 
-                    `Apakah Anda yakin ingin menghapus ${documentName}?`, 
-                    'error',
-                    function() {
-                        // In a real app, this would delete the document from the server
-                        if (docType === 'surat-masuk') {
-                            appData.incomingLetters = appData.incomingLetters.filter(letter => letter.id != docId);
-                        } else if (docType === 'dokumen') {
-                            appData.documents = appData.documents.filter(doc => doc.id != docId);
-                        }
-                        
-                        showToast(`${documentName} berhasil dihapus`, 'success');
-                        addSystemLog(`Menghapus ${documentName}`, appData.currentUser.username, 'success');
-                        
-                        // Reload data tables
-                        loadDataTables();
-                        updateDashboardStats();
-                    }
-                );
+                // Set document to delete
+                documentToDelete = {
+                    type: docType,
+                    id: docId
+                };
+                
+                // Update confirmation message
+                document.getElementById('confirmDeleteMessage').textContent = `Apakah Anda yakin ingin menghapus ${documentName}?`;
+                
+                // Show modal
+                const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+                modal.show();
+            } catch (error) {
+                console.error("Show delete confirmation error:", error);
+                showToast('Gagal menampilkan konfirmasi hapus', 'error');
+            }
+        }
+
+        // Enhanced delete document
+        function deleteDocument(docType, docId) {
+            try {
+                if (appData.currentUser.role !== 'admin') {
+                    showToast('Hanya admin yang dapat menghapus dokumen', 'error');
+                    return;
+                }
+                
+                let documentData;
+                let documentName = '';
+                
+                if (docType === 'surat-masuk') {
+                    documentData = appData.incomingLetters.find(letter => letter.id == docId);
+                    documentName = `Surat Masuk ${documentData?.number || ''}`;
+                    appData.incomingLetters = appData.incomingLetters.filter(letter => letter.id != docId);
+                } else if (docType === 'dokumen') {
+                    documentData = appData.documents.find(doc => doc.id == docId);
+                    documentName = `Dokumen ${documentData?.code || ''}`;
+                    appData.documents = appData.documents.filter(doc => doc.id != docId);
+                }
+                
+                if (!documentData) {
+                    showToast('Dokumen tidak ditemukan', 'error');
+                    return;
+                }
+                
+                showToast(`${documentName} berhasil dihapus`, 'success');
+                addSystemLog(`Menghapus ${documentName}`, appData.currentUser.username, 'success');
+                
+                // Reload data tables
+                loadDataTables();
+                updateDashboardStats();
             } catch (error) {
                 console.error("Delete document error:", error);
                 showToast('Gagal menghapus dokumen', 'error');
@@ -2999,56 +3038,16 @@
             }
         }
 
-        // Enhanced show confirmation dialog
-        function showConfirmDialog(title, message, type, confirmCallback) {
-            try {
-                const dialog = document.createElement('div');
-                dialog.className = 'modal fade';
-                dialog.id = 'confirmDialog';
-                dialog.tabIndex = '-1';
-                dialog.setAttribute('aria-hidden', 'true');
-                
-                dialog.innerHTML = `
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header bg-${type === 'warning' ? 'warning' : 'danger'} text-white">
-                                <h5 class="modal-title">${title}</h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>${message}</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                <button type="button" class="btn btn-${type === 'warning' ? 'warning' : 'danger'}" id="confirmButton">Ya, Lanjutkan</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(dialog);
-                
-                const modal = new bootstrap.Modal(dialog);
-                modal.show();
-                
-                document.getElementById('confirmButton').addEventListener('click', function() {
-                    confirmCallback();
-                    modal.hide();
-                });
-                
-                dialog.addEventListener('hidden.bs.modal', function() {
-                    dialog.remove();
-                });
-            } catch (error) {
-                console.error("Show confirm dialog error:", error);
-            }
-        }
-
         // Enhanced update dashboard statistics
         function updateDashboardStats() {
             try {
-                document.getElementById('incoming-letters-count').textContent = appData.incomingLetters.length;
-                document.getElementById('documents-count').textContent = appData.documents.length;
+                const incomingLettersCount = appData.incomingLetters.length;
+                const documentsCount = appData.documents.length;
+                
+                document.getElementById('incoming-letters-count').textContent = incomingLettersCount;
+                document.getElementById('documents-count').textContent = documentsCount;
+                document.getElementById('admin-incoming-letters-count').textContent = incomingLettersCount;
+                document.getElementById('admin-documents-count').textContent = documentsCount;
                 
                 // Calculate validation rate
                 const validatedLetters = appData.incomingLetters.filter(letter => letter.status === 'valid').length;
