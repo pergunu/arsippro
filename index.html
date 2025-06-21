@@ -1107,25 +1107,19 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card stat-card">
                             <div class="number" id="incoming-letters-count">125</div>
                             <div class="label">Surat Masuk</div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card stat-card">
-                            <div class="number" id="outgoing-letters-count">87</div>
-                            <div class="label">Surat Keluar</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card stat-card">
                             <div class="number" id="documents-count">42</div>
                             <div class="label">Dokumen Arsip</div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card stat-card">
                             <div class="number" id="validation-rate">98%</div>
                             <div class="label">Validasi Surat</div>
@@ -1159,7 +1153,7 @@
                                             </tr>
                                             <tr>
                                                 <td>14 Jun 2023</td>
-                                                <td>Validasi Surat Keluar</td>
+                                                <td>Validasi Surat</td>
                                                 <td>Operator</td>
                                                 <td><span class="badge bg-success">Selesai</span></td>
                                             </tr>
@@ -1206,7 +1200,6 @@
                                         <select class="form-select" id="searchType">
                                             <option value="">Semua Jenis</option>
                                             <option value="surat-masuk">Surat Masuk</option>
-                                            <option value="surat-keluar">Surat Keluar</option>
                                             <option value="dokumen">Dokumen Lain</option>
                                         </select>
                                     </div>
@@ -1232,8 +1225,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="searchSender" class="form-label">Pengirim/Penerima</label>
-                                        <input type="text" class="form-control" id="searchSender" placeholder="Nama pengirim/penerima">
+                                        <label for="searchSender" class="form-label">Pengirim</label>
+                                        <input type="text" class="form-control" id="searchSender" placeholder="Nama pengirim">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -1271,7 +1264,7 @@
                                             <th>Jenis</th>
                                             <th>Nomor/Kode</th>
                                             <th>Tanggal</th>
-                                            <th>Pengirim/Penerima</th>
+                                            <th>Pengirim</th>
                                             <th>Perihal</th>
                                             <th>Status</th>
                                             <th>Aksi</th>
@@ -1317,7 +1310,7 @@
                 
                 <div id="adminContent" style="display: none;">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="card admin-card h-100">
                                 <div class="card-header">
                                     <h5 class="card-title mb-0">Manajemen Surat Masuk</h5>
@@ -1330,20 +1323,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card admin-card h-100">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Manajemen Surat Keluar</h5>
-                                </div>
-                                <div class="card-body d-flex flex-column">
-                                    <p class="flex-grow-1">Kelola surat keluar yang dikirim oleh sistem</p>
-                                    <a href="#surat-keluar-admin" class="btn btn-primary align-self-start" data-bs-toggle="tab">
-                                        <i class="bi bi-envelope"></i> Kelola Surat Keluar
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="card admin-card h-100">
                                 <div class="card-header">
                                     <h5 class="card-title mb-0">Manajemen Arsip</h5>
@@ -1365,7 +1345,7 @@
                                     <h5 class="card-title mb-0">Validasi Surat</h5>
                                 </div>
                                 <div class="card-body d-flex flex-column">
-                                    <p class="flex-grow-1">Validasi keaslian surat masuk dan keluar</p>
+                                    <p class="flex-grow-1">Validasi keaslian surat masuk</p>
                                     <a href="#validasi-admin" class="btn btn-primary align-self-start" data-bs-toggle="tab">
                                         <i class="bi bi-check-circle"></i> Validasi Surat
                                     </a>
@@ -1382,10 +1362,6 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             Total Surat Masuk
                                             <span class="badge bg-primary rounded-pill">125</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Total Surat Keluar
-                                            <span class="badge bg-primary rounded-pill">87</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             Total Dokumen
@@ -1448,72 +1424,6 @@
                                     </tr>
                                 </thead>
                                 <tbody id="incoming-letters-table">
-                                    <!-- Data akan diisi oleh JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Surat Keluar Admin Sub-tab -->
-            <div class="tab-pane fade" id="surat-keluar-admin">
-                <div class="page-header">
-                    <h2 class="text-gradient">Manajemen Surat Keluar</h2>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahSuratKeluarModal">
-                        <i class="bi bi-plus-circle"></i> Tambah Surat Keluar
-                    </button>
-                </div>
-
-                <div class="search-box">
-                    <i class="bi bi-search"></i>
-                    <input type="text" class="form-control" id="searchOutgoingLetters" placeholder="Cari surat keluar...">
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Daftar Surat Keluar</h5>
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterOutgoingLetters" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-funnel"></i> Filter
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterOutgoingLetters">
-                                    <li><a class="dropdown-item" href="#" data-filter="all">Semua</a></li>
-                                    <li><a class="dropdown-item" href="#" data-filter="sent">Terkirim</a></li>
-                                    <li><a class="dropdown-item" href="#" data-filter="draft">Draft</a></li>
-                                    <li><a class="dropdown-item" href="#" data-filter="canceled">Dibatalkan</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>No. Surat</th>
-                                        <th>Tanggal</th>
-                                        <th>Tujuan</th>
-                                        <th>Perihal</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="outgoing-letters-table">
                                     <!-- Data akan diisi oleh JavaScript -->
                                 </tbody>
                             </table>
@@ -1612,37 +1522,17 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <form id="validationForm">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="validationType" class="form-label">Jenis Surat</label>
-                                        <select class="form-select" id="validationType" required>
-                                            <option value="">Pilih Jenis Surat</option>
-                                            <option value="masuk">Surat Masuk</option>
-                                            <option value="keluar">Surat Keluar</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="validationNumber" class="form-label">Nomor Surat</label>
-                                        <input type="text" class="form-control" id="validationNumber" placeholder="Masukkan nomor surat" required>
-                                    </div>
-                                </div>
+                            <div class="mb-3">
+                                <label for="validationNumber" class="form-label">Nomor Surat</label>
+                                <input type="text" class="form-control" id="validationNumber" placeholder="Masukkan nomor surat" required>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="validationDate" class="form-label">Tanggal Surat</label>
-                                        <input type="date" class="form-control" id="validationDate" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="validationName" class="form-label">Nama Pengirim/Penerima</label>
-                                        <input type="text" class="form-control" id="validationName" placeholder="Nama pengirim/penerima" required>
-                                    </div>
-                                </div>
+                            <div class="mb-3">
+                                <label for="validationDate" class="form-label">Tanggal Surat</label>
+                                <input type="date" class="form-control" id="validationDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="validationName" class="form-label">Nama Pengirim</label>
+                                <input type="text" class="form-control" id="validationName" placeholder="Nama pengirim" required>
                             </div>
                             <div class="mb-3">
                                 <label for="validationSubject" class="form-label">Perihal</label>
@@ -1691,7 +1581,7 @@
                                     <div class="accordion-body">
                                         <ol>
                                             <li>Pergi ke menu <strong>Pencarian</strong></li>
-                                            <li>Masukkan kata kunci pencarian (nomor surat, perihal, pengirim/penerima)</li>
+                                            <li>Masukkan kata kunci pencarian (nomor surat, perihal, pengirim)</li>
                                             <li>Anda dapat memfilter berdasarkan jenis dokumen, kategori, atau rentang tanggal</li>
                                             <li>Klik tombol <strong>Cari Dokumen</strong> untuk menampilkan hasil</li>
                                             <li>Klik pada dokumen yang ingin dilihat untuk menampilkan detail</li>
@@ -1752,10 +1642,6 @@
                             <li class="list-group-item d-flex align-items-center">
                                 <i class="bi bi-envelope me-3 text-primary" style="font-size: 1.2rem;"></i>
                                 <strong>Email:</strong> <a href="mailto:support@arsippro.com" class="ms-2">support@arsippro.com</a>
-                            </li>
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="bi bi-telephone me-3 text-info" style="font-size: 1.2rem;"></i>
-                                <strong>Telepon:</strong> <span class="ms-2">(0338) 123456</span>
                             </li>
                             <li class="list-group-item d-flex align-items-center">
                                 <i class="bi bi-geo-alt me-3 text-danger" style="font-size: 1.2rem;"></i>
@@ -1836,65 +1722,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                     <button type="button" class="btn btn-primary" id="simpanSuratMasuk">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Tambah Surat Keluar -->
-    <div class="modal fade" id="tambahSuratKeluarModal" tabindex="-1" aria-labelledby="tambahSuratKeluarModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="tambahSuratKeluarModalLabel">Tambah Surat Keluar</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="suratKeluarForm">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="noSuratKeluar" class="form-label">Nomor Surat</label>
-                                    <input type="text" class="form-control" id="noSuratKeluar" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="tanggalSuratKeluar" class="form-label">Tanggal Surat</label>
-                                    <input type="date" class="form-control" id="tanggalSuratKeluar" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tujuanSuratKeluar" class="form-label">Tujuan</label>
-                            <input type="text" class="form-control" id="tujuanSuratKeluar" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="perihalSuratKeluar" class="form-label">Perihal</label>
-                            <input type="text" class="form-control" id="perihalSuratKeluar" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="kategoriSuratKeluar" class="form-label">Kategori</label>
-                            <select class="form-select" id="kategoriSuratKeluar">
-                                <option value="biasa">Biasa</option>
-                                <option value="penting">Penting</option>
-                                <option value="rahasia">Rahasia</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="fileSuratKeluar" class="form-label">File Surat (PDF/DOCX/JPEG, maks 2MB)</label>
-                            <input type="file" class="form-control" id="fileSuratKeluar" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
-                            <div class="form-text">Ukuran file maksimal 2MB. Format file yang didukung: PDF, DOC/DOCX, JPG/JPEG, PNG.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="keteranganSuratKeluar" class="form-label">Keterangan</label>
-                            <textarea class="form-control" id="keteranganSuratKeluar" rows="3"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" id="simpanSuratKeluar">Simpan</button>
                 </div>
             </div>
         </div>
@@ -2034,50 +1861,6 @@
                     createdAt: "2023-06-14T14:30:45"
                 }
             ],
-            outgoingLetters: [
-                {
-                    id: 1,
-                    number: "SK/2023/001",
-                    date: "2023-06-05",
-                    recipient: "Dinas Pendidikan",
-                    subject: "Permohonan Data",
-                    category: "biasa",
-                    status: "sent",
-                    file: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-                    fileType: "pdf",
-                    notes: "",
-                    createdBy: "admin",
-                    createdAt: "2023-06-05T09:12:34"
-                },
-                {
-                    id: 2,
-                    number: "SK/2023/002",
-                    date: "2023-06-08",
-                    recipient: "PT. Maju Jaya",
-                    subject: "Balasan Penawaran",
-                    category: "penting",
-                    status: "sent",
-                    file: "https://file-examples.com/wp-content/uploads/2017/02/file-sample_100kB.docx",
-                    fileType: "docx",
-                    notes: "",
-                    createdBy: "admin",
-                    createdAt: "2023-06-08T11:15:22"
-                },
-                {
-                    id: 3,
-                    number: "SK/2023/003",
-                    date: "2023-06-13",
-                    recipient: "Kantor Kecamatan",
-                    subject: "Undangan Rapat",
-                    category: "biasa",
-                    status: "draft",
-                    file: "https://file-examples.com/wp-content/uploads/2017/10/file_example_JPG_100kB.jpg",
-                    fileType: "jpg",
-                    notes: "Menunggu persetujuan",
-                    createdBy: "operator1",
-                    createdAt: "2023-06-13T15:30:45"
-                }
-            ],
             documents: [
                 {
                     id: 1,
@@ -2147,7 +1930,7 @@
                 {
                     id: 4,
                     timestamp: "2023-06-15 10:12:18",
-                    activity: "Validasi surat keluar",
+                    activity: "Validasi surat",
                     user: "operator1",
                     ip: "192.168.1.2",
                     status: "success"
@@ -2256,33 +2039,6 @@
                     });
                 }
 
-                // Load outgoing letters
-                const outgoingLettersTable = document.getElementById('outgoing-letters-table');
-                if (outgoingLettersTable) {
-                    outgoingLettersTable.innerHTML = '';
-                    
-                    appData.outgoingLetters.forEach(letter => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${letter.number}</td>
-                            <td>${formatDate(letter.date)}</td>
-                            <td>${letter.recipient}</td>
-                            <td>${letter.subject}</td>
-                            <td><span class="badge bg-${getStatusBadgeClass(letter.status)}">${getStatusText(letter.status)}</span></td>
-                            <td>
-                                <div class="table-actions">
-                                    <button class="btn btn-sm btn-primary view-doc-btn" data-type="surat-keluar" data-id="${letter.id}"><i class="bi bi-eye"></i></button>
-                                    ${appData.currentUser.role === 'admin' ? `
-                                    <button class="btn btn-sm btn-warning edit-doc-btn" data-type="surat-keluar" data-id="${letter.id}"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-danger delete-doc-btn" data-type="surat-keluar" data-id="${letter.id}"><i class="bi bi-trash"></i></button>
-                                    ` : ''}
-                                </div>
-                            </td>
-                        `;
-                        outgoingLettersTable.appendChild(row);
-                    });
-                }
-
                 // Load documents
                 const documentsTable = document.getElementById('documents-table');
                 if (documentsTable) {
@@ -2348,12 +2104,10 @@
 
                 // File upload validation
                 document.getElementById('fileSuratMasuk')?.addEventListener('change', validateFileUpload);
-                document.getElementById('fileSuratKeluar')?.addEventListener('change', validateFileUpload);
                 document.getElementById('fileDokumen')?.addEventListener('change', validateFileUpload);
 
                 // Form submissions
                 document.getElementById('simpanSuratMasuk')?.addEventListener('click', saveIncomingLetter);
-                document.getElementById('simpanSuratKeluar')?.addEventListener('click', saveOutgoingLetter);
                 document.getElementById('simpanDokumen')?.addEventListener('click', saveDocument);
                 document.getElementById('validationForm')?.addEventListener('submit', validateLetter);
                 document.getElementById('searchForm')?.addEventListener('submit', searchDocuments);
@@ -2399,10 +2153,6 @@
                 // Search functionality
                 document.getElementById('searchIncomingLetters')?.addEventListener('input', function() {
                     filterTable('incoming-letters-table', this.value.toLowerCase());
-                });
-
-                document.getElementById('searchOutgoingLetters')?.addEventListener('input', function() {
-                    filterTable('outgoing-letters-table', this.value.toLowerCase());
                 });
 
                 document.getElementById('searchDocuments')?.addEventListener('input', function() {
@@ -2652,68 +2402,6 @@
             }
         }
 
-        // Enhanced save outgoing letter
-        function saveOutgoingLetter() {
-            try {
-                if (appData.currentUser.role !== 'admin') {
-                    showToast('Hanya admin yang dapat menambahkan surat keluar', 'error');
-                    return;
-                }
-                
-                const form = document.getElementById('suratKeluarForm');
-                const requiredFields = ['noSuratKeluar', 'tanggalSuratKeluar', 'tujuanSuratKeluar', 'perihalSuratKeluar', 'fileSuratKeluar'];
-                
-                for (const field of requiredFields) {
-                    if (!document.getElementById(field).value) {
-                        showToast(`Harap isi ${document.getElementById(field).labels[0].textContent}`, 'error');
-                        return;
-                    }
-                }
-                
-                showLoading();
-                
-                setTimeout(() => {
-                    const fileInput = document.getElementById('fileSuratKeluar');
-                    const fileName = fileInput.files[0].name;
-                    const fileExt = fileName.split('.').pop().toLowerCase();
-                    
-                    const newLetter = {
-                        id: appData.outgoingLetters.length + 1,
-                        number: document.getElementById('noSuratKeluar').value,
-                        date: document.getElementById('tanggalSuratKeluar').value,
-                        recipient: document.getElementById('tujuanSuratKeluar').value,
-                        subject: document.getElementById('perihalSuratKeluar').value,
-                        category: document.getElementById('kategoriSuratKeluar').value,
-                        status: "draft",
-                        file: `https://example.com/uploads/${fileName}`,
-                        fileType: fileExt,
-                        notes: document.getElementById('keteranganSuratKeluar').value,
-                        createdBy: appData.currentUser.username,
-                        createdAt: new Date().toISOString()
-                    };
-                    
-                    appData.outgoingLetters.push(newLetter);
-                    addSystemLog('Menambahkan Surat Keluar', appData.currentUser.username, 'success');
-                    
-                    hideLoading();
-                    showToast('Surat keluar berhasil disimpan!', 'success');
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('tambahSuratKeluarModal'));
-                    modal.hide();
-                    
-                    // Reset form
-                    form.reset();
-                    
-                    // Update tables and dashboard
-                    loadDataTables();
-                    updateDashboardStats();
-                }, 1500);
-            } catch (error) {
-                console.error("Save outgoing letter error:", error);
-                hideLoading();
-                showToast('Gagal menyimpan surat keluar', 'error');
-            }
-        }
-
         // Enhanced save document
         function saveDocument() {
             try {
@@ -2786,7 +2474,7 @@
                     return;
                 }
                 
-                const requiredFields = ['validationType', 'validationNumber', 'validationDate', 'validationName', 'validationSubject'];
+                const requiredFields = ['validationNumber', 'validationDate', 'validationName', 'validationSubject'];
                 
                 for (const field of requiredFields) {
                     if (!document.getElementById(field).value) {
@@ -2798,7 +2486,6 @@
                 showLoading();
                 
                 setTimeout(() => {
-                    const validationType = document.getElementById('validationType').value;
                     const validationNumber = document.getElementById('validationNumber').value;
                     const validationDate = document.getElementById('validationDate').value;
                     const validationName = document.getElementById('validationName').value;
@@ -2817,10 +2504,9 @@
                                 <hr>
                                 <p><strong>Detail Surat:</strong></p>
                                 <ul>
-                                    <li>Jenis Surat: ${validationType === 'masuk' ? 'Surat Masuk' : 'Surat Keluar'}</li>
                                     <li>Nomor: ${validationNumber}</li>
                                     <li>Tanggal: ${new Date(validationDate).toLocaleDateString('id-ID')}</li>
-                                    <li>${validationType === 'masuk' ? 'Pengirim' : 'Penerima'}: ${validationName}</li>
+                                    <li>Pengirim: ${validationName}</li>
                                     <li>Perihal: ${validationSubject}</li>
                                 </ul>
                             </div>
@@ -2886,31 +2572,6 @@
                                 number: letter.number,
                                 date: letter.date,
                                 name: letter.sender,
-                                subject: letter.subject,
-                                status: letter.status,
-                                id: letter.id
-                            }))
-                        );
-                    }
-                    
-                    // Search in outgoing letters
-                    if (!type || type === 'surat-keluar') {
-                        results = results.concat(
-                            appData.outgoingLetters.filter(letter => {
-                                return (
-                                    (letter.number.toLowerCase().includes(keyword) ||
-                                    letter.recipient.toLowerCase().includes(keyword) ||
-                                    letter.subject.toLowerCase().includes(keyword) ||
-                                    letter.notes.toLowerCase().includes(keyword)) &&
-                                    (!category || letter.category === category) &&
-                                    (!sender || letter.recipient.toLowerCase().includes(sender)) &&
-                                    (!subject || letter.subject.toLowerCase().includes(subject))
-                                );
-                            }).map(letter => ({
-                                type: 'Surat Keluar',
-                                number: letter.number,
-                                date: letter.date,
-                                name: letter.recipient,
                                 subject: letter.subject,
                                 status: letter.status,
                                 id: letter.id
@@ -3027,38 +2688,6 @@
                             </div>
                         </div>
                     `;
-                } else if (docType === 'surat-keluar') {
-                    documentData = appData.outgoingLetters.find(letter => letter.id == docId);
-                    if (!documentData) {
-                        showToast('Surat keluar tidak ditemukan', 'error');
-                        return;
-                    }
-                    title = `Detail Surat Keluar - ${documentData.number}`;
-                    content = `
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p><strong>Nomor Surat:</strong> ${documentData.number}</p>
-                                <p><strong>Tanggal:</strong> ${formatDate(documentData.date)}</p>
-                                <p><strong>Tujuan:</strong> ${documentData.recipient}</p>
-                                <p><strong>Dibuat oleh:</strong> ${documentData.createdBy}</p>
-                            </div>
-                            <div class="col-md-6">
-                                <p><strong>Perihal:</strong> ${documentData.subject}</p>
-                                <p><strong>Kategori:</strong> ${getCategoryText(documentData.category)}</p>
-                                <p><strong>Status:</strong> <span class="badge bg-${getStatusBadgeClass(documentData.status)}">${getStatusText(documentData.status)}</span></p>
-                                <p><strong>Dibuat pada:</strong> ${formatDateTime(documentData.createdAt)}</p>
-                            </div>
-                        </div>
-                        <div class="mt-3">
-                            <p><strong>Keterangan:</strong></p>
-                            <p>${documentData.notes || 'Tidak ada keterangan'}</p>
-                        </div>
-                        <div class="mt-3">
-                            <div class="document-preview">
-                                ${getDocumentPreviewContent(documentData)}
-                            </div>
-                        </div>
-                    `;
                 } else if (docType === 'dokumen') {
                     documentData = appData.documents.find(doc => doc.id == docId);
                     if (!documentData) {
@@ -3113,8 +2742,6 @@
                 
                 if (docType === 'surat-masuk') {
                     documentData = appData.incomingLetters.find(letter => letter.id == docId);
-                } else if (docType === 'surat-keluar') {
-                    documentData = appData.outgoingLetters.find(letter => letter.id == docId);
                 } else if (docType === 'dokumen') {
                     documentData = appData.documents.find(doc => doc.id == docId);
                 }
@@ -3170,9 +2797,6 @@
                 if (docType === 'surat-masuk') {
                     documentData = appData.incomingLetters.find(letter => letter.id == docId);
                     documentName = `Surat Masuk ${documentData?.number || ''}`;
-                } else if (docType === 'surat-keluar') {
-                    documentData = appData.outgoingLetters.find(letter => letter.id == docId);
-                    documentName = `Surat Keluar ${documentData?.number || ''}`;
                 } else if (docType === 'dokumen') {
                     documentData = appData.documents.find(doc => doc.id == docId);
                     documentName = `Dokumen ${documentData?.code || ''}`;
@@ -3191,8 +2815,6 @@
                         // In a real app, this would delete the document from the server
                         if (docType === 'surat-masuk') {
                             appData.incomingLetters = appData.incomingLetters.filter(letter => letter.id != docId);
-                        } else if (docType === 'surat-keluar') {
-                            appData.outgoingLetters = appData.outgoingLetters.filter(letter => letter.id != docId);
                         } else if (docType === 'dokumen') {
                             appData.documents = appData.documents.filter(doc => doc.id != docId);
                         }
@@ -3265,9 +2887,6 @@
                                     (filter === 'valid' && statusText.includes('valid')) ||
                                     (filter === 'process' && statusText.includes('proses')) ||
                                     (filter === 'invalid' && statusText.includes('tidak valid')) ||
-                                    (filter === 'sent' && statusText.includes('terkirim')) ||
-                                    (filter === 'draft' && statusText.includes('draft')) ||
-                                    (filter === 'canceled' && statusText.includes('dibatalkan')) ||
                                     (filter === 'report' && statusText.includes('laporan')) ||
                                     (filter === 'decision' && statusText.includes('surat keputusan')) ||
                                     (filter === 'minutes' && statusText.includes('notulensi')) ||
@@ -3429,7 +3048,6 @@
         function updateDashboardStats() {
             try {
                 document.getElementById('incoming-letters-count').textContent = appData.incomingLetters.length;
-                document.getElementById('outgoing-letters-count').textContent = appData.outgoingLetters.length;
                 document.getElementById('documents-count').textContent = appData.documents.length;
                 
                 // Calculate validation rate
@@ -3587,14 +3205,11 @@
             try {
                 switch(status) {
                     case 'valid':
-                    case 'sent':
                     case 'success':
                         return 'success';
                     case 'process':
-                    case 'draft':
                         return 'warning';
                     case 'invalid':
-                    case 'canceled':
                     case 'failed':
                         return 'danger';
                     default:
@@ -3616,12 +3231,6 @@
                         return 'Proses Validasi';
                     case 'invalid':
                         return 'Tidak Valid';
-                    case 'sent':
-                        return 'Terkirim';
-                    case 'draft':
-                        return 'Draft';
-                    case 'canceled':
-                        return 'Dibatalkan';
                     case 'success':
                         return 'Sukses';
                     case 'failed':
@@ -3676,12 +3285,6 @@
                         return 'Proses Validasi';
                     case 'invalid':
                         return 'Tidak Valid';
-                    case 'sent':
-                        return 'Terkirim';
-                    case 'draft':
-                        return 'Draft';
-                    case 'canceled':
-                        return 'Dibatalkan';
                     case 'report':
                         return 'Laporan';
                     case 'decision':
