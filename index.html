@@ -1030,7 +1030,7 @@
         }
         
         .status-keluar {
-            background-color: #d1ecf1;
+            backgroundColor: #d1ecf1;
             color: #0c5460;
         }
         
@@ -1247,7 +1247,7 @@
                 </ul>
                 
                 <!-- Developer Info in Sidebar -->
-                <div class="developer-info">
+                <div class="developer-info mt-4">
                     <h6>Developer Information</h6>
                     <div class="developer-contact">
                         <p><i class="fas fa-user me-2"></i> Lentera Karya Situbondo</p>
@@ -1819,6 +1819,7 @@
                                             <button class="btn btn-warning" id="restoreBtn">
                                                 <i class="fas fa-upload me-1"></i> Restore Data
                                             </button>
+                                            <input type="file" id="restoreFile" class="d-none" accept=".json">
                                             <button class="btn btn-danger" id="resetBtn">
                                                 <i class="fas fa-trash-alt me-1"></i> Reset Data
                                             </button>
@@ -1868,7 +1869,7 @@
                                         
                                         <button class="btn btn-primary" id="applySettingsBtn">
                                             <i class="fas fa-check me-1"></i> Terapkan Pengaturan
-                                        </button>
+                                            </button>
                                     </div>
                                 </div>
                                 
@@ -2452,7 +2453,7 @@
                 
                 row.innerHTML = `
                     <td>${index + 1}</td>
-                    <td>${tanggal}</td>
+                    <td>${tanggal</td>
                     <td>${jenisBadge}</td>
                     <td>${surat.nomor}</td>
                     <td>${surat.asalTujuan}</td>
@@ -2972,7 +2973,7 @@
                         throw new Error('Format data tidak valid');
                     }
                 } catch (error) {
-                    showNotification('Gagal memulihkan data. File mungkin rusak atau format tidak sesuai.', 'error');
+                    showNotification('Gagal merestore data. File mungkin rusak atau format tidak sesuai.', 'error');
                     console.error('Restore error:', error);
                 }
             };
@@ -3111,6 +3112,7 @@
                             label: 'Surat Masuk',
                             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                             backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                                                        backgroundColor: 'rgba(40, 167, 69, 0.7)',
                             borderColor: 'rgba(40, 167, 69, 1)',
                             borderWidth: 1
                         },
@@ -3128,9 +3130,22 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
+                            title: {
+                                display: true,
+                                text: 'Jumlah Surat'
                             }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Bulan'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Statistik Surat per Bulan'
                         }
                     }
                 }
@@ -3160,6 +3175,10 @@
                     plugins: {
                         legend: {
                             position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribusi Jenis Surat'
                         }
                     }
                 }
@@ -3174,11 +3193,11 @@
                     datasets: [{
                         label: 'Total Surat',
                         data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        backgroundColor: 'rgba(13, 110, 253, 0.2)',
-                        borderColor: 'rgba(13, 110, 253, 1)',
+                        backgroundColor: 'rgba(13, 71, 161, 0.2)',
+                        borderColor: 'rgba(13, 71, 161, 1)',
                         borderWidth: 2,
-                        tension: 0.3,
-                        fill: true
+                        fill: true,
+                        tension: 0.3
                     }]
                 },
                 options: {
@@ -3186,15 +3205,28 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
+                            title: {
+                                display: true,
+                                text: 'Jumlah Surat'
                             }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Bulan'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Trend Surat per Bulan'
                         }
                     }
                 }
             });
             
-            // Chart untuk distribusi kategori
+            // Chart untuk kategori
             const kategoriCtx = document.getElementById('kategoriChart').getContext('2d');
             window.kategoriChart = new Chart(kategoriCtx, {
                 type: 'pie',
@@ -3203,7 +3235,7 @@
                     datasets: [{
                         data: [0, 0, 0, 0, 0, 0, 0],
                         backgroundColor: [
-                            'rgba(13, 110, 253, 0.7)',
+                            'rgba(13, 71, 161, 0.7)',
                             'rgba(40, 167, 69, 0.7)',
                             'rgba(220, 53, 69, 0.7)',
                             'rgba(255, 193, 7, 0.7)',
@@ -3222,277 +3254,384 @@
                             labels: {
                                 boxWidth: 12
                             }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribusi Berdasarkan Kategori'
                         }
                     }
                 }
             });
             
-            // Update charts with data
+            // Update charts dengan data aktual
             updateCharts();
         }
         
         // Fungsi untuk memperbarui chart dengan data terbaru
         function updateCharts() {
-            if (!window.suratChart) return;
+            if (!window.suratChart || !window.jenisSuratChart || !window.statsChart || !window.kategoriChart) {
+                return;
+            }
             
-            // Hitung statistik bulanan
-            const monthlyStats = Array(12).fill(0).map(() => ({ masuk: 0, keluar: 0 }));
-            const kategoriStats = {
-                'Pemerintah': 0,
-                'Perusahaan': 0,
-                'Lembaga': 0,
-                'OPD': 0,
-                'UPT': 0,
-                'Perorangan': 0,
-                'Lainnya': 0
+            // Hitung data untuk chart
+            const monthlyData = getMonthlyData();
+            const jenisData = getJenisData();
+            const kategoriData = getKategoriData();
+            
+            // Update surat chart (bar chart)
+            window.suratChart.data.datasets[0].data = monthlyData.masuk;
+            window.suratChart.data.datasets[1].data = monthlyData.keluar;
+            window.suratChart.update();
+            
+            // Update jenis surat chart (doughnut)
+            window.jenisSuratChart.data.datasets[0].data = [jenisData.masuk, jenisData.keluar];
+            window.jenisSuratChart.update();
+            
+            // Update stats chart (line chart)
+            const totalPerMonth = monthlyData.masuk.map((val, idx) => val + monthlyData.keluar[idx]);
+            window.statsChart.data.datasets[0].data = totalPerMonth;
+            window.statsChart.update();
+            
+            // Update kategori chart (pie chart)
+            window.kategoriChart.data.datasets[0].data = [
+                kategoriData.Pemerintah || 0,
+                kategoriData.Perusahaan || 0,
+                kategoriData.Lembaga || 0,
+                kategoriData.OPD || 0,
+                kategoriData.UPT || 0,
+                kategoriData.Peorangan || 0,
+                kategoriData.Lainnya || 0
+            ];
+            window.kategoriChart.update();
+        }
+        
+        // Fungsi untuk mendapatkan data bulanan
+        function getMonthlyData() {
+            const result = {
+                masuk: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                keluar: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             };
             
             const currentYear = new Date().getFullYear();
             
             suratData.forEach(surat => {
                 const date = new Date(surat.tanggal);
-                const month = date.getMonth();
-                const year = date.getFullYear();
-                
-                if (year === currentYear) {
+                if (date.getFullYear() === currentYear) {
+                    const month = date.getMonth();
                     if (surat.jenis === 'Masuk') {
-                        monthlyStats[month].masuk++;
+                        result.masuk[month]++;
                     } else {
-                        monthlyStats[month].keluar++;
+                        result.keluar[month]++;
                     }
                 }
-                
-                // Hitung statistik kategori
-                if (surat.kategori && kategoriStats.hasOwnProperty(surat.kategori)) {
-                    kategoriStats[surat.kategori]++;
+            });
+            
+            return result;
+        }
+        
+        // Fungsi untuk mendapatkan data jenis surat
+        function getJenisData() {
+            const result = {
+                masuk: 0,
+                keluar: 0
+            };
+            
+            suratData.forEach(surat => {
+                if (surat.jenis === 'Masuk') {
+                    result.masuk++;
+                } else {
+                    result.keluar++;
                 }
             });
             
-            // Update surat chart
-            window.suratChart.data.datasets[0].data = monthlyStats.map(stat => stat.masuk);
-            window.suratChart.data.datasets[1].data = monthlyStats.map(stat => stat.keluar);
-            window.suratChart.update();
+            return result;
+        }
+        
+        // Fungsi untuk mendapatkan data kategori
+        function getKategoriData() {
+            const result = {};
             
-            // Update jenis surat chart
-            const totalMasuk = suratData.filter(s => s.jenis === 'Masuk').length;
-            const totalKeluar = suratData.filter(s => s.jenis === 'Keluar').length;
-            window.jenisSuratChart.data.datasets[0].data = [totalMasuk, totalKeluar];
-            window.jenisSuratChart.update();
-            
-            // Update stats chart
-            window.statsChart.data.datasets[0].data = monthlyStats.map(stat => stat.masuk + stat.keluar);
-            window.statsChart.update();
-            
-            // Update kategori chart
-            window.kategoriChart.data.datasets[0].data = Object.values(kategoriStats);
-            window.kategoriChart.update();
-            
-            // Update statistik informasi
-            document.getElementById('statsTotal').textContent = suratData.length;
-            document.getElementById('statsMasuk').textContent = totalMasuk;
-            document.getElementById('statsKeluar').textContent = totalKeluar;
-            
-            // Hitung rata-rata per bulan
-            const monthsWithData = monthlyStats.filter(stat => stat.masuk + stat.keluar > 0).length;
-            const rataRata = monthsWithData > 0 ? (suratData.length / monthsWithData).toFixed(1) : 0;
-            document.getElementById('statsRata').textContent = rataRata;
-            
-            // Temukan bulan dengan surat tertinggi dan terendah
-            const monthlyTotals = monthlyStats.map(stat => stat.masuk + stat.keluar);
-            const maxTotal = Math.max(...monthlyTotals);
-            const minTotal = Math.min(...monthlyTotals.filter(total => total > 0));
-            
-            const maxMonthIndex = monthlyTotals.indexOf(maxTotal);
-            const minMonthIndex = monthlyTotals.indexOf(minTotal);
-            
-            const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-            
-            document.getElementById('statsTertinggi').textContent = maxTotal > 0 ? `${monthNames[maxMonthIndex]} (${maxTotal})` : '-';
-            document.getElementById('statsTerendah').textContent = minTotal > 0 ? `${monthNames[minMonthIndex]} (${minTotal})` : '-';
-            
-            // Update tabel statistik bulanan
-            const monthlyStatsBody = document.getElementById('monthlyStatsBody');
-            monthlyStatsBody.innerHTML = '';
-            
-            monthlyStats.forEach((stat, index) => {
-                const total = stat.masuk + stat.keluar;
-                if (total > 0) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${monthNames[index]}</td>
-                        <td>${stat.masuk}</td>
-                        <td>${stat.keluar}</td>
-                        <td>${total}</td>
-                    `;
-                    monthlyStatsBody.appendChild(row);
+            suratData.forEach(surat => {
+                if (surat.kategori) {
+                    if (!result[surat.kategori]) {
+                        result[surat.kategori] = 0;
+                    }
+                    result[surat.kategori]++;
                 }
             });
             
-            if (monthlyStatsBody.innerHTML === '') {
-                monthlyStatsBody.innerHTML = '<tr><td colspan="4" class="text-center">Tidak ada data</td></tr>';
-            }
-            
-            // Update 10 surat terbaru
-            const latestSuratBody = document.getElementById('latestSuratBody');
-            latestSuratBody.innerHTML = '';
-            
-            const latestSurat = [...suratData]
-                .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal))
-                .slice(0, 10);
-            
-            if (latestSurat.length === 0) {
-                latestSuratBody.innerHTML = '<tr><td colspan="4" class="text-center">Tidak ada data</td></tr>';
-            } else {
-                latestSurat.forEach(surat => {
-                    const row = document.createElement('tr');
-                    const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-                    
-                    row.innerHTML = `
-                        <td>${tanggal}</td>
-                        <td>${surat.jenis}</td>
-                        <td>${surat.nomor}</td>
-                        <td>${surat.perihal}</td>
-                    `;
-                    latestSuratBody.appendChild(row);
-                });
-            }
+            return result;
         }
         
         // Fungsi untuk memperbarui statistik dashboard
         function updateDashboardStats() {
-            const totalSurat = suratData.length;
-            const suratMasuk = suratData.filter(s => s.jenis === 'Masuk').length;
-            const suratKeluar = suratData.filter(s => s.jenis === 'Keluar').length;
+            const jenisData = getJenisData();
             
-            document.getElementById('totalSurat').textContent = totalSurat;
-            document.getElementById('suratMasuk').textContent = suratMasuk;
-            document.getElementById('suratKeluar').textContent = suratKeluar;
+            document.getElementById('totalSurat').textContent = suratData.length;
+            document.getElementById('suratMasuk').textContent = jenisData.masuk;
+            document.getElementById('suratKeluar').textContent = jenisData.keluar;
             document.getElementById('pendingTasks').textContent = suratData.filter(s => s.prioritas === 'Tinggi').length;
             
             // Update aktivitas terbaru
-            const recentActivities = document.getElementById('recentActivities');
-            recentActivities.innerHTML = '';
+            updateRecentActivities();
             
+            // Update statistik tab
+            updateStatsTab();
+        }
+        
+        // Fungsi untuk memperbarui aktivitas terbaru
+        function updateRecentActivities() {
+            const activitiesBody = document.getElementById('recentActivities');
             const recentData = [...suratData]
                 .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal))
                 .slice(0, 5);
             
+            activitiesBody.innerHTML = '';
+            
             if (recentData.length === 0) {
-                recentActivities.innerHTML = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
-            } else {
-                recentData.forEach((surat, index) => {
-                    const row = document.createElement('tr');
-                    const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-                    
-                    // Tentukan badge status berdasarkan prioritas
-                    let statusBadge = '';
-                    if (surat.prioritas === 'Tinggi') {
-                        statusBadge = '<span class="badge bg-danger status-badge status-pending">Prioritas Tinggi</span>';
-                    } else if (surat.prioritas === 'Sedang') {
-                        statusBadge = '<span class="badge bg-warning text-dark status-badge status-selesai">Prioritas Sedang</span>';
-                    } else {
-                        statusBadge = '<span class="badge bg-success status-badge status-selesai">Prioritas Rendah</span>';
-                    }
-                    
-                    row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td>${tanggal}</td>
-                        <td>${surat.jenis}</td>
-                        <td>${surat.nomor}</td>
-                        <td>${surat.perihal}</td>
-                        <td>${statusBadge}</td>
-                    `;
-                    recentActivities.appendChild(row);
+                activitiesBody.innerHTML = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
+                return;
+            }
+            
+            recentData.forEach((surat, index) => {
+                const row = document.createElement('tr');
+                
+                // Format tanggal untuk tampilan
+                const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
                 });
+                
+                // Tentukan badge berdasarkan jenis surat
+                const jenisBadge = surat.jenis === 'Masuk' ? 
+                    '<span class="badge bg-success">Masuk</span>' : 
+                    '<span class="badge bg-warning text-dark">Keluar</span>';
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${tanggal}</td>
+                    <td>${jenisBadge}</td>
+                    <td>${surat.nomor}</td>
+                    <td>${surat.perihal}</td>
+                    <td>${surat.prioritas}</td>
+                `;
+                
+                activitiesBody.appendChild(row);
+            });
+        }
+        
+        // Fungsi untuk memperbarui tab statistik
+        function updateStatsTab() {
+            // Update info statistik
+            const jenisData = getJenisData();
+            const monthlyData = getMonthlyData();
+            
+            document.getElementById('statsTotal').textContent = suratData.length;
+            document.getElementById('statsMasuk').textContent = jenisData.masuk;
+            document.getElementById('statsKeluar').textContent = jenisData.keluar;
+            
+            // Hitung rata-rata per bulan
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth();
+            const monthsPassed = currentMonth + 1;
+            const avgPerMonth = monthsPassed > 0 ? (suratData.length / monthsPassed).toFixed(1) : 0;
+            document.getElementById('statsRata').textContent = avgPerMonth;
+            
+            // Cari bulan tertinggi dan terendah
+            const totalPerMonth = monthlyData.masuk.map((val, idx) => val + monthlyData.keluar[idx]);
+            const maxValue = Math.max(...totalPerMonth);
+            const minValue = Math.min(...totalPerMonth);
+            
+            const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                               'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            const maxMonthIndex = totalPerMonth.indexOf(maxValue);
+            const minMonthIndex = totalPerMonth.indexOf(minValue);
+            
+            document.getElementById('statsTertinggi').textContent = maxValue > 0 ? `${monthNames[maxMonthIndex]} (${maxValue})` : '-';
+            document.getElementById('statsTerendah').textContent = minValue > 0 ? `${monthNames[minMonthIndex]} (${minValue})` : '-';
+            
+            // Update tabel statistik bulanan
+            updateMonthlyStatsTable(monthlyData, monthNames);
+            
+            // Update 10 surat terbaru
+            updateLatestSuratTable();
+        }
+        
+        // Fungsi untuk memperbarui tabel statistik bulanan
+        function updateMonthlyStatsTable(monthlyData, monthNames) {
+            const monthlyStatsBody = document.getElementById('monthlyStatsBody');
+            
+            monthlyStatsBody.innerHTML = '';
+            
+            for (let i = 0; i < 12; i++) {
+                const total = monthlyData.masuk[i] + monthlyData.keluar[i];
+                
+                if (total > 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${monthNames[i]}</td>
+                        <td>${monthlyData.masuk[i]}</td>
+                        <td>${monthlyData.keluar[i]}</td>
+                        <td><strong>${total}</strong></td>
+                    `;
+                    monthlyStatsBody.appendChild(row);
+                }
+            }
+            
+            if (monthlyStatsBody.innerHTML === '') {
+                monthlyStatsBody.innerHTML = '<tr><td colspan="4" class="text-center">Tidak ada data</td></tr>';
             }
         }
         
-        // Fungsi untuk mengekspor data ke Excel
-        function exportToExcel() {
-            // Prepare data for export
-            const dataForExport = suratData.map(surat => ({
-                'Jenis Surat': surat.jenis,
-                'Tanggal': new Date(surat.tanggal).toLocaleDateString('id-ID'),
-                'Nomor Surat': surat.nomor,
-                'Asal/Tujuan': surat.asalTujuan,
-                'Perihal': surat.perihal,
-                'Kategori': surat.kategori || '',
-                'Prioritas': surat.prioritas,
-                'Keterangan': surat.keterangan || '',
-                'Link Google Drive': surat.link || ''
-            }));
+        // Fungsi untuk memperbarui tabel 10 surat terbaru
+        function updateLatestSuratTable() {
+            const latestSuratBody = document.getElementById('latestSuratBody');
+            const latestData = [...suratData]
+                .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal))
+                .slice(0, 10);
             
-            // Create worksheet
-            const ws = XLSX.utils.json_to_sheet(dataForExport);
+            latestSuratBody.innerHTML = '';
             
-            // Create workbook
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Data Surat');
+            if (latestData.length === 0) {
+                latestSuratBody.innerHTML = '<tr><td colspan="4" class="text-center">Tidak ada data</td></tr>';
+                return;
+            }
             
-            // Generate Excel file
-            const fileName = `sismat-export-${new Date().toISOString().slice(0,10)}.xlsx`;
-            XLSX.writeFile(wb, fileName);
-            
-            showNotification('Data berhasil diekspor ke Excel!', 'success');
+            latestData.forEach(surat => {
+                const row = document.createElement('tr');
+                
+                // Format tanggal untuk tampilan
+                const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                
+                // Tentukan badge berdasarkan jenis surat
+                const jenisBadge = surat.jenis === 'Masuk' ? 
+                    '<span class="badge bg-success">Masuk</span>' : 
+                    '<span class="badge bg-warning text-dark">Keluar</span>';
+                
+                row.innerHTML = `
+                    <td>${tanggal}</td>
+                    <td>${jenisBadge}</td>
+                    <td>${surat.nomor}</td>
+                    <td>${surat.perihal}</td>
+                `;
+                
+                latestSuratBody.appendChild(row);
+            });
         }
         
-        // Fungsi untuk mengekspor data ke PDF
-        function exportToPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // Add title
-            doc.setFontSize(16);
-            doc.setTextColor(40, 40, 40);
-            doc.text('SISMAT - Data Surat', 14, 15);
-            doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100);
-            doc.text(`Dicetak pada: ${new Date().toLocaleDateString('id-ID')}`, 14, 22);
-            
-            // Prepare data for table
-            const tableData = suratData.map(surat => [
-                surat.jenis,
-                new Date(surat.tanggal).toLocaleDateString('id-ID'),
-                surat.nomor,
-                surat.asalTujuan,
-                surat.perihal,
-                surat.kategori || '',
-                surat.prioritas
-            ]);
-            
-            // Add table
-            doc.autoTable({
-                head: [['Jenis', 'Tanggal', 'Nomor', 'Asal/Tujuan', 'Perihal', 'Kategori', 'Prioritas']],
-                body: tableData,
-                startY: 30,
-                theme: 'grid',
-                headStyles: {
-                    fillColor: [13, 71, 161],
-                    textColor: 255
-                },
-                alternateRowStyles: {
-                    fillColor: [240, 240, 240]
+        // Fungsi untuk ekspor ke Excel
+        function exportToExcel() {
+            try {
+                // Filter data terlebih dahulu
+                const filteredData = filterData();
+                
+                if (filteredData.length === 0) {
+                    showNotification('Tidak ada data untuk diekspor.', 'warning');
+                    return;
                 }
-            });
-            
-            // Save PDF
-            const fileName = `sismat-export-${new Date().toISOString().slice(0,10)}.pdf`;
-            doc.save(fileName);
-            
-            showNotification('Data berhasil diekspor ke PDF!', 'success');
+                
+                // Siapkan data untuk Excel
+                const excelData = filteredData.map(surat => {
+                    return {
+                        'Tanggal': new Date(surat.tanggal).toLocaleDateString('id-ID'),
+                        'Jenis': surat.jenis,
+                        'Nomor Surat': surat.nomor,
+                        'Asal/Tujuan': surat.asalTujuan,
+                        'Perihal': surat.perihal,
+                        'Kategori': surat.kategori || '',
+                        'Prioritas': surat.prioritas,
+                        'Keterangan': surat.keterangan || '',
+                        'Link': surat.link || ''
+                    };
+                });
+                
+                // Bu worksheet
+                const ws = XLSX.utils.json_to_sheet(excelData);
+                
+                // Bu workbook
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Data Surat');
+                
+                // Export ke file
+                const fileName = `sismat-export-${new Date().toISOString().slice(0,10)}.xlsx`;
+                XLSX.writeFile(wb, fileName);
+                
+                showNotification('Data berhasil diekspor ke Excel!', 'success');
+            } catch (error) {
+                console.error('Export error:', error);
+                showNotification('Gagal mengekspor data. Silakan coba lagi.', 'error');
+            }
+        }
+        
+        // Fungsi untuk ekspor ke PDF
+        function exportToPDF() {
+            try {
+                // Filter data terlebih dahulu
+                const filteredData = filterData();
+                
+                if (filteredData.length === 0) {
+                    showNotification('Tidak ada data untuk diekspor.', 'warning');
+                    return;
+                }
+                
+                // Buat instance jsPDF
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    orientation: 'landscape'
+                });
+                
+                // Tambahkan judul
+                doc.setFontSize(16);
+                doc.text('SISMAT - Data Surat', 14, 15);
+                doc.setFontSize(10);
+                doc.text(`Dicetak pada: ${new Date().toLocaleDateString('id-ID')}`, 14, 22);
+                
+                // Siapkan data untuk tabel
+                const tableData = filteredData.map(surat => {
+                    return [
+                        new Date(surat.tanggal).toLocaleDateString('id-ID'),
+                        surat.jenis,
+                        surat.nomor,
+                        surat.asalTujuan,
+                        surat.perihal,
+                        surat.kategori || '',
+                        surat.prioritas
+                    ];
+                });
+                
+                // Buat tabel
+                doc.autoTable({
+                    startY: 30,
+                    head: [['Tanggal', 'Jenis', 'Nomor Surat', 'Asal/Tujuan', 'Perihal', 'Kategori', 'Prioritas']],
+                    body: tableData,
+                    theme: 'grid',
+                    headStyles: {
+                        fillColor: [13, 71, 161]
+                    }
+                });
+                
+                // Simpan PDF
+                const fileName = `sismat-export-${new Date().toISOString().slice(0,10)}.pdf`;
+                doc.save(fileName);
+                
+                showNotification('Data berhasil diekspor ke PDF!', 'success');
+            } catch (error) {
+                console.error('PDF export error:', error);
+                showNotification('Gagal mengekspor data ke PDF. Silakan coba lagi.', 'error');
+            }
         }
         
         // Fungsi untuk mencetak data
         function printData() {
-            const printContent = `
+            // Buat elemen iframe untuk mencetak
+            const printContent = document.createElement('div');
+            printContent.innerHTML = `
                 <div class="print-header">
                     <h3 class="print-title">SISMAT - Sistem Manajemen Surat</h3>
                     <p class="print-subtitle">PERSATUAN GURU NAHDLATUL ULAMA SITUBONDO</p>
@@ -3505,55 +3644,55 @@
                     })}</p>
                 </div>
                 <h4 style="text-align: center; margin-bottom: 20px;">Data Surat</h4>
-                <table class="table table-bordered" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Jenis</th>
-                            <th>Nomor Surat</th>
-                            <th>Asal/Tujuan</th>
-                            <th>Perihal</th>
-                            <th>Kategori</th>
-                            <th>Prioritas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${suratData.map((surat, index) => {
-                            const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID');
-                            return `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${tanggal}</td>
-                                    <td>${surat.jenis}</td>
-                                    <td>${surat.nomor}</td>
-                                    <td>${surat.asalTujuan}</td>
-                                    <td>${surat.perihal}</td>
-                                    <td>${surat.kategori || '-'}</td>
-                                    <td>${surat.prioritas}</td>
-                                </tr>
-                            `;
-                        }).join('')}
-                    </tbody>
-                </table>
-                <p style="font-style: italic; text-align: center; margin-top: 30px;">
-                    Dokumen ini dicetak dari SISMAT - Sistem Manajemen Surat
-                </p>
             `;
             
-            // Open print window
+            // Clone tabel yang akan dicetak
+            const tableClone = document.getElementById('dataTable').cloneNode(true);
+            
+            // Hapus kolom aksi
+            const headerRow = tableClone.rows[0];
+            headerRow.deleteCell(9); // Hapus kolom aksi dari header
+            
+            // Hapus kolom aksi dari setiap baris data
+            for (let i = 1; i < tableClone.rows.length; i++) {
+                if (tableClone.rows[i].cells.length > 9) {
+                    tableClone.rows[i].deleteCell(9);
+                }
+            }
+            
+            printContent.appendChild(tableClone);
+            
+            // Buat window untuk mencetak
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Cetak Data - SISMAT</title>
+                    <title>Cetak Data Surat - SISMAT</title>
                     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
                     <style>
                         body { 
                             font-family: Arial, sans-serif; 
                             padding: 20px;
                             color: #000;
+                        }
+                        .print-header {
+                            text-align: center;
+                            margin-bottom: 20px;
+                            padding-bottom: 15px;
+                            border-bottom: 2px solid #0d47a1;
+                        }
+                        .print-title {
+                            color: #0d47a1;
+                            font-weight: bold;
+                            margin-bottom: 5px;
+                        }
+                        .print-subtitle {
+                            font-weight: bold;
+                            margin-bottom: 5px;
+                        }
+                        .print-date {
+                            font-style: italic;
                         }
                         @media print {
                             @page {
@@ -3563,11 +3702,18 @@
                             body { 
                                 padding: 0; 
                             }
+                            .table {
+                                font-size: 10px;
+                                width: 100% !important;
+                            }
+                            .table th, .table td {
+                                padding: 4px 2px;
+                            }
                         }
                     </style>
                 </head>
                 <body>
-                    ${printContent}
+                    ${printContent.innerHTML}
                     <script>
                         window.onload = function() {
                             window.print();
@@ -3601,20 +3747,9 @@
             }
         }
         
-        // Inisialisasi aplikasi setelah login
-        function initializeApp() {
+        // Panggil fungsi untuk memuat pengaturan saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
             loadSavedSettings();
-            initializeCharts();
-            updateDashboardStats();
-            loadSuratData();
-        }
-        
-        // Panggil fungsi inisialisasi saat halaman dimuat
-        window.addEventListener('load', function() {
-            // Cek apakah pengguna sudah login
-            if (isAuthenticated()) {
-                initializeApp();
-            }
         });
     </script>
 </body>
