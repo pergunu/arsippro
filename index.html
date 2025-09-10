@@ -1,0 +1,3621 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISMAT - Sistem Manajemen Surat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0d47a1;
+            --secondary-color: #00695c;
+            --accent-color: #ff8f00;
+            --light-blue: #e3f2fd;
+            --dark-blue: #082e5c;
+            --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
+            --gradient-secondary: linear-gradient(135deg, var(--secondary-color), #004d40);
+            --gradient-accent: linear-gradient(135deg, var(--accent-color), #e65100);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 28px rgba(0,0,0,0.15);
+            --login-gradient: linear-gradient(135deg, #0d47a1, #00695c, #ff8f00);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f9ff 0%, #e8f5e9 100%);
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            padding: 10px 0;
+            overflow-x: hidden;
+        }
+        
+        .app-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: var(--shadow-lg);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .app-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .app-logo {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .app-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+        }
+        
+        .app-subtitle {
+            font-size: 1rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .nav-pills .nav-link {
+            border-radius: 8px;
+            margin-bottom: 8px;
+            padding: 12px 15px;
+            font-weight: 500;
+            color: #444;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .nav-pills .nav-link:hover {
+            background-color: #f0f7ff;
+            transform: translateX(3px);
+        }
+        
+        .nav-pills .nav-link.active {
+            background: var(--gradient-primary);
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+            transform: translateX(3px);
+            color: white;
+        }
+        
+        .section-title {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 12px;
+            margin: 20px 0;
+            font-weight: 700;
+            color: var(--dark-blue);
+            font-size: 1.4rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 12px;
+            width: 40px;
+            height: 2px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            border: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-success {
+            background: var(--gradient-secondary);
+            border: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-warning {
+            background: var(--gradient-accent);
+            border: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .form-label i {
+            margin-right: 6px;
+            color: var(--primary-color);
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.9rem;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .data-table {
+            font-size: 0.85rem;
+            border-collapse: separate;
+            border-spacing: 0;
+            box-shadow: var(--shadow-sm);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .data-table th {
+            background: var(--gradient-primary);
+            color: white;
+            font-weight: 600;
+            padding: 12px 10px;
+            text-align: center;
+            position: relative;
+            font-size: 0.85rem;
+        }
+        
+        .data-table th::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .data-table td {
+            padding: 10px 8px;
+            vertical-align: middle;
+            border-bottom: 1px solid #eee;
+            font-size: 0.85rem;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9fbff;
+        }
+        
+        .data-table tr:hover {
+            background-color: #edf5ff;
+        }
+        
+        .feature-icon {
+            font-size: 1.1rem;
+            margin-right: 8px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .card {
+            border-radius: 10px;
+            border: none;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-header {
+            border-radius: 10px 10px 0 0 !important;
+            font-weight: 600;
+            padding: 15px 20px;
+            background: var(--gradient-primary);
+            color: white;
+            font-size: 0.95rem;
+        }
+        
+        .stats-box {
+            text-align: center;
+            padding: 20px 15px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .stats-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        .stats-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stats-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin: 10px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .stats-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .notification-toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+            min-width: 280px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            max-width: calc(100vw - 40px);
+        }
+        
+        .input-error {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .watermark {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            opacity: 0.8;
+            font-size: 0.8rem;
+            color: white;
+            font-weight: 300;
+        }
+        
+        .control-panel {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .control-title {
+            font-size: 1rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--light-blue);
+        }
+        
+        .floating-action-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .floating-action-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+        
+        .filter-section {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .badge-custom {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1050;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1040;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 8px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-blue);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 991.98px) {
+            .col-md-3.col-lg-2 {
+                position: fixed;
+                left: -300px;
+                top: 0;
+                bottom: 0;
+                z-index: 1050;
+                width: 280px;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+            }
+            
+            .col-md-3.col-lg-2.mobile-show {
+                left: 0;
+            }
+            
+            .col-md-9.col-lg-10 {
+                width: 100%;
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .sidebar-overlay.mobile-show {
+                display: block;
+            }
+        }
+        
+        /* Print Styles - IMPROVED FOR LANDSCAPE */
+        @media print {
+            @page {
+                size: landscape;
+                margin: 0.5cm;
+            }
+            
+            body * {
+                visibility: hidden;
+            }
+            
+            .app-container, .app-container * {
+                visibility: visible;
+            }
+            
+            .app-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+            }
+            
+            .nav-pills, .mobile-menu-btn, .sidebar-overlay, .floating-action-btn,
+            .btn-group, .filter-section, .toast {
+                display: none !important;
+            }
+            
+            .col-md-3.col-lg-2.p-4.bg-light {
+                display: none !important;
+            }
+            
+            .col-md-9.col-lg-10.p-5 {
+                width: 100%;
+                flex: 0 0 100%;
+                max-width: 100%;
+                padding: 0 !important;
+            }
+            
+            .copyright {
+                display: none;
+            }
+            
+            .data-table {
+                font-size: 10px;
+                width: 100% !important;
+            }
+            
+            .data-table th, .data-table td {
+                padding: 4px 2px;
+            }
+            
+            /* Sembunyikan kolom aksi dan link Google Drive saat mencetak */
+            .data-table th:last-child,
+            .data-table td:last-child {
+                display: none !important;
+            }
+            
+            /* Judul untuk laporan cetak */
+            .print-header {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            
+            .print-title {
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            
+            .print-subtitle {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+            
+            .print-date {
+                font-size: 12px;
+                text-align: right;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* WhatsApp link style */
+        .whatsapp-link {
+            color: #25D366;
+            text-decoration: none;
+        }
+        
+        .whatsapp-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* View Link Button */
+        .btn-view {
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .btn-view:hover {
+            background: linear-gradient(135deg, #138496, #117a8b);
+            color: white;
+        }
+        
+        /* Undo Button */
+        .btn-undo {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            color: white;
+            border: none;
+        }
+        
+        .btn-undo:hover {
+            background: linear-gradient(135deg, #5a6268, #4e555b);
+            color: white;
+        }
+        
+        /* WhatsApp number link in table */
+        .whatsapp-number {
+            color: #25D366;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        /* Welcome Modal Styles */
+        .welcome-modal .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .welcome-header {
+            background: var(--gradient-primary);
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+        
+        .welcome-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .welcome-body {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .welcome-footer {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        
+        .countdown-timer {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+        
+        /* Button untuk cetak per data */
+        .btn-print-individual {
+            background: linear-gradient(135deg, #6f42c1, #5a2d95);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .btn-print-individual:hover {
+            background: linear-gradient(135deg, #5a2d95, #4a2479);
+            color: white;
+        }
+        
+        /* Developer Info Styles */
+        .developer-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .developer-info h6 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .developer-contact p {
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .developer-contact a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .developer-contact a:hover {
+            color: var(--dark-blue);
+            text-decoration: underline;
+        }
+        
+        /* Loading spinner */
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        /* Login Modal Styles */
+        .login-modal .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .login-header {
+            background: var(--login-gradient);
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+            position: relative;
+        }
+
+        .login-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .login-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .login-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 5px 0 0;
+        }
+
+        .login-body {
+            padding: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-form-label {
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .login-form-label i {
+            margin-right: 10px;
+            color: var(--dark-blue);
+        }
+
+        .login-form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .login-form-control:focus {
+            border-color: var(--dark-blue);
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+        }
+
+        .login-input-group-text {
+            background: var(--light-blue);
+            border: 2px solid #ddd;
+            border-left: none;
+        }
+
+        .btn-login {
+            background: var(--gradient-secondary);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            border-radius: 8px;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 105, 92, 0.4);
+        }
+
+        .btn-login:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .login-security-notice {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .login-attempts-count {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #ff8f00;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        .login-blocked-message {
+            text-align: center;
+            background: rgba(220, 53, 69, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #dc3545;
+            font-weight: 500;
+        }
+
+        .login-countdown {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        .login-developer-info {
+            background: var(--light-blue);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .login-developer-logo {
+            max-width: 180px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .login-developer-contact a {
+            color: var(--dark-blue);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .login-developer-contact a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+            transform: translateY(-2px);
+        }
+
+        .login-copyright {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Animations */
+        @keyframes login-shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        .login-shake {
+            animation: login-shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        /* Login particle background */
+        #login-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1040; /* Higher than modal backdrop */
+            display: none;
+        }
+
+        /* Link Google Drive dalam tabel */
+        .drive-link {
+            color: #0d47a1;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .drive-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal untuk menambah link */
+        .link-modal .modal-dialog {
+            max-width: 600px;
+        }
+        
+        /* App content when not authenticated */
+        .app-content-unauthenticated {
+            display: none;
+        }
+
+        /* Search box for dropdown */
+        .dropdown-search-container {
+            position: relative;
+        }
+
+        .dropdown-search {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 8px;
+            display: none;
+        }
+
+        .dropdown-search input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        /* Kode Validasi Styles */
+        .kode-validasi-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .kode-validasi-input {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .btn-generate-kode {
+            white-space: nowrap;
+        }
+
+        /* Auto-fill button styles */
+        .btn-auto-fill {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+        
+        .btn-auto-fill:hover {
+            background: linear-gradient(135deg, #5a6268, #4e555b);
+            color: white;
+        }
+
+        .login-hint {
+            font-size: 0.85rem;
+            color: #0d6efd;
+            margin-top: 5px;
+            text-align: center;
+            background-color: #f8f9fa;
+            padding: 8px;
+            border-radius: 4px;
+            border-left: 3px solid #0d6efd;
+        }
+
+        /* Status badge styles */
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-masuk {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-keluar {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-selesai {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        /* Jenis surat container */
+        .jenis-surat-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .jenis-surat-container select,
+        .jenis-surat-container input {
+            flex: 1;
+        }
+
+        /* Prioritas indicator */
+        .prioritas-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .prioritas-tinggi {
+            background-color: #dc3545;
+        }
+        
+        .prioritas-sedang {
+            background-color: #ffc107;
+        }
+        
+        .prioritas-rendah {
+            background-color: #28a745;
+        }
+        
+        /* Kategori Badge Styles */
+        .badge-kategori {
+            font-size: 0.75rem;
+            padding: 5px 10px;
+            border-radius: 12px;
+        }
+        
+        .kategori-pemerintah {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+        }
+        
+        .kategori-perusahaan {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .kategori-lembaga {
+            background-color: #fbe9e7;
+            color: #d84315;
+        }
+        
+        .kategori-opd {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .kategori-upt {
+            background-color: #e8eaf6;
+            color: #283593;
+        }
+        
+        .kategori-perorangan {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .kategori-lainnya {
+            background-color: #e0e0e0;
+            color: #424242;
+        }
+    </style>
+</head>
+<body>
+     <!-- Login Modal -->
+    <div class="modal fade login-modal" id="loginModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="login-header">
+                    <div class="login-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h5 class="login-title">SISMAT</h5>
+                    <p class="login-subtitle">Sistem Manajemen Surat</p>
+                </div>
+                <div class="login-body">
+                    <form id="loginForm">
+                        <div class="login-form-group">
+                            <label class="login-form-label" for="securityCode">
+                                <i class="fas fa-key"></i> Kode Keamanan
+                            </label>
+                            <div class="input-group">
+                                <input type="password" class="form-control login-form-control" id="securityCode" placeholder="Masukkan kode keamanan" required>
+                                <button class="btn btn-outline-secondary toggle-password" type="button">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-login" id="loginButton">
+                            <span class="login-button-text">Masuk ke Aplikasi</span>
+                            <span class="spinner-border spinner-border-sm d-none" id="loginSpinner" role="status" aria-hidden="true"></span>
+                        </button>
+                    </form>
+                    
+                    <div class="login-attempts-count" id="attemptsCount"></div>
+                    
+                    <div class="login-blocked-message d-none" id="blockedMessage">
+                        <p>Terlalu banyak percobaan login gagal. Silakan coba lagi dalam <span id="countdown" class="login-countdown">30</span> detik.</p>
+                    </div>
+                    
+                    <div class="login-hint">
+                        <p><strong>Kode default: 31011926</strong></p>
+                        <p><strong>PERSATUAN GURU NAHDLATUL ULAMA SITUBONDO</strong></p>
+                    </div>
+                    
+                    <div class="login-security-notice">
+                        <p><i class="fas fa-shield-alt me-1"></i> Data Anda terlindungi dengan aman</p>
+                    </div>
+                    
+                    <div class="login-developer-info">
+                        <h6>Developer Information</h6>
+                        <div class="login-developer-contact">
+                            <p><i class="fas fa-user me-2"></i> Lentera Karya Situbondo</p>
+                            <p><i class="fas fa-envelope me-2"></i> <a href="mailto:admin@anekamarket.my.id">admin@anekamarket.my.id</a></p>
+                            <p><i class="fab fa-whatsapp me-2"></i> <a href="https://wa.me/6287865614222" target="_blank">087865614222</a></p>
+                            <p><i class="fas fa-globe me-2"></i> <a href="https://www.anekamarket.my.id" target="_blank">www.anekamarket.my.id</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="login-copyright">
+                        <p>&copy; 2024 SISMAT - Sistem Manajemen Surat</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container app-content-unauthenticated">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="app-logo">
+                <i class="fas fa-file-contract"></i>
+            </div>
+            <h1 class="app-title">SISMAT</h1>
+            <p class="app-subtitle">Sistem Manajemen Surat</p>
+            <p class="app-subtitle">PERSATUAN GURU NAHDLATUL ULAMA SITUBONDO</p>
+            <div class="watermark">v3.0.0</div>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
+        <div class="row g-0">
+            <!-- Sidebar Menu -->
+            <div class="col-md-3 col-lg-2 p-4 bg-light" id="sidebarMenu">
+                <ul class="nav nav-pills flex-column" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab">
+                            <i class="fas fa-tachometer-alt feature-icon"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="input-tab" data-bs-toggle="tab" href="#input" role="tab">
+                            <i class="fas fa-pen feature-icon"></i> Formulir Input
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="data-tab" data-bs-toggle="tab" href="#data" role="tab">
+                            <i class="fas fa-database feature-icon"></i> Data Surat
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="search-tab" data-bs-toggle="tab" href="#search" role="tab">
+                            <i class="fas fa-search feature-icon"></i> Pencarian
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="stats-tab" data-bs-toggle="tab" href="#stats" role="tab">
+                            <i class="fas fa-chart-pie feature-icon"></i> Statistik
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="settings-tab" data-bs-toggle="tab" href="#settings" role="tab">
+                            <i class="fas fa-cog feature-icon"></i> Pengaturan
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a class="nav-link" href="#" id="logoutButton">
+                            <i class="fas fa-sign-out-alt feature-icon"></i> Keluar
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Developer Info in Sidebar -->
+                <div class="developer-info">
+                    <h6>Developer Information</h6>
+                    <div class="developer-contact">
+                        <p><i class="fas fa-user me-2"></i> Lentera Karya Situbondo</p>
+                        <p><i class="fas fa-envelope me-2"></i> <a href="mailto:admin@anekamarket.my.id">admin@anekamarket.my.id</a></p>
+                        <p><i class="fab fa-whatsapp me-2"></i> <a href="https://wa.me/6287865614222" target="_blank">087865614222</a></p>
+                        <p><i class="fas fa-globe me-2"></i> <a href="https://www.anekamarket.my.id" target="_blank">www.anekamarket.my.id</a></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 p-5">
+                <div class="tab-content" id="myTabContent">
+                    <!-- Dashboard Tab -->
+                    <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+                        <h3 class="section-title">Dashboard</h3>
+                        
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="stats-box">
+                                    <i class="fas fa-file-alt fa-2x text-primary"></i>
+                                    <div class="stats-number" id="totalSurat">0</div>
+                                    <div class="stats-label">Total Surat</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-box">
+                                    <i class="fas fa-file-import fa-2x text-success"></i>
+                                    <div class="stats-number" id="suratMasuk">0</div>
+                                    <div class="stats-label">Surat Masuk</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-box">
+                                    <i class="fas fa-file-export fa-2x text-warning"></i>
+                                    <div class="stats-number" id="suratKeluar">0</div>
+                                    <div class="stats-label">Surat Keluar</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-box">
+                                    <i class="fas fa-tasks fa-2x text-info"></i>
+                                    <div class="stats-number" id="pendingTasks">0</div>
+                                    <div class="stats-label">Tugas Tertunda</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-2"></i> Statistik Surat Bulan Ini
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="suratChart" height="250"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-pie me-2"></i> Distribusi Surat
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="jenisSuratChart" height="250"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-history me-2"></i> Aktivitas Terbaru
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Tanggal</th>
+                                                        <th>Jenis</th>
+                                                        <th>Nomor Surat</th>
+                                                        <th>Perihal</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="recentActivities">
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">Tidak ada data</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Input Tab -->
+                    <div class="tab-pane fade" id="input" role="tabpanel">
+                        <h3 class="section-title">Formulir Input Surat</h3>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-pen me-2"></i> Input Data Surat
+                            </div>
+                            <div class="card-body">
+                                <form id="suratForm">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="jenisSurat"><i class="fas fa-envelope"></i> Jenis Surat</label>
+                                            <select class="form-select" id="jenisSurat" required>
+                                                <option value="">Pilih Jenis Surat</option>
+                                                <option value="Masuk">Surat Masuk</option>
+                                                <option value="Keluar">Surat Keluar</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="tanggal"><i class="fas fa-calendar"></i> Tanggal</label>
+                                            <input type="date" class="form-control" id="tanggal" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="nomorSurat"><i class="fas fa-hashtag"></i> Nomor Surat</label>
+                                            <input type="text" class="form-control" id="nomorSurat" placeholder="Masukkan nomor surat" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="asalTujuan"><i class="fas fa-building"></i> Asal/Tujuan Surat</label>
+                                            <input type="text" class="form-control" id="asalTujuan" placeholder="Masukkan asal atau tujuan surat" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label" for="perihal"><i class="fas fa-file-alt"></i> Perihal</label>
+                                        <textarea class="form-control" id="perihal" rows="2" placeholder="Masukkan perihal surat" required></textarea>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="kategori"><i class="fas fa-tag"></i> Kategori</label>
+                                            <select class="form-select" id="kategori">
+                                                <option value="">Pilih Kategori</option>
+                                                <option value="Pemerintah">Pemerintah</option>
+                                                <option value="Perusahaan">Perusahaan</option>
+                                                <option value="Lembaga">Lembaga</option>
+                                                <option value="OPD">OPD</option>
+                                                <option value="UPT">UPT</option>
+                                                <option value="Perorangan">Perorangan</option>
+                                                <option value="Lainnya">Lainnya</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="prioritas"><i class="fas fa-exclamation-circle"></i> Prioritas</label>
+                                            <select class="form-select" id="prioritas">
+                                                <option value="Rendah">Rendah</option>
+                                                <option value="Sedang" selected>Sedang</option>
+                                                <option value="Tinggi">Tinggi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label" for="keterangan"><i class="fas fa-sticky-note"></i> Keterangan</label>
+                                        <textarea class="form-control" id="keterangan" rows="2" placeholder="Tambahkan keterangan (opsional)"></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label" for="linkGoogleDrive"><i class="fab fa-google-drive"></i> Link Google Drive</label>
+                                        <input type="url" class="form-control" id="linkGoogleDrive" placeholder="https://drive.google.com/...">
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between">
+                                        <button type="reset" class="btn btn-secondary">
+                                            <i class="fas fa-undo me-1"></i> Reset
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-1"></i> Simpan Data
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Surat Tab -->
+                    <div class="tab-pane fade" id="data" role="tabpanel">
+                        <h3 class="section-title">Data Surat</h3>
+                        
+                        <!-- Filter Section -->
+                        <div class="filter-section">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label" for="filterJenis"><i class="fas fa-filter"></i> Jenis Surat</label>
+                                    <select class="form-select" id="filterJenis">
+                                        <option value="">Semua Jenis</option>
+                                        <option value="Masuk">Surat Masuk</option>
+                                        <option value="Keluar">Surat Keluar</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label" for="filterBulan"><i class="fas fa-calendar"></i> Bulan</label>
+                                    <select class="form-select" id="filterBulan">
+                                        <option value="">Semua Bulan</option>
+                                        <option value="1">Januari</option>
+                                        <option value="2">Februari</option>
+                                        <option value="3">Maret</option>
+                                        <option value="4">April</option>
+                                        <option value="5">Mei</option>
+                                        <option value="6">Juni</option>
+                                        <option value="7">Juli</option>
+                                        <option value="8">Agustus</option>
+                                        <option value="9">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <option value="12">Desember</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label" for="filterTahun"><i class="fas fa-calendar-alt"></i> Tahun</label>
+                                    <select class="form-select" id="filterTahun">
+                                        <option value="">Semua Tahun</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024" selected>2024</option>
+                                        <option value="2025">2025</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label" for="filterKategori"><i class="fas fa-tag"></i> Kategori</label>
+                                    <select class="form-select" id="filterKategori">
+                                        <option value="">Semua Kategori</option>
+                                        <option value="Pemerintah">Pemerintah</option>
+                                        <option value="Perusahaan">Perusahaan</option>
+                                        <option value="Lembaga">Lembaga</option>
+                                        <option value="OPD">OPD</option>
+                                        <option value="UPT">UPT</option>
+                                        <option value="Perorangan">Perorangan</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="searchInput" placeholder="Cari berdasarkan nomor surat, perihal, atau asal/tujuan...">
+                                        <button class="btn btn-primary" type="button" id="searchButton">
+                                            <i class="fas fa-search me-1"></i> Cari
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <div class="btn-group">
+                                        <button class="btn btn-success" id="exportExcelBtn">
+                                            <i class="fas fa-file-excel me-1"></i> Excel
+                                        </button>
+                                        <button class="btn btn-danger" id="exportPdfBtn">
+                                            <i class="fas fa-file-pdf me-1"></i> PDF
+                                        </button>
+                                        <button class="btn btn-secondary" id="printBtn">
+                                            <i class="fas fa-print me-1"></i> Cetak
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Data Table -->
+                        <div class="table-responsive mt-3">
+                            <table class="table table-striped table-bordered data-table" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Tanggal</th>
+                                        <th>Jenis</th>
+                                        <th>Nomor Surat</th>
+                                        <th>Asal/Tujuan</th>
+                                        <th>Perihal</th>
+                                        <th>Kategori</th>
+                                        <th>Prioritas</th>
+                                        <th>Link</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="suratTableBody">
+                                    <tr>
+                                        <td colspan="10" class="text-center">Tidak ada data</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation" class="mt-3">
+                            <ul class="pagination justify-content-center" id="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <!-- Pencarian Tab -->
+                    <div class="tab-pane fade" id="search" role="tabpanel">
+                        <h3 class="section-title">Pencarian Surat</h3>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-search me-2"></i> Form Pencarian
+                            </div>
+                            <div class="card-body">
+                                <form id="searchForm">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="searchNomor"><i class="fas fa-hashtag"></i> Nomor Surat</label>
+                                            <input type="text" class="form-control" id="searchNomor" placeholder="Masukkan nomor surat">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="searchPerihal"><i class="fas fa-file-alt"></i> Perihal</label>
+                                            <input type="text" class="form-control" id="searchPerihal" placeholder="Masukkan perihal surat">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="searchAsalTujuan"><i class="fas fa-building"></i> Asal/Tujuan</label>
+                                            <input type="text" class="form-control" id="searchAsalTujuan" placeholder="Masukkan asal atau tujuan surat">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="searchKategori"><i class="fas fa-tag"></i> Kategori</label>
+                                            <select class="form-select" id="searchKategori">
+                                                <option value="">Semua Kategori</option>
+                                                <option value="Pemerintah">Pemerintah</option>
+                                                <option value="Perusahaan">Perusahaan</option>
+                                                <option value="Lembaga">Lembaga</option>
+                                                <option value="OPD">OPD</option>
+                                                <option value="UPT">UPT</option>
+                                                <option value="Perorangan">Perorangan</option>
+                                                <option value="Lainnya">Lainnya</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="searchDateFrom"><i class="fas fa-calendar"></i> Tanggal Dari</label>
+                                            <input type="date" class="form-control" id="searchDateFrom">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="searchDateTo"><i class="fas fa-calendar"></i> Tanggal Sampai</label>
+                                            <input type="date" class="form-control" id="searchDateTo">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-end">
+                                        <button type="reset" class="btn btn-secondary me-2">
+                                            <i class="fas fa-undo me-1"></i> Reset
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search me-1"></i> Cari
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Search Results -->
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <i class="fas fa-list me-2"></i> Hasil Pencarian
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered data-table" id="searchResultsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Tanggal</th>
+                                                <th>Jenis</th>
+                                                <th>Nomor Surat</th>
+                                                <th>Asal/Tujuan</th>
+                                                <th>Perihal</th>
+                                                <th>Kategori</th>
+                                                <th>Prioritas</th>
+                                                <th>Link</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="searchResultsBody">
+                                            <tr>
+                                                <td colspan="10" class="text-center">Gunakan form pencarian di atas untuk mencari data</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistik Tab -->
+                    <div class="tab-pane fade" id="stats" role="tabpanel">
+                        <h3 class="section-title">Statistik Surat</h3>
+                        
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-line me-2"></i> Grafik Statistik Surat
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="statsChart" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-info-circle me-2"></i> Informasi Statistik
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="stats-info">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Total Surat:</span>
+                                                <strong id="statsTotal">0</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Surat Masuk:</span>
+                                                <strong id="statsMasuk">0</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Surat Keluar:</span>
+                                                <strong id="statsKeluar">0</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Rata-rata per Bulan:</span>
+                                                <strong id="statsRata">0</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Bulan Tertinggi:</span>
+                                                <strong id="statsTertinggi">-</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span>Bulan Terendah:</span>
+                                                <strong id="statsTerendah">-</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mt-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-tags me-2"></i> Statistik Berdasarkan Kategori
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="kategoriChart" height="250"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-calendar me-2"></i> Statistik per Bulan
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Bulan</th>
+                                                        <th>Surat Masuk</th>
+                                                        <th>Surat Keluar</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="monthlyStatsBody">
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">Tidak ada data</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-list-ol me-2"></i> 10 Surat Terbaru
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tanggal</th>
+                                                        <th>Jenis</th>
+                                                        <th>Nomor Surat</th>
+                                                        <th>Perihal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="latestSuratBody">
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">Tidak ada data</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pengaturan Tab -->
+                    <div class="tab-pane fade" id="settings" role="tabpanel">
+                        <h3 class="section-title">Pengaturan Aplikasi</h3>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-key me-2"></i> Pengaturan Keamanan
+                                    </div>
+                                    <div class="card-body">
+                                        <form id="securityForm">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="currentPassword"><i class="fas fa-lock"></i> Kode Keamanan Saat Ini</label>
+                                                <input type="password" class="form-control" id="currentPassword" placeholder="Masukkan kode keamanan saat ini" required>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label class="form-label" for="newPassword"><i class="fas fa-key"></i> Kode Keamanan Baru</label>
+                                                <input type="password" class="form-control" id="newPassword" placeholder="Masukkan kode keamanan baru" required>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label class="form-label" for="confirmPassword"><i class="fas fa-check-circle"></i> Konfirmasi Kode Baru</label>
+                                                <input type="password" class="form-control" id="confirmPassword" placeholder="Konfirmasi kode keamanan baru" required>
+                                            </div>
+                                            
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save me-1"></i> Simpan Perubahan
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mt-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-database me-2"></i> Manajemen Data
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-success" id="backupBtn">
+                                                <i class="fas fa-download me-1"></i> Backup Data
+                                            </button>
+                                            <button class="btn btn-warning" id="restoreBtn">
+                                                <i class="fas fa-upload me-1"></i> Restore Data
+                                            </button>
+                                            <button class="btn btn-danger" id="resetBtn">
+                                                <i class="fas fa-trash-alt me-1"></i> Reset Data
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-paint-brush me-2"></i> Tampilan Aplikasi
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="themeSelect"><i class="fas fa-palette"></i> Tema Aplikasi</label>
+                                            <select class="form-select" id="themeSelect">
+                                                <option value="default" selected>Default (Biru)</option>
+                                                <option value="green">Hijau</option>
+                                                <option value="purple">Ungu</option>
+                                                <option value="dark">Gelap</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label" for="fontSize"><i class="fas fa-font"></i> Ukuran Font</label>
+                                            <select class="form-select" id="fontSize">
+                                                <option value="small">Kecil</option>
+                                                <option value="medium" selected>Sedang</option>
+                                                <option value="large">Besar</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notifSwitch" checked>
+                                            <label class="form-check-label" for="notifSwitch">
+                                                <i class="fas fa-bell"></i> Notifikasi
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="animSwitch" checked>
+                                            <label class="form-check-label" for="animSwitch">
+                                                <i class="fas fa-film"></i> Animasi
+                                            </label>
+                                        </div>
+                                        
+                                        <button class="btn btn-primary" id="applySettingsBtn">
+                                            <i class="fas fa-check me-1"></i> Terapkan Pengaturan
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mt-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-info-circle me-2"></i> Informasi Aplikasi
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="app-info">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Versi:</span>
+                                                <strong>3.0.0</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Tanggal Rilis:</span>
+                                                <strong>15 Agustus 2024</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Developer:</span>
+                                                <strong>Lentera Karya Situbondo</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Email:</span>
+                                                <strong>admin@anekamarket.my.id</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span>WhatsApp:</span>
+                                                <strong><a href="https://wa.me/6287865614222" class="whatsapp-link">087865614222</a></strong>
+                                            </div>
+                                        </div>
+                                        
+                                        <hr>
+                                        
+                                        <div class="text-center">
+                                            <p class="mb-2">© 2024 SISMAT - Sistem Manajemen Surat</p>
+                                            <p class="mb-0">PERSATUAN GURU NAHDLATUL ULAMA SITUBONDO</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Copyright -->
+        <div class="copyright">
+            <p class="mb-0">© 2024 SISMAT - Sistem Manajemen Surat | PERSATUAN GURU NAHDLATUL ULAMA SITUBONDO</p>
+            <p class="mb-0">Dikembangkan oleh <strong>Lentera Karya Situbondo</strong> | <a href="https://wa.me/6287865614222" class="whatsapp-link" target="_blank"><i class="fab fa-whatsapp"></i> 087865614222</a> | <a href="mailto:admin@anekamarket.my.id"><i class="fas fa-envelope"></i> admin@anekamarket.my.id</a></p>
+        </div>
+    </div>
+    
+    <!-- Floating Action Button -->
+    <div class="floating-action-btn" id="fabButton">
+        <i class="fas fa-plus"></i>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast notification-toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+        <div class="toast-header">
+            <i class="fas fa-bell text-primary me-2"></i>
+            <strong class="me-auto">SISMAT</strong>
+            <small>Baru saja</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="toastMessage">
+            Operasi berhasil dilakukan.
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Inisialisasi variabel global
+        let suratData = JSON.parse(localStorage.getItem('suratData')) || [];
+        let loginAttempts = 0;
+        let isBlocked = false;
+        let blockTimeout;
+        let securityCode = localStorage.getItem('securityCode') || '31011926'; // Kode default
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        
+        // DOM Ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize login modal
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Initialize charts if authenticated
+            if (isAuthenticated()) {
+                initializeCharts();
+                updateDashboardStats();
+                loadSuratData();
+            }
+        });
+        
+        // Setup semua event listeners
+        function setupEventListeners() {
+            // Login form submission
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            
+            // Toggle password visibility
+            document.querySelector('.toggle-password').addEventListener('click', function() {
+                const passwordInput = document.getElementById('securityCode');
+                const icon = this.querySelector('i');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+            
+            // Logout button
+            document.getElementById('logoutButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Form submission untuk input surat
+            document.getElementById('suratForm').addEventListener('submit', handleSuratSubmit);
+            
+            // Filter events
+            document.getElementById('filterJenis').addEventListener('change', applyFilters);
+            document.getElementById('filterBulan').addEventListener('change', applyFilters);
+            document.getElementById('filterTahun').addEventListener('change', applyFilters);
+            document.getElementById('filterKategori').addEventListener('change', applyFilters);
+            document.getElementById('searchInput').addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    applyFilters();
+                }
+            });
+            document.getElementById('searchButton').addEventListener('click', applyFilters);
+            
+            // Export and print buttons
+            document.getElementById('exportExcelBtn').addEventListener('click', exportToExcel);
+            document.getElementById('exportPdfBtn').addEventListener('click', exportToPDF);
+            document.getElementById('printBtn').addEventListener('click', printData);
+            
+            // Search form
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleSearch();
+            });
+            
+            // Security form
+            document.getElementById('securityForm').addEventListener('submit', handleSecurityChange);
+            
+            // Data management buttons
+            document.getElementById('backupBtn').addEventListener('click', backupData);
+            document.getElementById('restoreBtn').addEventListener('click', function() {
+                document.getElementById('restoreFile').click();
+            });
+            document.getElementById('resetBtn').addEventListener('click', resetData);
+            
+            // Settings apply button
+            document.getElementById('applySettingsBtn').addEventListener('click', applySettings);
+            
+            // Mobile menu button
+            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+            document.getElementById('sidebarOverlay').addEventListener('click', toggleMobileMenu);
+            
+            // Floating action button
+            document.getElementById('fabButton').addEventListener('click', function() {
+                // Switch to input tab
+                const inputTab = new bootstrap.Tab(document.getElementById('input-tab'));
+                inputTab.show();
+                
+                // Scroll to form
+                document.getElementById('suratForm').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // File input for restore
+            document.getElementById('restoreFile').addEventListener('change', handleRestoreFile);
+        }
+        
+        // Fungsi untuk menangani login
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            if (isBlocked) {
+                showNotification('Anda telah melebihi batas percobaan login. Silakan coba lagi nanti.', 'error');
+                return;
+            }
+            
+            const securityCodeInput = document.getElementById('securityCode').value;
+            const loginButton = document.getElementById('loginButton');
+            const loginSpinner = document.getElementById('loginSpinner');
+            const loginButtonText = document.querySelector('.login-button-text');
+            
+            // Show loading state
+            loginButton.disabled = true;
+            loginSpinner.classList.remove('d-none');
+            loginButtonText.textContent = 'Memproses...';
+            
+            // Simulate network delay
+            setTimeout(() => {
+                if (securityCodeInput === securityCode) {
+                    // Login successful
+                    loginAttempts = 0;
+                    document.getElementById('attemptsCount').textContent = '';
+                    document.getElementById('blockedMessage').classList.add('d-none');
+                    
+                    // Hide login modal and show app content
+                    const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                    loginModal.hide();
+                    
+                    document.querySelector('.app-content-unauthenticated').style.display = 'block';
+                    
+                    // Initialize app
+                    initializeCharts();
+                    updateDashboardStats();
+                    loadSuratData();
+                    
+                    showNotification('Login berhasil! Selamat datang di SISMAT.', 'success');
+                } else {
+                    // Login failed
+                    loginAttempts++;
+                    
+                    // Update attempts count display
+                    document.getElementById('attemptsCount').textContent = `Percobaan login gagal: ${loginAttempts}`;
+                    
+                    // Shake animation for error feedback
+                    document.getElementById('loginForm').classList.add('login-shake');
+                    setTimeout(() => {
+                        document.getElementById('loginForm').classList.remove('login-shake');
+                    }, 600);
+                    
+                    if (loginAttempts >= 3) {
+                        // Block login for 30 seconds after 3 failed attempts
+                        isBlocked = true;
+                        document.getElementById('blockedMessage').classList.remove('d-none');
+                        
+                        let countdown = 30;
+                        document.getElementById('countdown').textContent = countdown;
+                        
+                        const countdownInterval = setInterval(() => {
+                            countdown--;
+                            document.getElementById('countdown').textContent = countdown;
+                            
+                            if (countdown <= 0) {
+                                clearInterval(countdownInterval);
+                                isBlocked = false;
+                                loginAttempts = 0;
+                                document.getElementById('attemptsCount').textContent = '';
+                                document.getElementById('blockedMessage').classList.add('d-none');
+                            }
+                        }, 1000);
+                        
+                        showNotification('Terlalu banyak percobaan login gagal. Silakan coba lagi dalam 30 detik.', 'error');
+                    } else {
+                        showNotification('Kode keamanan salah. Silakan coba lagi.', 'error');
+                    }
+                }
+                
+                // Reset button state
+                loginButton.disabled = false;
+                loginSpinner.classList.add('d-none');
+                loginButtonText.textContent = 'Masuk ke Aplikasi';
+            }, 1000);
+        }
+        
+        // Fungsi untuk mengecek status autentikasi
+        function isAuthenticated() {
+            return document.querySelector('.app-content-unauthenticated').style.display === 'block';
+        }
+        
+        // Fungsi untuk logout
+        function logout() {
+            document.querySelector('.app-content-unauthenticated').style.display = 'none';
+            
+            // Show login modal again
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+            
+            // Reset login form
+            document.getElementById('loginForm').reset();
+            
+            showNotification('Anda telah logout dari aplikasi.', 'info');
+        }
+        
+        // Fungsi untuk menangani submit form surat
+        function handleSuratSubmit(e) {
+            e.preventDefault();
+            
+            if (!isAuthenticated()) {
+                showNotification('Silakan login terlebih dahulu.', 'error');
+                return;
+            }
+            
+            // Collect form data
+            const newSurat = {
+                id: Date.now(), // Unique ID based on timestamp
+                jenis: document.getElementById('jenisSurat').value,
+                tanggal: document.getElementById('tanggal').value,
+                nomor: document.getElementById('nomorSurat').value,
+                asalTujuan: document.getElementById('asalTujuan').value,
+                perihal: document.getElementById('perihal').value,
+                kategori: document.getElementById('kategori').value,
+                prioritas: document.getElementById('prioritas').value,
+                keterangan: document.getElementById('keterangan').value,
+                link: document.getElementById('linkGoogleDrive').value,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Add to data array
+            suratData.push(newSurat);
+            
+            // Save to localStorage
+            localStorage.setItem('suratData', JSON.stringify(suratData));
+            
+            // Reset form
+            document.getElementById('suratForm').reset();
+            
+            // Update UI
+            loadSuratData();
+            updateDashboardStats();
+            updateCharts();
+            
+            showNotification('Data surat berhasil disimpan!', 'success');
+        }
+        
+        // Fungsi untuk memuat data surat ke tabel
+        function loadSuratData(page = 1) {
+            const tableBody = document.getElementById('suratTableBody');
+            currentPage = page;
+            
+            // Apply filters
+            const filteredData = filterData();
+            
+            // Calculate pagination
+            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = filteredData.slice(startIndex, endIndex);
+            
+            // Clear table
+            tableBody.innerHTML = '';
+            
+            if (pageData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="10" class="text-center">Tidak ada data</td></tr>';
+                updatePagination(filteredData.length, page);
+                return;
+            }
+            
+            // Populate table
+            pageData.forEach((surat, index) => {
+                const row = document.createElement('tr');
+                const rowNum = startIndex + index + 1;
+                
+                // Format tanggal untuk tampilan
+                const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                
+                // Tentukan badge berdasarkan jenis surat
+                const jenisBadge = surat.jenis === 'Masuk' ? 
+                    '<span class="badge bg-success status-badge status-masuk">Masuk</span>' : 
+                    '<span class="badge bg-warning text-dark status-badge status-keluar">Keluar</span>';
+                
+                // Tentukan badge berdasarkan kategori
+                let kategoriBadge = '';
+                if (surat.kategori) {
+                    kategoriBadge = `<span class="badge badge-kategori kategori-${surat.kategori.toLowerCase()}">${surat.kategori}</span>`;
+                }
+                
+                // Tentukan badge prioritas
+                let prioritasBadge = '';
+                if (surat.prioritas) {
+                    let bgColor = 'secondary';
+                    if (surat.prioritas === 'Tinggi') bgColor = 'danger';
+                    if (surat.prioritas === 'Sedang') bgColor = 'warning';
+                    
+                    prioritasBadge = `<span class="badge bg-${bgColor} status-badge"><span class="prioritas-indicator prioritas-${surat.prioritas.toLowerCase()}"></span> ${surat.prioritas}</span>`;
+                }
+                
+                // Link Google Drive jika ada
+                let linkCell = '-';
+                if (surat.link) {
+                    linkCell = `<a href="${surat.link}" target="_blank" class="drive-link">Lihat Dokumen</a>`;
+                }
+                
+                row.innerHTML = `
+                    <td>${rowNum}</td>
+                    <td>${tanggal}</td>
+                    <td>${jenisBadge}</td>
+                    <td>${surat.nomor}</td>
+                    <td>${surat.asalTujuan}</td>
+                    <td>${surat.perihal}</td>
+                    <td>${kategoriBadge}</td>
+                    <td>${prioritasBadge}</td>
+                    <td>${linkCell}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-info btn-view" onclick="viewSurat(${surat.id})" title="Lihat Detail">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-warning" onclick="editSurat(${surat.id})" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteSurat(${surat.id})" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="btn btn-print-individual" onclick="printSurat(${surat.id})" title="Cetak">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Update pagination
+            updatePagination(filteredData.length, page);
+        }
+        
+        // Fungsi untuk menerapkan filter
+        function applyFilters() {
+            loadSuratData(1);
+        }
+        
+        // Fungsi untuk memfilter data berdasarkan kriteria
+        function filterData() {
+            const jenis = document.getElementById('filterJenis').value;
+            const bulan = document.getElementById('filterBulan').value;
+            const tahun = document.getElementById('filterTahun').value;
+            const kategori = document.getElementById('filterKategori').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            return suratData.filter(surat => {
+                // Filter jenis
+                if (jenis && surat.jenis !== jenis) return false;
+                
+                // Filter bulan dan tahun
+                const suratDate = new Date(surat.tanggal);
+                if (bulan && (suratDate.getMonth() + 1) !== parseInt(bulan)) return false;
+                if (tahun && suratDate.getFullYear() !== parseInt(tahun)) return false;
+                
+                // Filter kategori
+                if (kategori && surat.kategori !== kategori) return false;
+                
+                // Filter pencarian
+                if (searchTerm) {
+                    const searchIn = `${surat.nomor} ${surat.asalTujuan} ${surat.perihal}`.toLowerCase();
+                    if (!searchIn.includes(searchTerm)) return false;
+                }
+                
+                return true;
+            });
+        }
+        
+        // Fungsi untuk memperbarui tampilan pagination
+        function updatePagination(totalItems, currentPage) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const paginationElement = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                paginationElement.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            if (currentPage > 1) {
+                paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="loadSuratData(${currentPage - 1})">Previous</a></li>`;
+            } else {
+                paginationHTML += `<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>`;
+            }
+            
+            // Page numbers
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                if (i === currentPage) {
+                    paginationHTML += `<li class="page-item active"><a class="page-link" href="#">${i}</a></li>`;
+                } else {
+                    paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="loadSuratData(${i})">${i}</a></li>`;
+                }
+            }
+            
+            // Next button
+            if (currentPage < totalPages) {
+                paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="loadSuratData(${currentPage + 1})">Next</a></li>`;
+            } else {
+                paginationHTML += `<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>`;
+            }
+            
+            paginationElement.innerHTML = paginationHTML;
+        }
+        
+        // Fungsi untuk menangani pencarian
+        function handleSearch() {
+            const nomor = document.getElementById('searchNomor').value;
+            const perihal = document.getElementById('searchPerihal').value;
+            const asalTujuan = document.getElementById('searchAsalTujuan').value;
+            const kategori = document.getElementById('searchKategori').value;
+            const dateFrom = document.getElementById('searchDateFrom').value;
+            const dateTo = document.getElementById('searchDateTo').value;
+            
+            const results = suratData.filter(surat => {
+                // Filter nomor
+                if (nomor && !surat.nomor.toLowerCase().includes(nomor.toLowerCase())) return false;
+                
+                // Filter perihal
+                if (perihal && !surat.perihal.toLowerCase().includes(perihal.toLowerCase())) return false;
+                
+                // Filter asal/tujuan
+                if (asalTujuan && !surat.asalTujuan.toLowerCase().includes(asalTujuan.toLowerCase())) return false;
+                
+                // Filter kategori
+                if (kategori && surat.kategori !== kategori) return false;
+                
+                // Filter tanggal
+                if (dateFrom && new Date(surat.tanggal) < new Date(dateFrom)) return false;
+                if (dateTo && new Date(surat.tanggal) > new Date(dateTo)) return false;
+                
+                return true;
+            });
+            
+            displaySearchResults(results);
+        }
+        
+        // Fungsi untuk menampilkan hasil pencarian
+        function displaySearchResults(results) {
+            const resultsBody = document.getElementById('searchResultsBody');
+            
+            resultsBody.innerHTML = '';
+            
+            if (results.length === 0) {
+                resultsBody.innerHTML = '<tr><td colspan="10" class="text-center">Tidak ada hasil ditemukan</td></tr>';
+                return;
+            }
+            
+            results.forEach((surat, index) => {
+                const row = document.createElement('tr');
+                
+                // Format tanggal untuk tampilan
+                const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                
+                // Tentukan badge berdasarkan jenis surat
+                const jenisBadge = surat.jenis === 'Masuk' ? 
+                    '<span class="badge bg-success">Masuk</span>' : 
+                    '<span class="badge bg-warning text-dark">Keluar</span>';
+                
+                // Tentukan badge berdasarkan kategori
+                let kategoriBadge = '';
+                if (surat.kategori) {
+                    kategoriBadge = `<span class="badge bg-info">${surat.kategori}</span>`;
+                }
+                
+                // Link Google Drive jika ada
+                let linkCell = '-';
+                if (surat.link) {
+                    linkCell = `<a href="${surat.link}" target="_blank" class="drive-link">Lihat Dokumen</a>`;
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${tanggal}</td>
+                    <td>${jenisBadge}</td>
+                    <td>${surat.nomor}</td>
+                    <td>${surat.asalTujuan}</td>
+                    <td>${surat.perihal}</td>
+                    <td>${kategoriBadge}</td>
+                    <td>${surat.prioritas}</td>
+                    <td>${linkCell}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-info btn-view" onclick="viewSurat(${surat.id})" title="Lihat Detail">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-warning" onclick="editSurat(${surat.id})" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteSurat(${surat.id})" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                resultsBody.appendChild(row);
+            });
+        }
+        
+        // Fungsi untuk melihat detail surat
+        function viewSurat(id) {
+            const surat = suratData.find(s => s.id === id);
+            
+            if (!surat) {
+                showNotification('Data surat tidak ditemukan.', 'error');
+                return;
+            }
+            
+            // Format tanggal untuk tampilan
+            const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID', {
+                weekday: 'long',
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            // Create modal content
+            const modalContent = `
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Surat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Jenis Surat:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            ${surat.jenis === 'Masuk' ? '<span class="badge bg-success">Surat Masuk</span>' : '<span class="badge bg-warning text-dark">Surat Keluar</span>'}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Tanggal:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            ${tanggal}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Nomor Surat:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            ${surat.nomor}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>${surat.jenis === 'Masuk' ? 'Asal Surat:' : 'Tujuan Surat:'}</strong>
+                        </div>
+                        <div class="col-md-6">
+                            ${surat.asalTujuan}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Perihal:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            ${surat.perihal}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Kategori:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            ${surat.kategori || '-'}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Prioritas:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            ${surat.prioritas}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Keterangan:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            ${surat.keterangan || '-'}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Link Google Drive:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            ${surat.link ? `<a href="${surat.link}" target="_blank">${surat.link}</a>` : '-'}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" onclick="editSurat(${surat.id})">Edit</button>
+                </div>
+            `;
+            
+            // Create and show modal
+            const modalContainer = document.createElement('div');
+            modalContainer.innerHTML = `
+                <div class="modal fade" id="viewModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            ${modalContent}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modalContainer);
+            
+            const viewModal = new bootstrap.Modal(document.getElementById('viewModal'));
+            viewModal.show();
+            
+            // Clean up after modal is closed
+            document.getElementById('viewModal').addEventListener('hidden.bs.modal', function() {
+                document.body.removeChild(modalContainer);
+            });
+        }
+        
+        // Fungsi untuk mengedit surat
+        function editSurat(id) {
+            const surat = suratData.find(s => s.id === id);
+            
+            if (!surat) {
+                showNotification('Data surat tidak ditemukan.', 'error');
+                return;
+            }
+            
+            // Create modal content with form
+            const modalContent = `
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Surat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editSuratForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="editJenisSurat">Jenis Surat</label>
+                                <select class="form-select" id="editJenisSurat" required>
+                                    <option value="Masuk" ${surat.jenis === 'Masuk' ? 'selected' : ''}>Surat Masuk</option>
+                                    <option value="Keluar" ${surat.jenis === 'Keluar' ? 'selected' : ''}>Surat Keluar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="editTanggal">Tanggal</label>
+                                <input type="date" class="form-control" id="editTanggal" value="${surat.tanggal}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="editNomorSurat">Nomor Surat</label>
+                                <input type="text" class="form-control" id="editNomorSurat" value="${surat.nomor}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="editAsalTujuan">${surat.jenis === 'Masuk' ? 'Asal Surat' : 'Tujuan Surat'}</label>
+                                <input type="text" class="form-control" id="editAsalTujuan" value="${surat.asalTujuan}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label" for="editPerihal">Perihal</label>
+                            <textarea class="form-control" id="editPerihal" rows="2" required>${surat.perihal}</textarea>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="editKategori">Kategori</label>
+                                <select class="form-select" id="editKategori">
+                                    <option value="">Pilih Kategori</option>
+                                    <option value="Pemerintah" ${surat.kategori === 'Pemerintah' ? 'selected' : ''}>Pemerintah</option>
+                                    <option value="Perusahaan" ${surat.kategori === 'Perusahaan' ? 'selected' : ''}>Perusahaan</option>
+                                    <option value="Lembaga" ${surat.kategori === 'Lembaga' ? 'selected' : ''}>Lembaga</option>
+                                    <option value="OPD" ${surat.kategori === 'OPD' ? 'selected' : ''}>OPD</option>
+                                    <option value="UPT" ${surat.kategori === 'UPT' ? 'selected' : ''}>UPT</option>
+                                    <option value="Perorangan" ${surat.kategori === 'Perorangan' ? 'selected' : ''}>Perorangan</option>
+                                    <option value="Lainnya" ${surat.kategori === 'Lainnya' ? 'selected' : ''}>Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="editPrioritas">Prioritas</label>
+                                <select class="form-select" id="editPrioritas">
+                                    <option value="Rendah" ${surat.prioritas === 'Rendah' ? 'selected' : ''}>Rendah</option>
+                                    <option value="Sedang" ${surat.prioritas === 'Sedang' ? 'selected' : ''}>Sedang</option>
+                                    <option value="Tinggi" ${surat.prioritas === 'Tinggi' ? 'selected' : ''}>Tinggi</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label" for="editKeterangan">Keterangan</label>
+                            <textarea class="form-control" id="editKeterangan" rows="2">${surat.keterangan || ''}</textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label" for="editLinkGoogleDrive">Link Google Drive</label>
+                            <input type="url" class="form-control" id="editLinkGoogleDrive" value="${surat.link || ''}">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEditSurat(${surat.id})">Simpan Perubahan</button>
+                </div>
+            `;
+            
+            // Create and show modal
+            const modalContainer = document.createElement('div');
+            modalContainer.innerHTML = `
+                <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            ${modalContent}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modalContainer);
+            
+            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+            editModal.show();
+            
+            // Clean up after modal is closed
+            document.getElementById('editModal').addEventListener('hidden.bs.modal', function() {
+                document.body.removeChild(modalContainer);
+            });
+        }
+        
+        // Fungsi untuk menyimpan perubahan edit surat
+        function saveEditSurat(id) {
+            const suratIndex = suratData.findIndex(s => s.id === id);
+            
+            if (suratIndex === -1) {
+                showNotification('Data surat tidak ditemukan.', 'error');
+                return;
+            }
+            
+            // Collect form data
+            const editedSurat = {
+                id: id,
+                jenis: document.getElementById('editJenisSurat').value,
+                tanggal: document.getElementById('editTanggal').value,
+                nomor: document.getElementById('editNomorSurat').value,
+                asalTujuan: document.getElementById('editAsalTujuan').value,
+                perihal: document.getElementById('editPerihal').value,
+                kategori: document.getElementById('editKategori').value,
+                prioritas: document.getElementById('editPrioritas').value,
+                keterangan: document.getElementById('editKeterangan').value,
+                link: document.getElementById('editLinkGoogleDrive').value,
+                createdAt: suratData[suratIndex].createdAt,
+                updatedAt: new Date().toISOString()
+            };
+            
+            // Update data
+            suratData[suratIndex] = editedSurat;
+            
+            // Save to localStorage
+            localStorage.setItem('suratData', JSON.stringify(suratData));
+            
+            // Close modal
+            const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+            editModal.hide();
+            
+            // Update UI
+            loadSuratData(currentPage);
+            updateDashboardStats();
+            updateCharts();
+            
+            showNotification('Data surat berhasil diperbarui!', 'success');
+        }
+        
+        // Fungsi untuk menghapus surat
+        function deleteSurat(id) {
+            if (!confirm('Apakah Anda yakin ingin menghapus data surat ini?')) {
+                return;
+            }
+            
+            const suratIndex = suratData.findIndex(s => s.id === id);
+            
+            if (suratIndex === -1) {
+                showNotification('Data surat tidak ditemukan.', 'error');
+                return;
+            }
+            
+            // Remove from array
+            suratData.splice(suratIndex, 1);
+            
+            // Save to localStorage
+            localStorage.setItem('suratData', JSON.stringify(suratData));
+            
+            // Update UI
+            loadSuratData(currentPage);
+            updateDashboardStats();
+            updateCharts();
+            
+            showNotification('Data surat berhasil dihapus!', 'success');
+        }
+        
+        // Fungsi untuk mencetak data surat tertentu
+        function printSurat(id) {
+            const surat = suratData.find(s => s.id === id);
+            
+            if (!surat) {
+                showNotification('Data surat tidak ditemukan.', 'error');
+                return;
+            }
+            
+            // Format tanggal untuk tampilan
+            const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID', {
+                weekday: 'long',
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            // Create print content
+            const printContent = `
+                <div class="print-header">
+                    <h3 class="print-title">SISMAT - Sistem Manajemen Surat</h3>
+                    <p class="print-subtitle">PERSATUAN GURU NAHDLATUL ULAMA SITUBONDO</p>
+                    <p class="print-date">Dicetak pada: ${new Date().toLocaleDateString('id-ID', { 
+                        day: '2-digit', 
+                        month: 'long', 
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })}</p>
+                </div>
+                <h4 style="text-align: center; margin-bottom: 20px;">Detail Surat</h4>
+                <table class="table table-bordered" style="width: 100%; margin-bottom: 20px;">
+                    <tr>
+                        <th style="width: 30%; padding: 8px;">Jenis Surat</th>
+                        <td style="padding: 8px;">${surat.jenis}</td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 8px;">Tanggal</th>
+                        <td style="padding: 8px;">${tanggal}</td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 8px;">Nomor Surat</th>
+                        <td style="padding: 8px;">${surat.nomor}</td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 8px;">${surat.jenis === 'Masuk' ? 'Asal Surat' : 'Tujuan Surat'}</th>
+                        <td style="padding: 8px;">${surat.asalTujuan}</td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 8px;">Perihal</th>
+                        <td style="padding: 8px;">${surat.perihal}</td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 8px;">Kategori</th>
+                        <td style="padding: 8px;">${surat.kategori || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 8px;">Prioritas</th>
+                        <td style="padding: 8px;">${surat.prioritas}</td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 8px;">Keterangan</th>
+                        <td style="padding: 8px;">${surat.keterangan || '-'}</td>
+                    </tr>
+                </table>
+                <p style="font-style: italic; text-align: center; margin-top: 30px;">
+                    Dokumen ini dicetak dari SISMAT - Sistem Manajemen Surat
+                </p>
+            `;
+            
+            // Open print window
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Cetak Surat - SISMAT</title>
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+                    <style>
+                        body { 
+                            font-family: Arial, sans-serif; 
+                            padding: 20px;
+                            color: #000;
+                        }
+                        @media print {
+                            @page {
+                                size: landscape;
+                                margin: 0.5cm;
+                            }
+                            body { 
+                                padding: 0; 
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${printContent}
+                    <script>
+                        window.onload = function() {
+                            window.print();
+                            setTimeout(function() {
+                                window.close();
+                            }, 500);
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+        
+        // Fungsi untuk menangani perubahan pengaturan keamanan
+        function handleSecurityChange(e) {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (currentPassword !== securityCode) {
+                showNotification('Kode keamanan saat ini salah.', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('Konfirmasi kode keamanan baru tidak cocok.', 'error');
+                return;
+            }
+            
+            // Update security code
+            securityCode = newPassword;
+            localStorage.setItem('securityCode', securityCode);
+            
+            // Reset form
+            document.getElementById('securityForm').reset();
+            
+            showNotification('Kode keamanan berhasil diperbarui!', 'success');
+        }
+        
+        // Fungsi untuk mencadangkan data
+        function backupData() {
+            const dataStr = JSON.stringify(suratData);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `sismat-backup-${new Date().toISOString().slice(0,10)}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Data berhasil dicadangkan!', 'success');
+        }
+        
+        // Fungsi untuk memulihkan data
+        function handleRestoreFile(e) {
+            const file = e.target.files[0];
+            
+            if (!file) {
+                return;
+            }
+            
+            if (!confirm('Memulihkan data akan menggantikan semua data saat ini. Lanjutkan?')) {
+                e.target.value = '';
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const restoredData = JSON.parse(e.target.result);
+                    
+                    if (Array.isArray(restoredData)) {
+                        suratData = restoredData;
+                        localStorage.setItem('suratData', JSON.stringify(suratData));
+                        
+                        // Update UI
+                        loadSuratData();
+                        updateDashboardStats();
+                        updateCharts();
+                        
+                        showNotification('Data berhasil dipulihkan!', 'success');
+                    } else {
+                        throw new Error('Format data tidak valid');
+                    }
+                } catch (error) {
+                    showNotification('Gagal memulihkan data. File mungkin rusak atau format tidak sesuai.', 'error');
+                    console.error('Restore error:', error);
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            e.target.value = '';
+        }
+        
+        // Fungsi untuk mereset data
+        function resetData() {
+            if (!confirm('PERINGATAN: Tindakan ini akan menghapus semua data surat. Anda yakin ingin melanjutkan?')) {
+                return;
+            }
+            
+            if (!confirm('Semua data akan dihapus permanen. Ini tidak dapat dibatalkan. Yakin?')) {
+                return;
+            }
+            
+            // Clear data
+            suratData = [];
+            localStorage.removeItem('suratData');
+            
+            // Update UI
+            loadSuratData();
+            updateDashboardStats();
+            updateCharts();
+            
+            showNotification('Semua data berhasil direset!', 'success');
+        }
+        
+        // Fungsi untuk menerapkan pengaturan
+        function applySettings() {
+            const theme = document.getElementById('themeSelect').value;
+            const fontSize = document.getElementById('fontSize').value;
+            const notifEnabled = document.getElementById('notifSwitch').checked;
+            const animEnabled = document.getElementById('animSwitch').checked;
+            
+            // Simpan pengaturan ke localStorage
+            const settings = {
+                theme,
+                fontSize,
+                notifEnabled,
+                animEnabled
+            };
+            
+            localStorage.setItem('appSettings', JSON.stringify(settings));
+            
+            // Terapkan pengaturan
+            applyTheme(theme);
+            applyFontSize(fontSize);
+            toggleAnimations(animEnabled);
+            
+            showNotification('Pengaturan berhasil diterapkan!', 'success');
+        }
+        
+        // Fungsi untuk menerapkan tema
+        function applyTheme(theme) {
+            // Hapus kelas tema sebelumnya
+            document.body.classList.remove('theme-green', 'theme-purple', 'theme-dark');
+            
+            // Terapkan tema baru
+            if (theme !== 'default') {
+                document.body.classList.add(`theme-${theme}`);
+            }
+        }
+        
+        // Fungsi untuk menerapkan ukuran font
+        function applyFontSize(size) {
+            // Hapus kelas ukuran font sebelumnya
+            document.body.classList.remove('font-small', 'font-medium', 'font-large');
+            
+            // Terapkan ukuran font baru
+            document.body.classList.add(`font-${size}`);
+        }
+        
+        // Fungsi untuk mengaktifkan/menonaktifkan animasi
+        function toggleAnimations(enabled) {
+            if (enabled) {
+                document.body.classList.remove('no-animations');
+            } else {
+                document.body.classList.add('no-animations');
+            }
+        }
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message, type = 'info') {
+            const toast = document.querySelector('.notification-toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            // Set message and style based on type
+            toastMessage.textContent = message;
+            
+            // Remove previous type classes
+            toast.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'bg-info');
+            
+            // Add class based on type
+            switch (type) {
+                case 'success':
+                    toast.classList.add('bg-success');
+                    break;
+                case 'error':
+                    toast.classList.add('bg-danger');
+                    break;
+                case 'warning':
+                    toast.classList.add('bg-warning');
+                    break;
+                default:
+                    toast.classList.add('bg-info');
+            }
+            
+            // Show toast
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+        }
+        
+        // Fungsi untuk mengelola menu mobile
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('mobile-show');
+            overlay.classList.toggle('mobile-show');
+        }
+        
+        // Fungsi untuk menginisialisasi chart
+        function initializeCharts() {
+            // Chart untuk statistik surat bulanan
+            const suratCtx = document.getElementById('suratChart').getContext('2d');
+            window.suratChart = new Chart(suratCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [
+                        {
+                            label: 'Surat Masuk',
+                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                            borderColor: 'rgba(40, 167, 69, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Surat Keluar',
+                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            backgroundColor: 'rgba(255, 193, 7, 0.7)',
+                            borderColor: 'rgba(255, 193, 7, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Chart untuk distribusi jenis surat
+            const jenisSuratCtx = document.getElementById('jenisSuratChart').getContext('2d');
+            window.jenisSuratChart = new Chart(jenisSuratCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Surat Masuk', 'Surat Keluar'],
+                    datasets: [{
+                        data: [0, 0],
+                        backgroundColor: [
+                            'rgba(40, 167, 69, 0.7)',
+                            'rgba(255, 193, 7, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(40, 167, 69, 1)',
+                            'rgba(255, 193, 7, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Chart untuk statistik
+            const statsCtx = document.getElementById('statsChart').getContext('2d');
+            window.statsChart = new Chart(statsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [{
+                        label: 'Total Surat',
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                        borderColor: 'rgba(13, 110, 253, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Chart untuk distribusi kategori
+            const kategoriCtx = document.getElementById('kategoriChart').getContext('2d');
+            window.kategoriChart = new Chart(kategoriCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Pemerintah', 'Perusahaan', 'Lembaga', 'OPD', 'UPT', 'Perorangan', 'Lainnya'],
+                    datasets: [{
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: [
+                            'rgba(13, 110, 253, 0.7)',
+                            'rgba(40, 167, 69, 0.7)',
+                            'rgba(220, 53, 69, 0.7)',
+                            'rgba(255, 193, 7, 0.7)',
+                            'rgba(111, 66, 193, 0.7)',
+                            'rgba(32, 201, 151, 0.7)',
+                            'rgba(108, 117, 125, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Update charts with data
+            updateCharts();
+        }
+        
+        // Fungsi untuk memperbarui chart dengan data terbaru
+        function updateCharts() {
+            if (!window.suratChart) return;
+            
+            // Hitung statistik bulanan
+            const monthlyStats = Array(12).fill(0).map(() => ({ masuk: 0, keluar: 0 }));
+            const kategoriStats = {
+                'Pemerintah': 0,
+                'Perusahaan': 0,
+                'Lembaga': 0,
+                'OPD': 0,
+                'UPT': 0,
+                'Perorangan': 0,
+                'Lainnya': 0
+            };
+            
+            const currentYear = new Date().getFullYear();
+            
+            suratData.forEach(surat => {
+                const date = new Date(surat.tanggal);
+                const month = date.getMonth();
+                const year = date.getFullYear();
+                
+                if (year === currentYear) {
+                    if (surat.jenis === 'Masuk') {
+                        monthlyStats[month].masuk++;
+                    } else {
+                        monthlyStats[month].keluar++;
+                    }
+                }
+                
+                // Hitung statistik kategori
+                if (surat.kategori && kategoriStats.hasOwnProperty(surat.kategori)) {
+                    kategoriStats[surat.kategori]++;
+                }
+            });
+            
+            // Update surat chart
+            window.suratChart.data.datasets[0].data = monthlyStats.map(stat => stat.masuk);
+            window.suratChart.data.datasets[1].data = monthlyStats.map(stat => stat.keluar);
+            window.suratChart.update();
+            
+            // Update jenis surat chart
+            const totalMasuk = suratData.filter(s => s.jenis === 'Masuk').length;
+            const totalKeluar = suratData.filter(s => s.jenis === 'Keluar').length;
+            window.jenisSuratChart.data.datasets[0].data = [totalMasuk, totalKeluar];
+            window.jenisSuratChart.update();
+            
+            // Update stats chart
+            window.statsChart.data.datasets[0].data = monthlyStats.map(stat => stat.masuk + stat.keluar);
+            window.statsChart.update();
+            
+            // Update kategori chart
+            window.kategoriChart.data.datasets[0].data = Object.values(kategoriStats);
+            window.kategoriChart.update();
+            
+            // Update statistik informasi
+            document.getElementById('statsTotal').textContent = suratData.length;
+            document.getElementById('statsMasuk').textContent = totalMasuk;
+            document.getElementById('statsKeluar').textContent = totalKeluar;
+            
+            // Hitung rata-rata per bulan
+            const monthsWithData = monthlyStats.filter(stat => stat.masuk + stat.keluar > 0).length;
+            const rataRata = monthsWithData > 0 ? (suratData.length / monthsWithData).toFixed(1) : 0;
+            document.getElementById('statsRata').textContent = rataRata;
+            
+            // Temukan bulan dengan surat tertinggi dan terendah
+            const monthlyTotals = monthlyStats.map(stat => stat.masuk + stat.keluar);
+            const maxTotal = Math.max(...monthlyTotals);
+            const minTotal = Math.min(...monthlyTotals.filter(total => total > 0));
+            
+            const maxMonthIndex = monthlyTotals.indexOf(maxTotal);
+            const minMonthIndex = monthlyTotals.indexOf(minTotal);
+            
+            const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            document.getElementById('statsTertinggi').textContent = maxTotal > 0 ? `${monthNames[maxMonthIndex]} (${maxTotal})` : '-';
+            document.getElementById('statsTerendah').textContent = minTotal > 0 ? `${monthNames[minMonthIndex]} (${minTotal})` : '-';
+            
+            // Update tabel statistik bulanan
+            const monthlyStatsBody = document.getElementById('monthlyStatsBody');
+            monthlyStatsBody.innerHTML = '';
+            
+            monthlyStats.forEach((stat, index) => {
+                const total = stat.masuk + stat.keluar;
+                if (total > 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${monthNames[index]}</td>
+                        <td>${stat.masuk}</td>
+                        <td>${stat.keluar}</td>
+                        <td>${total}</td>
+                    `;
+                    monthlyStatsBody.appendChild(row);
+                }
+            });
+            
+            if (monthlyStatsBody.innerHTML === '') {
+                monthlyStatsBody.innerHTML = '<tr><td colspan="4" class="text-center">Tidak ada data</td></tr>';
+            }
+            
+            // Update 10 surat terbaru
+            const latestSuratBody = document.getElementById('latestSuratBody');
+            latestSuratBody.innerHTML = '';
+            
+            const latestSurat = [...suratData]
+                .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal))
+                .slice(0, 10);
+            
+            if (latestSurat.length === 0) {
+                latestSuratBody.innerHTML = '<tr><td colspan="4" class="text-center">Tidak ada data</td></tr>';
+            } else {
+                latestSurat.forEach(surat => {
+                    const row = document.createElement('tr');
+                    const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    
+                    row.innerHTML = `
+                        <td>${tanggal}</td>
+                        <td>${surat.jenis}</td>
+                        <td>${surat.nomor}</td>
+                        <td>${surat.perihal}</td>
+                    `;
+                    latestSuratBody.appendChild(row);
+                });
+            }
+        }
+        
+        // Fungsi untuk memperbarui statistik dashboard
+        function updateDashboardStats() {
+            const totalSurat = suratData.length;
+            const suratMasuk = suratData.filter(s => s.jenis === 'Masuk').length;
+            const suratKeluar = suratData.filter(s => s.jenis === 'Keluar').length;
+            
+            document.getElementById('totalSurat').textContent = totalSurat;
+            document.getElementById('suratMasuk').textContent = suratMasuk;
+            document.getElementById('suratKeluar').textContent = suratKeluar;
+            document.getElementById('pendingTasks').textContent = suratData.filter(s => s.prioritas === 'Tinggi').length;
+            
+            // Update aktivitas terbaru
+            const recentActivities = document.getElementById('recentActivities');
+            recentActivities.innerHTML = '';
+            
+            const recentData = [...suratData]
+                .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal))
+                .slice(0, 5);
+            
+            if (recentData.length === 0) {
+                recentActivities.innerHTML = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
+            } else {
+                recentData.forEach((surat, index) => {
+                    const row = document.createElement('tr');
+                    const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    
+                    // Tentukan badge status berdasarkan prioritas
+                    let statusBadge = '';
+                    if (surat.prioritas === 'Tinggi') {
+                        statusBadge = '<span class="badge bg-danger status-badge status-pending">Prioritas Tinggi</span>';
+                    } else if (surat.prioritas === 'Sedang') {
+                        statusBadge = '<span class="badge bg-warning text-dark status-badge status-selesai">Prioritas Sedang</span>';
+                    } else {
+                        statusBadge = '<span class="badge bg-success status-badge status-selesai">Prioritas Rendah</span>';
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${tanggal}</td>
+                        <td>${surat.jenis}</td>
+                        <td>${surat.nomor}</td>
+                        <td>${surat.perihal}</td>
+                        <td>${statusBadge}</td>
+                    `;
+                    recentActivities.appendChild(row);
+                });
+            }
+        }
+        
+        // Fungsi untuk mengekspor data ke Excel
+        function exportToExcel() {
+            // Prepare data for export
+            const dataForExport = suratData.map(surat => ({
+                'Jenis Surat': surat.jenis,
+                'Tanggal': new Date(surat.tanggal).toLocaleDateString('id-ID'),
+                'Nomor Surat': surat.nomor,
+                'Asal/Tujuan': surat.asalTujuan,
+                'Perihal': surat.perihal,
+                'Kategori': surat.kategori || '',
+                'Prioritas': surat.prioritas,
+                'Keterangan': surat.keterangan || '',
+                'Link Google Drive': surat.link || ''
+            }));
+            
+            // Create worksheet
+            const ws = XLSX.utils.json_to_sheet(dataForExport);
+            
+            // Create workbook
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Data Surat');
+            
+            // Generate Excel file
+            const fileName = `sismat-export-${new Date().toISOString().slice(0,10)}.xlsx`;
+            XLSX.writeFile(wb, fileName);
+            
+            showNotification('Data berhasil diekspor ke Excel!', 'success');
+        }
+        
+        // Fungsi untuk mengekspor data ke PDF
+        function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add title
+            doc.setFontSize(16);
+            doc.setTextColor(40, 40, 40);
+            doc.text('SISMAT - Data Surat', 14, 15);
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Dicetak pada: ${new Date().toLocaleDateString('id-ID')}`, 14, 22);
+            
+            // Prepare data for table
+            const tableData = suratData.map(surat => [
+                surat.jenis,
+                new Date(surat.tanggal).toLocaleDateString('id-ID'),
+                surat.nomor,
+                surat.asalTujuan,
+                surat.perihal,
+                surat.kategori || '',
+                surat.prioritas
+            ]);
+            
+            // Add table
+            doc.autoTable({
+                head: [['Jenis', 'Tanggal', 'Nomor', 'Asal/Tujuan', 'Perihal', 'Kategori', 'Prioritas']],
+                body: tableData,
+                startY: 30,
+                theme: 'grid',
+                headStyles: {
+                    fillColor: [13, 71, 161],
+                    textColor: 255
+                },
+                alternateRowStyles: {
+                    fillColor: [240, 240, 240]
+                }
+            });
+            
+            // Save PDF
+            const fileName = `sismat-export-${new Date().toISOString().slice(0,10)}.pdf`;
+            doc.save(fileName);
+            
+            showNotification('Data berhasil diekspor ke PDF!', 'success');
+        }
+        
+        // Fungsi untuk mencetak data
+        function printData() {
+            const printContent = `
+                <div class="print-header">
+                    <h3 class="print-title">SISMAT - Sistem Manajemen Surat</h3>
+                    <p class="print-subtitle">PERSATUAN GURU NAHDLATUL ULAMA SITUBONDO</p>
+                    <p class="print-date">Dicetak pada: ${new Date().toLocaleDateString('id-ID', { 
+                        day: '2-digit', 
+                        month: 'long', 
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })}</p>
+                </div>
+                <h4 style="text-align: center; margin-bottom: 20px;">Data Surat</h4>
+                <table class="table table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Jenis</th>
+                            <th>Nomor Surat</th>
+                            <th>Asal/Tujuan</th>
+                            <th>Perihal</th>
+                            <th>Kategori</th>
+                            <th>Prioritas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${suratData.map((surat, index) => {
+                            const tanggal = new Date(surat.tanggal).toLocaleDateString('id-ID');
+                            return `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${tanggal}</td>
+                                    <td>${surat.jenis}</td>
+                                    <td>${surat.nomor}</td>
+                                    <td>${surat.asalTujuan}</td>
+                                    <td>${surat.perihal}</td>
+                                    <td>${surat.kategori || '-'}</td>
+                                    <td>${surat.prioritas}</td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+                <p style="font-style: italic; text-align: center; margin-top: 30px;">
+                    Dokumen ini dicetak dari SISMAT - Sistem Manajemen Surat
+                </p>
+            `;
+            
+            // Open print window
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Cetak Data - SISMAT</title>
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+                    <style>
+                        body { 
+                            font-family: Arial, sans-serif; 
+                            padding: 20px;
+                            color: #000;
+                        }
+                        @media print {
+                            @page {
+                                size: landscape;
+                                margin: 0.5cm;
+                            }
+                            body { 
+                                padding: 0; 
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${printContent}
+                    <script>
+                        window.onload = function() {
+                            window.print();
+                            setTimeout(function() {
+                                window.close();
+                            }, 500);
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+        
+        // Fungsi untuk memuat pengaturan yang disimpan
+        function loadSavedSettings() {
+            const savedSettings = localStorage.getItem('appSettings');
+            
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                
+                // Terapkan pengaturan
+                document.getElementById('themeSelect').value = settings.theme;
+                document.getElementById('fontSize').value = settings.fontSize;
+                document.getElementById('notifSwitch').checked = settings.notifEnabled;
+                document.getElementById('animSwitch').checked = settings.animEnabled;
+                
+                applyTheme(settings.theme);
+                applyFontSize(settings.fontSize);
+                toggleAnimations(settings.animEnabled);
+            }
+        }
+        
+        // Inisialisasi aplikasi setelah login
+        function initializeApp() {
+            loadSavedSettings();
+            initializeCharts();
+            updateDashboardStats();
+            loadSuratData();
+        }
+        
+        // Panggil fungsi inisialisasi saat halaman dimuat
+        window.addEventListener('load', function() {
+            // Cek apakah pengguna sudah login
+            if (isAuthenticated()) {
+                initializeApp();
+            }
+        });
+    </script>
+</body>
+</html>
